@@ -148,3 +148,10 @@ before use. Nothing here is legal advice, and every letter must be read before i
 ## Limits
 
 Tested in Chromium only. Scanned documents depend on OCR quality and can be misread. The built-in reader finds patterns and cannot interpret. Local AI can make mistakes. There is no e-signature, no sending of email and no direct link to Clio or other systems (use CSV import). Check every letter before it goes out.
+
+
+## Dashboard, templates and forms
+
+- **Dashboard** (opens first): open matters, hearings in the next 14 days, time recorded, items needing attention (hearing soon with no notice saved, costs near the estimate, no activity for 30 days), a backup reminder, and a searchable matters table with an Open/Closed status.
+- **Templates**: your firm's standard documents with merge fields such as `{{client name}}` and `{{our ref}}`. Upload a Word, OpenDocument, RTF or text file, add merge fields, then fill it for the current matter and download Word or save to the matter file. Five starter templates are included (acknowledgement, client authority, request to a bank, pension valuation request, request for a previous solicitor's file). Formatting from uploaded files is not kept, only the words.
+- **Forms**: internal client information, identity and source of funds record, conflict check and file opening forms, saved per matter, with Word download. These are not court forms; use the current official forms from gov.uk or HMCTS for those. Do not record ID numbers or bank details in them.

@@ -1242,9 +1242,10 @@ VIEWFN.settings=function(box){
   b.g.appendChild(mk("div",{class:"row",style:"grid-column:1/-1"},[
     mk("button",{type:"button",class:"btn primary",text:"Export all matters",onclick:async function(){
       save();await persistNow();
-      var out={app:"family-letter-desk",v:2,exported:new Date().toISOString(),firm:FIRM,library:LIB,wording:typeof WOV!=="undefined"?WOV:{}};
+      var out={app:"family-letter-desk",v:2,exported:new Date().toISOString(),firm:FIRM,library:LIB,templates:TPL,wording:typeof WOV!=="undefined"?WOV:{}};
       if(OPTS.lock){out.encrypted=true;out.salt=OPTS.salt;out.iter=OPTS.iter;var eb=await encStore();out.iv=eb.iv;out.ct=eb.ct}
       else{out.encrypted=false;out.store=STORE}
+      OPTS.lastBackup=new Date().toISOString();saveOpts();
       downloadBlob("family-letter-desk-backup-"+iso(new Date())+".json",new Blob([JSON.stringify(out)],{type:"application/json"}));
       bst.textContent=OPTS.lock?"Exported. The matters in the file are encrypted.":"Exported. This file is not encrypted and contains client details, so store it safely.";bst.className="dstatus";
     }}),
@@ -1269,6 +1270,7 @@ VIEWFN.settings=function(box){
       if(ifm.checked){
         if(o.firm&&typeof o.firm==="object"){FIRM=Object.assign(FIRM,o.firm);saveFirm()}
         if(o.library&&Array.isArray(o.library.blocks)){LIB=o.library;saveLib()}
+        if(o.templates&&Array.isArray(o.templates.items)){TPL=o.templates;saveTpl()}
         if(o.wording&&typeof o.wording==="object"&&typeof WOV!=="undefined"){WOV=o.wording;if(typeof saveWov==="function")saveWov()}
       }
       normaliseStore(STORE);save();await persistNow();renderMatterBar();bst.textContent=n+" matter"+(n===1?"":"s")+" restored.";bst.className="dstatus";
@@ -1289,7 +1291,7 @@ var FIRM_KEYS=["firmName","firmAddress","firmContact","caseWorker","caseWorkerTi
 var FIRM={footer:"",vat:"20",logo:"",signature:"",useSignature:true,reviewedBy:"",reviewedOn:""};
 FIRM_KEYS.forEach(function(k){FIRM[k]=""});FIRM.caseWorkerTitle="Case Worker";
 var OPTS={lock:false,salt:"",iter:250000,autoMin:15,mask:true,maskTerms:"",remoteOk:false};
-var STORE=null,CURM=null,CKEY=null,view="letters",pT=null,saveFailed=false,lastActive=Date.now();
+var STORE=null,CURM=null,CKEY=null,view="dashboard",pT=null,saveFailed=false,lastActive=Date.now();
 S=Object.assign({},BLANK);
 try{var f0=localStorage.getItem(FKEY);if(f0)FIRM=Object.assign(FIRM,JSON.parse(f0))}catch(e){}
 try{var o0=localStorage.getItem(OKEY);if(o0)OPTS=Object.assign(OPTS,JSON.parse(o0))}catch(e){}
@@ -1394,7 +1396,7 @@ function afterMatterChange(){
 }
 function addMatter(m){STORE.matters.push(m);loadMatter(m.id);resetDocsState();save();afterMatterChange();persistNow()}
 /* views */
-var VIEWS=[["letters","Letters"],["time","Time and costs"],["checks","Checklists"],["file","Matter file"],["settings","Settings"]];
+var VIEWS=[["dashboard","Dashboard"],["letters","Letters"],["templates","Templates"],["forms","Forms"],["time","Time and costs"],["checks","Checklists"],["file","Matter file"],["settings","Settings"]];
 var VIEWFN=VIEWFN||{};
 function renderViewNav(){
   var nav=$("views");nav.innerHTML="";
@@ -1481,7 +1483,7 @@ function startApp(){
   loadMatter(STORE.current);resetDocsState();lastActive=Date.now();
   renderMatterBar();renderViewNav();renderTabs();renderForm();
   if(edited[cur]&&draft[cur]){paper.innerHTML=draft[cur];stalebar.classList.add("on");updateStatus()}else rebuild();
-  showView("letters");
+  showView("dashboard");
 }
 
 /* ---------- Word (.docx) export, print, matter file ---------- */
@@ -1878,6 +1880,225 @@ function importCsv(text){
   loadMatter(last.id);resetDocsState();save();afterMatterChange();persistNow();
   return"Imported "+n+" matter"+(n===1?"":"s")+". Check each one before use.";
 }
+/* ---------- dashboard, document templates, forms ---------- */
+function todayIso(){return iso(new Date())}
+function daysFrom(isoStr){var d=parseISO(isoStr);if(!d)return null;var t=new Date();t.setHours(0,0,0,0);d.setHours(0,0,0,0);return Math.round((d-t)/864e5)}
+function mChecks(m){
+  var done=0,total=0;
+  CHECKS.forEach(function(c){
+    if(c[3]&&c[3].indexOf(m.S.matterType)<0)return;
+    var st=(m.checks||{})[c[1]]||{};if(st.na)return;total++;if(st.done)done++;
+  });
+  (m.customChecks||[]).forEach(function(c){var st=(m.checks||{})[c.id]||{};if(st.na)return;total++;if(st.done)done++});
+  return{done:done,total:total};
+}
+function mLedger(m){
+  var a=0;(m.time||[]).forEach(function(e){if(e.chargeable!==false)a+=unitsOf(e.minutes)*0.1*(+e.rate||0)});
+  return a;
+}
+function mHearings(m){
+  var out=[];
+  [["hearingDate","hearingType","hearingTime"],["nextHearing","nextHearingType","nextHearingTime"]].forEach(function(k){
+    var dt=m.S[k[0]];var n=daysFrom(dt);if(dt&&n!==null&&n>=0)out.push({date:dt,days:n,type:m.S[k[1]]||"Hearing",time:m.S[k[2]]||""});
+  });
+  return out;
+}
+function mAttention(m){
+  var w=[];
+  var hs=mHearings(m).filter(function(h){return h.days<=14});
+  if(hs.length&&!(m.history||[]).some(function(e){return e.type==="notice"}))w.push("Hearing in "+hs[0].days+" day"+(hs[0].days===1?"":"s")+" and no notice of hearing saved to the file");
+  var est=parseFloat(m.S.costEstimate);if(est>0){var pct=mLedger(m)/est*100;if(pct>=80)w.push("Costs are "+Math.round(pct)+"% of the estimate")}
+  if(m.status!=="closed"&&m.updated&&(Date.now()-m.updated)/864e5>30)w.push("No activity for over 30 days");
+  return w;
+}
+VIEWFN.dashboard=function(box){
+  box.appendChild(mk("h2",{class:"vh",text:"Dashboard"}));
+  var wrap=mk("div",{class:"vstack",style:"max-width:1100px"});box.appendChild(wrap);
+  var ms=STORE.matters;
+  var open=ms.filter(function(m){return m.status!=="closed"});
+  var upc=[];open.forEach(function(m){mHearings(m).forEach(function(h){upc.push({m:m,h:h})})});upc.sort(function(a,b){return a.h.days-b.h.days});
+  var unb=0;open.forEach(function(m){unb+=mLedger(m)});
+  var att=[];open.forEach(function(m){mAttention(m).forEach(function(w){att.push({m:m,w:w})})});
+  var cards=mk("div",{class:"totals"});
+  function stat(l,v){cards.appendChild(mk("div",{class:"stat"},[mk("span",{class:"sl",text:l}),mk("strong",{text:v})]))}
+  stat("Open matters",String(open.length));stat("Hearings in the next 14 days",String(upc.filter(function(x){return x.h.days<=14}).length));
+  stat("Time recorded on open matters (ex VAT)",money(unb));stat("Items needing attention",String(att.length));
+  wrap.appendChild(cards);
+  var lastB=OPTS.lastBackup?daysFrom(OPTS.lastBackup.slice(0,10)):null;
+  if(lastB===null||lastB<-14){
+    var bw=mk("p",{class:"revbar",text:lastB===null?"You have not exported a backup from this browser. Matters are stored only here.":"Your last backup was "+(-lastB)+" days ago. Export a new one in Settings."});wrap.appendChild(bw);
+  }
+  var q=mk("div",{class:"row"});
+  q.appendChild(mk("button",{type:"button",class:"btn primary",text:"New matter",onclick:function(){var m=newMatterObj("",null);addMatter(m);showView("letters")}}));
+  q.appendChild(mk("button",{type:"button",class:"btn",text:"Import matters from CSV",onclick:function(){showView("settings")}}));
+  wrap.appendChild(q);
+  if(att.length){
+    var a=setSec("Needs attention",true);wrap.appendChild(a.d);
+    att.forEach(function(x){a.g.appendChild(mk("div",{class:"hrow",style:"grid-column:1/-1"},[mk("div",{class:"hmain",text:x.m.name+": "+x.w}),mk("button",{type:"button",class:"btn",text:"Open",onclick:function(){openMatter(x.m.id)}})]))});
+  }
+  var u=setSec("Upcoming hearings",true);wrap.appendChild(u.d);
+  if(!upc.length)u.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"No hearings with a future date. Dates come from the hearing details on each matter."}));
+  upc.slice(0,12).forEach(function(x){
+    u.g.appendChild(mk("div",{class:"hrow",style:"grid-column:1/-1"},[mk("div",{class:"hmain",text:fmtDate(x.h.date,true)+(x.h.time?" at "+x.h.time:"")+" - "+x.h.type+" - "+x.m.name+(x.h.days===0?" (today)":" (in "+x.h.days+" days)")}),mk("button",{type:"button",class:"btn",text:"Open",onclick:function(){openMatter(x.m.id)}})]));
+  });
+  var t=setSec("Matters",true);wrap.appendChild(t.d);
+  var fs=mk("select",{id:"d_filter","aria-label":"Show"});[["open","Open matters"],["closed","Closed matters"],["all","All matters"]].forEach(function(o){fs.appendChild(mk("option",{value:o[0],text:o[1]}))});
+  var sq=mk("input",{type:"text",id:"d_search",placeholder:"Search by client, reference or court","aria-label":"Search matters"});
+  t.g.appendChild(fld("Show",fs,null,true));t.g.appendChild(fld("Search",sq,null,true));
+  var holder=mk("div",{style:"grid-column:1/-1"});t.g.appendChild(holder);
+  function paint(){
+    holder.innerHTML="";var f=fs.value,qq=sq.value.trim().toLowerCase();
+    var list=ms.filter(function(m){return(f==="all"||(f==="closed")===(m.status==="closed"))&&(!qq||(m.name+" "+m.S.ourRef+" "+m.S.court+" "+m.S.otherParty+" "+m.S.caseNumber).toLowerCase().indexOf(qq)>-1)});
+    if(!list.length){holder.appendChild(mk("p",{class:"hint",text:"No matters to show."}));return}
+    var tb=mk("table",{class:"ledger"});var hr=mk("tr");["Matter","Type","Next hearing","Checklist","Time (ex VAT)","Status","Last changed",""].forEach(function(h){hr.appendChild(mk("th",{text:h}))});tb.appendChild(mk("thead",null,[hr]));
+    var tbody=mk("tbody");
+    list.forEach(function(m){
+      var hs=mHearings(m),cp=mChecks(m);var tr=mk("tr");
+      var st=mk("select",{"aria-label":"Status of "+m.name});[["open","Open"],["closed","Closed"]].forEach(function(o){st.appendChild(mk("option",{value:o[0],text:o[1]}))});st.value=m.status==="closed"?"closed":"open";
+      st.addEventListener("change",function(){m.status=st.value;if(m===CURM)save();persistNow();showView("dashboard")});
+      [tcell(m.name+(m===CURM?" (current)":"")),tcell(m.S.matterType||""),tcell(hs.length?fmtDate(hs[0].date,false):"-"),tcell(cp.total?cp.done+" of "+cp.total:"-"),tcell(money(mLedger(m))),tcell(st),tcell(new Date(m.updated||m.created).toLocaleDateString("en-GB")),
+        tcell(mk("button",{type:"button",class:"btn",text:"Open",onclick:function(){openMatter(m.id)}}))].forEach(function(c){tr.appendChild(c)});
+      tbody.appendChild(tr);
+    });
+    tb.appendChild(tbody);holder.appendChild(wrapTable(tb));
+  }
+  fs.addEventListener("change",paint);sq.addEventListener("input",paint);paint();
+};
+async function openMatter(id){if(CURM&&CURM.id!==id)await switchMatter(id);showView("letters")}
+
+/* ----- document templates with merge fields ----- */
+var TKEY="fld-doctemplates-v1";
+var TPL={items:[]};
+var TPL_STARTERS=[
+ {id:"t-ack",title:"Acknowledgement of instructions",category:"Client",body:"Thank you for instructing {{firm name}}. This letter confirms that I have opened a file for you with our reference {{our ref}}.\n\nI will send you our client care letter and terms of business separately. Please do not hesitate to contact me on {{firm contact}} if you have any questions.",letter:true},
+ {id:"t-auth",title:"Client authority to obtain information",category:"Client",body:"## Authority\n\nI, {{client name}} of {{client address}}, authorise {{firm name}} to ask for and receive information and documents about me from the organisations named below, for the purpose of my matter, our reference {{our ref}}.\n\nOrganisation: ______________________\n\nSigned: ______________________\n\nDate: ______________________",letter:false},
+ {id:"t-bank",title:"Request to a bank or other organisation for statements",category:"Other parties",body:"We act for {{client name}} in family proceedings, our reference {{our ref}}. Our client's written authority is enclosed.\n\nPlease send us copies of the statements for the account(s) listed below for the period from ______ to ______.\n\n- Account name and number: ______________________\n\nPlease reply within 14 days. If there is a charge, please tell us before you do the work.",letter:true,to:true},
+ {id:"t-pension",title:"Request for pension valuation (CETV)",category:"Other parties",body:"We act for {{client name}} in divorce and financial remedy proceedings, our reference {{our ref}}. Our client's authority is enclosed.\n\nPlease provide a cash equivalent transfer value and the information needed to value the benefits under the scheme for divorce purposes, as set out in the regulations. Please send the information within the time the law allows. If there is a charge, please tell us.\n\nMember name: ______________________\nScheme reference: ______________________",letter:true,to:true},
+ {id:"t-prev",title:"Request for file from previous solicitors",category:"Other parties",body:"We have been instructed by {{client name}} in place of your firm in this matter. Our client's authority is enclosed.\n\nPlease send us your complete file, together with any original documents, and your final bill if one is outstanding. Please do not take any further steps without hearing from us.",letter:true,to:true}
+];
+(function(){try{var r=localStorage.getItem(TKEY);if(r){var o=JSON.parse(r);if(o&&Array.isArray(o.items)){TPL=o;return}}}catch(e){}TPL={items:copyJSON(TPL_STARTERS)};saveTpl()})();
+function saveTpl(){try{localStorage.setItem(TKEY,JSON.stringify(TPL))}catch(e){}}
+var TPL_FIELDS=["client name","salutation","client address","client email","our ref","case number","court","other party","matter type","firm name","firm address","firm contact","case worker","case worker title","date","hearing date","next hearing date","hearing type","hearing time","venue","retention"];
+function tplHtml(t,recip){
+  var h="";
+  if(t.letter){
+    h+=letterhead();
+    if(t.to)h+='<p class="refs">'+(recip?esc(recip).replace(/\n/g,"<br>"):gap("recipient"))+'</p>';
+    else h+='<div class="addr"><div class="conf">Private and confidential</div>'+val("clientName","client name")+'<br>'+(lines("clientAddress").length?brs("clientAddress"):gap("client address"))+'</div>';
+    h+='<p class="refs">'+dateOr("letterDate","date")+'<br>Our ref: '+val("ourRef","reference")+'</p>';
+    h+='<p>Dear '+(t.to?"Sir or Madam":val("salutation","name"))+',</p>';
+    h+='<p class="re">'+esc(t.title)+'</p>';
+  }
+  h+=stdBodyHtml(t.body);
+  if(t.letter)h+=signoff2?signoff2(t.to):signoff();
+  return h;
+}
+var tplSel=null,tplRecip="";
+VIEWFN.templates=function(box){
+  box.appendChild(mk("h2",{class:"vh",text:"Document templates: "+CURM.name}));
+  var wrap=mk("div",{class:"vstack",style:"max-width:1000px"});box.appendChild(wrap);
+  wrap.appendChild(mk("p",{class:"hint",text:"Keep your firm's standard documents here and fill them from the current matter. Write merge fields in double curly brackets, such as {{client name}}. Empty fields show in yellow. Upload a Word or text file to start from your own wording, then add merge fields where details change. The starter templates were written without legal review."}));
+  var pick=setSec("Templates",true);wrap.appendChild(pick.d);
+  var cats=[];TPL.items.forEach(function(t){if(cats.indexOf(t.category||"Other")<0)cats.push(t.category||"Other")});
+  var list=mk("div",{style:"grid-column:1/-1;display:flex;flex-direction:column;gap:6px"});pick.g.appendChild(list);
+  cats.forEach(function(c){
+    list.appendChild(mk("strong",{class:"hint",text:c}));
+    TPL.items.filter(function(t){return(t.category||"Other")===c}).forEach(function(t){
+      list.appendChild(mk("div",{class:"hrow"},[mk("div",{class:"hmain",text:t.title}),mk("button",{type:"button",class:"btn"+(tplSel===t.id?" primary":""),text:"Use",onclick:function(){tplSel=t.id;showView("templates")}})]));
+    });
+  });
+  pick.g.appendChild(mk("div",{class:"row"},[
+    mk("button",{type:"button",class:"btn",text:"New template",onclick:function(){var t={id:newId(),title:"New template",category:"Other",body:"",letter:true};TPL.items.push(t);saveTpl();tplSel=t.id;showView("templates")}})]));
+  var up=mk("input",{type:"file",id:"tplUp",accept:".docx,.odt,.rtf,.txt,.md"});
+  up.addEventListener("change",async function(){
+    var f=up.files&&up.files[0];if(!f)return;
+    try{var r=await readFile(f);var t={id:newId(),title:f.name.replace(/\.[a-z0-9]+$/i,""),category:"Uploaded",body:(r.text||"").trim(),letter:false};TPL.items.push(t);saveTpl();tplSel=t.id;toast("Template added. Add merge fields where the details change.");showView("templates")}
+    catch(e){toast("That file could not be read.")}
+  });
+  pick.g.appendChild(fld("Add a template from a file",up,"Word, OpenDocument, RTF or text. Formatting is not kept, only the words."));
+  var t=TPL.items.filter(function(x){return x.id===tplSel})[0];
+  if(!t)return;
+  var ed=setSec("Edit: "+t.title,true);wrap.appendChild(ed.d);
+  var ti=mk("input",{type:"text",id:"tp_title"});ti.value=t.title;ti.addEventListener("input",function(){t.title=ti.value;saveTpl()});
+  var ci=mk("input",{type:"text",id:"tp_cat",list:"tp_cats"});ci.value=t.category||"";ci.addEventListener("input",function(){t.category=ci.value;saveTpl()});
+  var cl=mk("datalist",{id:"tp_cats"});["Client","Other parties","Court","Forms","Other"].forEach(function(c){cl.appendChild(mk("option",{value:c}))});
+  var lt=mk("input",{type:"checkbox",id:"tp_letter"});lt.checked=!!t.letter;lt.addEventListener("change",function(){t.letter=lt.checked;saveTpl();prev()});
+  var to=mk("input",{type:"checkbox",id:"tp_to"});to.checked=!!t.to;to.addEventListener("change",function(){t.to=to.checked;saveTpl();prev()});
+  var bd=mk("textarea",{id:"tp_body",rows:12});bd.value=t.body||"";bd.addEventListener("input",function(){t.body=bd.value;saveTpl();prev()});
+  var fsel=mk("select",{id:"tp_field","aria-label":"Merge field"});TPL_FIELDS.forEach(function(f){fsel.appendChild(mk("option",{value:f,text:f}))});
+  ed.g.appendChild(fld("Title",ti,null,true));ed.g.appendChild(fld("Category",ci,null,true));ed.g.appendChild(cl);
+  ed.g.appendChild(fld("Add letterhead, date, greeting and sign-off",lt,null,true));ed.g.appendChild(fld("Letter goes to someone other than the client",to,null,true));
+  ed.g.appendChild(fld("Text",bd,"Start a line with ## for a heading, - for a bullet, 1. for a numbered list."));
+  ed.g.appendChild(mk("div",{class:"row"},[fsel,mk("button",{type:"button",class:"btn",text:"Insert merge field",onclick:function(){var ins="{{"+fsel.value+"}}",a=bd.selectionStart||bd.value.length;bd.value=bd.value.slice(0,a)+ins+bd.value.slice(bd.selectionEnd||a);t.body=bd.value;saveTpl();bd.focus();prev()}})]));
+  var armed=false,tm;ed.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn warn",text:"Delete template",onclick:function(ev){
+    var b=ev.target;if(!armed){armed=true;b.textContent="Click again to delete";tm=setTimeout(function(){armed=false;b.textContent="Delete template"},3000);return}
+    clearTimeout(tm);TPL.items=TPL.items.filter(function(x){return x!==t});saveTpl();tplSel=null;showView("templates")}})]));
+  var out=setSec("Fill for this matter",true);wrap.appendChild(out.d);
+  var rc=mk("textarea",{id:"tp_recip",rows:3});rc.value=tplRecip;rc.addEventListener("input",function(){tplRecip=rc.value;prev()});
+  if(t.to)out.g.appendChild(fld("Recipient name and address",rc));
+  var paper2=mk("div",{class:"paper",id:"tplPaper",style:"grid-column:1/-1"});out.g.appendChild(paper2);
+  function prev(){paper2.innerHTML=tplHtml(t,tplRecip)}
+  prev();
+  var nm=function(){return fileSafe(t.title+" - "+(S.clientName||"client"))};
+  out.g.appendChild(mk("div",{class:"row"},[
+    mk("button",{type:"button",class:"btn primary",text:"Download Word",onclick:function(){downloadDocx(paper2,nm()+".docx",t.title)}}),
+    mk("button",{type:"button",class:"btn",text:"Save to matter file",onclick:function(){CURM.history.push({id:mid(),type:"tpl",label:t.title,saved:Date.now(),sent:"",html:paper2.innerHTML});save();persistNow();toast("Saved to the matter file.")}}),
+    mk("button",{type:"button",class:"btn",text:"Copy plain text",onclick:function(){copyText(paper2.innerText)}})]));
+};
+
+/* ----- internal forms ----- */
+var FORMS=[
+ {id:"intake",title:"Client information form",fields:[
+  ["Personal details"],["Full name","clientName"],["Other names used",""],["Date of birth",""],["Address","clientAddress","area"],["Telephone",""],["Email","clientEmail"],["Occupation and employer",""],["Preferred way and time to contact you",""],["Is it safe to leave messages or send post to this address?","","yn"],
+  ["The other party"],["Full name","otherParty"],["Address if known","","area"],["Do you know whether they have a solicitor? Name","" ],
+  ["Your family"],["Date and place of marriage or civil partnership",""],["Date you separated",""],["Children: names and dates of birth","","area"],["Where do the children live now?",""],
+  ["Your needs"],["Do you need an interpreter, accessibility support or other help to take part?","","area"],["Is there anything in your situation that you are worried about for your safety or the children's?","","area"],["What do you hope to achieve?","","area"]]},
+ {id:"id",title:"Identity and source of funds record",fields:[
+  ["Client"],["Client name","clientName"],["Our reference","ourRef"],
+  ["Identity documents seen (do not record numbers here)"],["Photographic ID seen (type)",""],["Date seen",""],["Seen by",""],["Proof of address seen (type)",""],["Dated",""],["Copies kept on file","","yn"],
+  ["Risk"],["Source of funds noted where required","","yn"],["Any matter raising concern","","area"],["Risk level (low, medium, high)",""],["Completed by and date",""]]},
+ {id:"conflict",title:"Conflict check",fields:[
+  ["Parties"],["Prospective client","clientName"],["Other party","otherParty"],["Other people connected (children's carers, new partner, family members, employers)","","area"],
+  ["Search"],["Systems searched (client database, previous matters)",""],["Date searched",""],["Result: any past or present connection","","area"],["Conflict found","","yn"],["Decision and reason","","area"],["Checked by and date",""]]},
+ {id:"opening",title:"File opening form",fields:[
+  ["Matter"],["Client","clientName"],["Our reference","ourRef"],["Matter type","matterType"],["Date instructions received",""],["Fee earner","caseWorker"],["Supervisor","supervisor"],
+  ["Funding and costs"],["Funding (private, legal aid, other)",""],["Hourly rate","hourlyRate"],["Estimate given","costEstimate"],["Payment on account requested","paymentOnAccount"],
+  ["Key dates"],["Limitation or deadline dates","","area"],["Next step and date","","area"]]}
+];
+var formSel="intake";
+function formHtml(f,data){
+  var h='<h2>'+esc(f.title)+'</h2><p>'+esc(CURM.name)+'</p>';
+  f.fields.forEach(function(fd,i){
+    if(fd.length===1){h+='<h3>'+esc(fd[0])+'</h3>';return}
+    var v=data[i]!=null?String(data[i]).trim():"";
+    h+='<p><strong>'+esc(fd[0])+'</strong><br>'+(v?esc(v).replace(/\n/g,"<br>"):'<span class="gap">not recorded</span>')+'</p>';
+  });
+  return h;
+}
+VIEWFN.forms=function(box){
+  box.appendChild(mk("h2",{class:"vh",text:"Forms: "+CURM.name}));
+  var wrap=mk("div",{class:"vstack",style:"max-width:900px"});box.appendChild(wrap);
+  wrap.appendChild(mk("p",{class:"hint",text:"These are your firm's internal forms, filled in and kept with the matter. They are not court forms. For court forms such as Form A, Form E or D81, use the current version from the HMCTS or gov.uk form finder. Do not put identity document numbers or bank details in these forms."}));
+  CURM.forms=CURM.forms||{};
+  var tabs=mk("div",{class:"row"});FORMS.forEach(function(f){tabs.appendChild(mk("button",{type:"button",class:"btn"+(f.id===formSel?" primary":""),text:f.title,onclick:function(){formSel=f.id;showView("forms")}}))});wrap.appendChild(tabs);
+  var f=FORMS.filter(function(x){return x.id===formSel})[0];
+  var data=CURM.forms[f.id]=CURM.forms[f.id]||{};
+  var sec=setSec(f.title,true);wrap.appendChild(sec.d);
+  f.fields.forEach(function(fd,i){
+    if(fd.length===1){sec.g.appendChild(mk("h3",{style:"grid-column:1/-1;margin:8px 0 0;font-size:14px",text:fd[0]}));return}
+    var inp;
+    if(fd[2]==="yn"){inp=mk("select",{id:"fm_"+i});["","Yes","No"].forEach(function(o){inp.appendChild(mk("option",{value:o,text:o||"Choose"}))})}
+    else if(fd[2]==="area")inp=mk("textarea",{id:"fm_"+i,rows:3});else inp=mk("input",{type:"text",id:"fm_"+i});
+    inp.value=data[i]!=null?data[i]:"";
+    inp.addEventListener("input",function(){data[i]=inp.value;save()});inp.addEventListener("change",function(){data[i]=inp.value;save()});
+    sec.g.appendChild(fld(fd[0],inp,null,fd[2]!=="area"));
+  });
+  sec.g.appendChild(mk("div",{class:"row"},[
+    mk("button",{type:"button",class:"btn",text:"Fill known details from the matter",onclick:function(){f.fields.forEach(function(fd,i){if(fd.length>1&&fd[1]&&!(data[i]&&String(data[i]).trim())&&S[fd[1]])data[i]=String(S[fd[1]])});save();persistNow();showView("forms")}}),
+    mk("button",{type:"button",class:"btn primary",text:"Download Word",onclick:function(){downloadDocx(tempEl(formHtml(f,data)),fileSafe(f.title+" - "+(S.clientName||"client"))+".docx",f.title)}}),
+    mk("button",{type:"button",class:"btn",text:"Save to matter file",onclick:function(){CURM.history.push({id:mid(),type:"form",label:f.title,saved:Date.now(),sent:"",html:formHtml(f,data)});save();persistNow();toast("Saved to the matter file.")}})]));
+};
+
 /* ---------- standard information library ---------- */
 var LKEY="family-letter-desk-library-v1";
 var STD_TYPES=ALL.filter(function(x){return x!=="note"});
@@ -1896,7 +2117,7 @@ function saveLib(){try{localStorage.setItem(LKEY,JSON.stringify(LIB))}catch(e){}
 function newId(){return"b"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function phHtml(key){
   var k=String(key).toLowerCase().replace(/\s+/g," ").trim();
-  var m={"client name":["clientName","client name"],"salutation":["salutation","name"],"our ref":["ourRef","reference"],"case number":["caseNumber","case number"],"court":["court","court"],"other party":["otherParty","other party"],"firm name":["firmName","firm name"],"firm address":["firmAddress","firm address"],"firm contact":["firmContact","firm contact"],"case worker":["caseWorker","case worker"],"case worker title":["caseWorkerTitle","job title"],"retention":["retention","storage period"],"client address":["clientAddress","client address"]}[k];
+  var m={"client name":["clientName","client name"],"salutation":["salutation","name"],"our ref":["ourRef","reference"],"case number":["caseNumber","case number"],"court":["court","court"],"other party":["otherParty","other party"],"firm name":["firmName","firm name"],"firm address":["firmAddress","firm address"],"firm contact":["firmContact","firm contact"],"case worker":["caseWorker","case worker"],"case worker title":["caseWorkerTitle","job title"],"retention":["retention","storage period"],"client address":["clientAddress","client address"],"client email":["clientEmail","client email"],"matter type":["matterType","matter type"],"hearing type":["hearingType","hearing type"],"hearing time":["hearingTime","hearing time"],"venue":["venue","venue"]}[k];
   if(k==="date"){var f=fmtDate(S.letterDate,false);return f?esc(f):gap("date")}
   if(k==="hearing date"){var f2=fmtDate(S.hearingDate,false);return f2?esc(f2):gap("hearing date")}
   if(k==="next hearing date"){var f3=fmtDate(S.nextHearing,false);return f3?esc(f3):gap("next hearing date")}
