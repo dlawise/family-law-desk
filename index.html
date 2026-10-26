@@ -316,7 +316,7 @@ var BLANK={
   judgeName:"",attendedBy:ATTEND[0],outcomeSummary:"",orders:"",directions:"",nextHearing:"",nextHearingTime:"10:00",nextHearingType:"",costsOrder:COSTS_ORDERS[0],orderStatus:ORDER_STATUS[0],clientActions:"",o_compliance:true,o_appeal:true,
   noteDate:addDays(0),startTime:"",endTime:"",attendType:NOTE_TYPES[0],present:"",purpose:"",discussion:"",instructionsRec:"",adviceGiven:"",docsNote:"",actions:"",chargeable:true,
   concludedDate:addDays(0),c_outcome:"",finalOrders:"",enclosures:"",c_tasks:"",c_afterDivorce:true,billOption:BILL_OPTS[0],billAmount:"",heldOnAccount:"",retention:RETAIN[0],originalsReturned:true,c_complaints:true,c_variation:true,
-  stdOverride:{},supervisor:"",supervisorRate:"",sraNumber:"",careServices:"",careBilling:BILLING[0],careFunding:FUNDING[0],c_cancel:true,c_aml:true,c_privacy:true,complaintsContact:""
+  stdOverride:{},supervisor:"",supervisorRate:"",sraNumber:"",careServices:"",careBilling:BILLING[0],careFunding:FUNDING[1],c_cancel:true,c_aml:true,c_privacy:true,complaintsContact:""
 };
 var EXAMPLE=Object.assign({},BLANK,{
   firmName:"Dillex Solicitors",firmAddress:"1 High Street\nLondon\nEC1A 1AA",firmContact:"Tel 020 7946 0000  |  family@example.co.uk",caseWorker:"Alex Caseworker",caseWorkerTitle:"Case Worker, Family Department",
@@ -621,15 +621,20 @@ function buildNote(){
 function buildClosing(){
   var h=openLetter(true);
   h+='<p>I am writing to confirm that the work on your '+esc(matterWord())+' is now complete, and that I am closing my file as of '+dateOr("concludedDate","date",false)+'.</p>';
+  if(lines("c_represent").length)h+='<h3>How we represented you</h3>'+paras("c_represent","representation");
   h+='<h3>The outcome</h3>'+paras("c_outcome","summary of the outcome");
+  if(lines("c_meaning").length)h+='<h3>What the orders mean for you</h3>'+paras("c_meaning","explanation");
   if(lines("finalOrders").length){h+='<p>The final orders made were:</p>'+ul("finalOrders",false)}
   if(lines("enclosures").length){h+='<p>I enclose the following. Please keep them safe, as you may need them in future.</p>'+ul("enclosures",false)}
   if(lines("c_tasks").length){h+='<h3>What you need to do now</h3>'+ul("c_tasks",true)}
-  if(S.c_afterDivorce){h+='<h3>Looking after your affairs</h3><p>After a divorce or separation it is sensible to review your will, as an earlier will may no longer reflect your wishes. You should also update the beneficiaries on any pension, life insurance or death-in-service benefit, and tell your employer, bank, lender, insurers and any other relevant organisations of any change of name or address.</p>'}
+  if(S.c_afterDivorce&&/divorce|financial/i.test(S.matterType)){h+='<h3>Looking after your affairs</h3><p>After a divorce or separation it is sensible to review your will, as an earlier will may no longer reflect your wishes. You should also update the beneficiaries on any pension, life insurance or death-in-service benefit, and tell your employer, bank, lender, insurers and any other relevant organisations of any change of name or address.</p>'}
   if(S.c_variation){h+='<p>Some orders can be varied if circumstances change significantly, and arrangements for children can be reviewed if they stop working. Please contact me before making any changes yourself, as informal changes may not be legally binding.</p>'}
-  h+='<h3>Our final bill</h3>';
+  var LAF=S.careFunding===FUNDING[1];
+  if(LAF){h+='<h3>Legal aid</h3><p>Your case was funded by legal aid, so you will not receive a bill from us. I will tell the Legal Aid Agency that the case has ended and close your certificate. '+esc(S.laChargeOutcome||CHARGE_OUT[0])+'</p>'}
+  else{h+='<h3>Our final bill</h3>';}
   var bill=num(S.billAmount),held=num(S.heldOnAccount);
-  if(S.billOption===BILL_OPTS[0]){
+  if(LAF){}
+  else if(S.billOption===BILL_OPTS[0]){
     var t='<p>My final bill'+(has("billAmount")?' for '+gbp(S.billAmount,2):'')+' is enclosed. ';
     if(!isNaN(bill)&&!isNaN(held)){
       if(held>0){t+='We hold '+gbp(S.heldOnAccount,2)+' on your account, which I have applied towards the bill. '}
@@ -651,6 +656,7 @@ function careConfirm(){
   return '<div class="clientconf"><h3>Client confirmation</h3><p>I have read and understood this letter and the information with it, and I agree to the terms in it.</p><table class="accept"><tr><th>Signed</th><td></td></tr><tr><th>Name</th><td>'+val("clientName","client name")+'</td></tr><tr><th>Date signed</th><td></td></tr></table></div>';
 }
 function buildCare(){
+  if(S.careFunding===FUNDING[1])return buildCareLA();
   var h=openLetter(false);
   h+='<p class="re">Your instructions and our terms of business: your '+esc(matterWord())+'</p>';
   h+='<p>Thank you for instructing '+val("firmName","firm name")+' to act for you. This letter explains who will work on your matter, what we will do, how much it will cost and other important information. Please read it carefully and ask me if anything is unclear.</p>';
@@ -1791,7 +1797,7 @@ var CHECKS=[
  ["Closing the matter","c_ledger","Client account balance cleared or refunded"],["Closing the matter","c_orig","Original documents returned"],["Closing the matter","c_closing","Closing letter sent"],["Closing the matter","c_archive","File archived and retention date recorded"]
 ];
 function checkItems(){
-  var out=CHECKS.filter(function(c){return!c[3]||c[3].indexOf(S.matterType)>-1}).map(function(c){return{id:c[1],g:c[0],t:c[2],custom:false}});
+  var out=CHECKS.filter(function(c){return(!c[3]||c[3].indexOf(S.matterType)>-1)&&!(c[4]==="la"&&S.careFunding!==FUNDING[1])}).map(function(c){return{id:c[1],g:c[0],t:c[2],custom:false}});
   (CURM.customChecks||[]).forEach(function(c){out.push({id:c.id,g:c.g,t:c.t,custom:true})});
   return out;
 }
@@ -1886,7 +1892,7 @@ function daysFrom(isoStr){var d=parseISO(isoStr);if(!d)return null;var t=new Dat
 function mChecks(m){
   var done=0,total=0;
   CHECKS.forEach(function(c){
-    if(c[3]&&c[3].indexOf(m.S.matterType)<0)return;
+    if(c[3]&&c[3].indexOf(m.S.matterType)<0)return;if(c[4]==="la"&&m.S.careFunding!==FUNDING[1])return;
     var st=(m.checks||{})[c[1]]||{};if(st.na)return;total++;if(st.done)done++;
   });
   (m.customChecks||[]).forEach(function(c){var st=(m.checks||{})[c.id]||{};if(st.na)return;total++;if(st.done)done++});
@@ -2098,6 +2104,258 @@ VIEWFN.forms=function(box){
     mk("button",{type:"button",class:"btn primary",text:"Download Word",onclick:function(){downloadDocx(tempEl(formHtml(f,data)),fileSafe(f.title+" - "+(S.clientName||"client"))+".docx",f.title)}}),
     mk("button",{type:"button",class:"btn",text:"Save to matter file",onclick:function(){CURM.history.push({id:mid(),type:"form",label:f.title,saved:Date.now(),sent:"",html:formHtml(f,data)});save();persistNow();toast("Saved to the matter file.")}})]));
 };
+
+/* ---------- legal aid care letter, case facts from statements, closing representation ---------- */
+(function(){
+  var add=["Non-molestation order","Occupation order","Non-molestation and occupation orders","Child arrangements order","Prohibited steps order","Specific issue order","Section 8 children order(s)"];
+  add.slice().reverse().forEach(function(m){MATTERS.unshift(m)});
+  MATTER_WORD["Non-molestation order"]="application for a non-molestation order";
+  MATTER_WORD["Occupation order"]="application for an occupation order";
+  MATTER_WORD["Non-molestation and occupation orders"]="applications for non-molestation and occupation orders";
+  MATTER_WORD["Child arrangements order"]="application for a child arrangements order";
+  MATTER_WORD["Prohibited steps order"]="application for a prohibited steps order";
+  MATTER_WORD["Specific issue order"]="application for a specific issue order";
+  MATTER_WORD["Section 8 children order(s)"]="children proceedings under section 8 of the Children Act 1989";
+})();
+var REL=["spouse or civil partner","former spouse or civil partner","partner (living together)","former partner (lived together)","partner (not living together)","former partner (not lived together)","relative","parent of your child","associated person"];
+var LA_STATUS=["Emergency certificate granted","Substantive certificate granted","Application made, awaiting decision","To be applied for"];
+var CHARGE_OUT=["I will confirm whether the statutory charge applies.","The statutory charge does not apply in your case.","The statutory charge may apply to money or property you have recovered or kept, and I will write to you separately."];
+BLANK.careFunding=FUNDING[1];
+Object.assign(BLANK,{o_nmo:false,o_nmo_wn:false,o_occ:false,o_cao:false,o_pso:false,o_sio:false,relationship:REL[5],childrenInfo:"",childLiveWith:"",abuseSummary:"",urgency:"",policeRef:"",interpreter:"",safeContact:"",
+  laStatus:LA_STATUS[0],laCertNo:"",laScope:"",laContribution:"",laCostsLimit:"",c_statcharge:true,daEvidence:"",evidenceNeeded:"",c_represent:"",c_meaning:"",laChargeOutcome:CHARGE_OUT[0],c_safety:true});
+var EXAMPLE_LA=Object.assign({},EXAMPLE,{clientName:"Ms Sarah Sample",salutation:"Ms Sample",ourRef:"DA/2026/0310",otherParty:"Mr Mark Sample",caseNumber:"ZZ26P00123",court:"Central Family Court",hearingDate:addDays(7),hearingTime:"10:00",hourlyRate:"",costEstimate:"",paymentOnAccount:"",careFunding:FUNDING[1],matterType:"Non-molestation and occupation orders",o_nmo:true,o_nmo_wn:true,o_occ:true,o_cao:true,relationship:REL[3],
+  childrenInfo:"Amy, aged 6\nBen, aged 3",childLiveWith:"with you",urgency:"You told us you are afraid to go home and that the other party has said he will find you.",
+  abuseSummary:"On 3 September 2026 he pushed you against a wall and threatened to kill you.\nHe has sent you repeated abusive messages, and on 14 September 2026 he waited outside your workplace.",
+  policeRef:"CRN 01/2345/26",safeContact:"Text messages to 07700 900456 only",laStatus:LA_STATUS[0],laCertNo:"1234567/X",laScope:"Application for a non-molestation order and an occupation order, including a without notice application",
+  laContribution:"No contribution is payable under your certificate",daEvidence:"Police report (crime reference CRN 01/2345/26)\nLetter from your GP",evidenceNeeded:"Screenshots of the messages\nPhotographs of your injuries",
+  c_represent:"On 2 October 2026 the court held a without notice hearing at the Central Family Court. I represented you.\nOn 16 October 2026 the court held the return date hearing. Counsel instructed by us represented you.",
+  c_meaning:"The non-molestation order stops the other party from using or threatening violence against you, and from intimidating, harassing or pestering you. Breaking it is a criminal offence. If it is broken, call the police and tell me.\nThe order applies for 12 months.",
+  laChargeOutcome:CHARGE_OUT[1],concludedDate:addDays(0),c_outcome:"",finalOrders:"A non-molestation order for 12 months",billOption:BILL_OPTS[1]});
+
+/* ----- facts from witness statements and instruction forms ----- */
+function toYou(s){
+  s=String(s).replace(/\bI'm\b/g,"you are").replace(/\bI am\b/g,"you are").replace(/\bI was\b/g,"you were").replace(/\bI have\b/g,"you have").replace(/\bI had\b/g,"you had").replace(/\bI'd\b/g,"you would").replace(/\bI've\b/g,"you have").replace(/\bI'll\b/g,"you will")
+   .replace(/\bI\b/g,"you").replace(/\b[Mm]yself\b/g,"yourself").replace(/\b[Mm]y\b/g,"your").replace(/\b[Mm]ine\b/g,"yours").replace(/\b[Mm]e\b/g,"you");
+  return s.charAt(0).toUpperCase()+s.slice(1);
+}
+function extractCare(items){
+  var all=items.map(function(i){return i.text}).join("\n");
+  var out={clientName:"",clientAddress:"",otherParty:"",orders:[],withoutNotice:false,relationship:"",children:[],incidents:[],urgency:"",policeRef:"",interpreter:"",safeContact:"",liveWith:"",evidence:[],legalAid:{cert:"",certNo:"",},hasText:!!all.trim()};
+  var flat=all.replace(/\r/g,"").split(/\n/).filter(function(l){return!/statement of truth|i believe that the facts|signed\s*:|dated\s*:/i.test(l)}).join(" ").replace(/\s+/g," ");
+  if(/non[- ]?molestation/i.test(all))out.orders.push("nmo");
+  if(/occupation order|exclusion order|right to occupy|exclude [^.]{0,40} from (?:the|our|my) (?:home|property|house)/i.test(all))out.orders.push("occ");
+  if(/child arrangements?/i.test(all))out.orders.push("cao");
+  if(/prohibited steps?/i.test(all))out.orders.push("pso");
+  if(/specific issue/i.test(all))out.orders.push("sio");
+  out.withoutNotice=/without notice|ex[- ]?parte/i.test(all);
+  var r=/\b(?:my|the)\s+(ex[- ]?husband|ex[- ]?wife|former (?:husband|wife|spouse|partner)|ex[- ]?partner|ex[- ]?boyfriend|ex[- ]?girlfriend|husband|wife|boyfriend|girlfriend|partner|brother|sister|mother|father|son|daughter|uncle|aunt|cousin|step[a-z]+|father of my (?:child|children)|children'?s? father|children'?s? mother)\b/i.exec(flat);
+  if(r){
+    var w=r[1].toLowerCase(),lived=/lived together|live together|cohabit|our home|shared home|same (?:house|home)|we live/i.test(all);
+    out.relationship=/^ex[- ]?(husband|wife)|^former (husband|wife|spouse)/.test(w)?REL[1]:/^(husband|wife)$/.test(w)?REL[0]:/father of|children'?s? (father|mother)/.test(w)?REL[7]:/^(ex|former)/.test(w)?(lived?REL[3]:REL[5]):/^(partner|boyfriend|girlfriend)$/.test(w)?(lived?REL[2]:REL[4]):REL[6];
+    if(/^(ex|former)/.test(w))out.relationship=lived?REL[3]:REL[5];
+  }
+  var nm0=/WITNESS STATEMENT OF ([A-Za-z][A-Za-z\' \-]{3,50})/.exec(all)||/\bI,\s+([A-Z][a-z]+(?: [A-Z][a-z\-\']+){1,3}),\s+of\b/.exec(all);
+  if(nm0)out.clientName=nm0[1].trim().toLowerCase().replace(/\b[a-z]/g,function(c){return c.toUpperCase()});
+  var ad0=/\bI,\s+[A-Z][^,]{3,50},\s+of\s+([^\n]{8,140}?),?\s+(?:make|do|am)\b/.exec(all);if(ad0)out.clientAddress=ad0[1].replace(/,\s*/g,"\n");
+  var op0=/Respondent is (?:my [a-z\- ]+,\s*)?([A-Z][a-z]+(?: [A-Z][a-z\-\']+){1,2})/.exec(all)||/\bmy (?:ex[- ]?partner|ex[- ]?husband|ex[- ]?wife|former partner|partner|husband|wife|boyfriend|girlfriend|ex[- ]?boyfriend|ex[- ]?girlfriend),\s+([A-Z][a-z]+(?: [A-Z][a-z\-\']+){1,2})/.exec(all);
+  if(op0)out.otherParty=op0[1];
+  var seen={},ch=[];
+  function addc(n,a){if(!n||/^(The|My|His|Her|Their|Our|When|On|In|At|She|He|They|We|Aged|Age|Mr|Mrs|Ms|Miss|January|February|March|April|May|June|July|August|September|October|November|December|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/.test(n))return;if(!seen[n]){seen[n]=1;ch.push(n+(a?", aged "+a:""))}}
+  var m,re1=/\b([A-Z][a-z]{2,})\s*(?:,|\()?\s*(?:aged|age)\s*(\d{1,2})\b/g;while((m=re1.exec(flat)))addc(m[1],m[2]);
+  var re2=/\b([A-Z][a-z]{2,})\s*\((\d{1,2})\)/g;while((m=re2.exec(flat)))addc(m[1],m[2]);
+  var re3=/\bmy (?:son|daughter|child|stepson|stepdaughter)\s+([A-Z][a-z]{2,})(?:\s*(?:,|\()?\s*(?:aged\s*)?(\d{1,2})\b)?/g;while((m=re3.exec(flat)))addc(m[1],m[2]||"");
+  out.children=ch;
+  var lw=/\b(?:live|lives|living|reside|resides|stay|stays)\s+(?:full[- ]time\s+)?with\s+(me|their (?:mother|father)|his (?:mother|father)|her (?:mother|father)|[a-z]{3,20}(?: [a-z]{3,20})?)\b/i.exec(flat);
+  if(lw)out.liveWith="with "+(/^me$/i.test(lw[1])?"you":lw[1]);
+  var sents=flat.match(/[^.!?]+[.!?]+/g)||[];
+  var kw=/\b(hit|hits|punch\w*|slap\w*|kick\w*|strangl\w*|chok\w*|push\w*|shov\w*|threat\w*|abus\w*|assault\w*|controlling|coerc\w*|harass\w*|stalk\w*|followed|following|intimidat\w*|shout\w*|scream\w*|afraid|frightened|fear\w*|injur\w*|bruis\w*|weapon|knife|locked|forced|rape\w*|violen\w*|attack\w*|smash\w*|destroy\w*|kill)\b/gi;
+  var dt=/\b\d{1,2}(?:st|nd|rd|th)?\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}\b|\b\d{1,2}\/\d{1,2}\/\d{2,4}\b|\b(?:in|on|during|since)\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\s+\d{4})?\b/i;
+  var sc=[];
+  sents.forEach(function(s,i){
+    s=s.trim();if(s.length<35||s.length>420)return;
+    var ks={},mm;kw.lastIndex=0;while((mm=kw.exec(s)))ks[mm[1].toLowerCase()]=1;var n=Object.keys(ks).length;if(!n)return;
+    sc.push({i:i,s:s,v:n+(dt.test(s)?2:0)});
+  });
+  sc.sort(function(a,b){return b.v-a.v}).splice(8);sc.sort(function(a,b){return a.i-b.i});
+  out.incidents=sc.map(function(x){return toYou(x.s)});
+  var ug=sents.filter(function(s){return/immediate|urgent|tonight|today|in danger|at risk|not safe|fear for my life|emergency|cannot go home|nowhere to go/i.test(s)})[0];
+  if(ug){var uy=toYou(ug.trim()).slice(0,240);if(out.incidents.indexOf(uy)<0&&out.incidents.indexOf(toYou(ug.trim()))<0)out.urgency=uy}
+  var pr=/\b(?:CRN|URN)[\s:]*[A-Z0-9][A-Z0-9\/\-]{3,}(?:\s[0-9\/\-]{2,}){0,3}/.exec(all);
+  if(pr)out.policeRef=pr[0].replace(/\s+/g," ").trim();
+  else{var pr2=/crime (?:reference|ref|number|no)\.?\s*(?:is|:|-)?\s*([A-Za-z0-9][A-Za-z0-9\/\- ]{3,22})/.exec(all);if(pr2&&/\d/.test(pr2[1]))out.policeRef=pr2[1].trim()}
+  var ip=/interpreter[^.\n]{0,60}|(?:first language|speaks?|speak)\s+(?:only\s+)?(?:is\s+)?([A-Z][a-z]+)[^.\n]{0,30}/.exec(all);
+  if(ip&&/interpreter|first language/i.test(ip[0]))out.interpreter=ip[0].trim().slice(0,100);
+  var sf=/^[ \t]*(?:safe|best|preferred|secure)[^:\n]{0,40}:[ \t]*(.+)$/im.exec(all);
+  if(sf)out.safeContact=sf[1].trim().slice(0,140);
+  [["police|crime reference|arrested|caution","Police report or crime reference"],["MARAC","MARAC referral"],["IDVA|independent domestic violence advis","Support from an independent domestic violence adviser (IDVA)"],["injunction|restraining order|protective order","Previous injunction or protective order"],["GP|doctor|hospital|A&E|medical","GP or medical records"],["refuge|women'?s aid|housing officer|housing association|local authority housing","Support from a refuge, domestic abuse service or housing provider"],["social services|children'?s services|section 47|child protection","Involvement of children's services"],["convict|conviction|cautioned","Conviction or caution"]].forEach(function(p){if(new RegExp(p[0],"i").test(all))out.evidence.push(p[1])});
+  var ci=/\b(?:legal aid|LAA)\b/i.test(all);
+  var cn=/(?:certificate|case|LAA)\s*(?:no\.?|number|ref(?:erence)?)\s*[:\-]?\s*([0-9]{6,8}\/?[A-Z]?)/i.exec(all);if(cn)out.legalAid.certNo=cn[1];
+  if(/emergency (?:certificate|funding|legal aid)[^.\n]{0,40}(?:appl|request|sought|pending|waiting)/i.test(all))out.legalAid.cert=LA_STATUS[2];else if(/emergency (?:certificate|funding|legal aid)/i.test(all))out.legalAid.cert=LA_STATUS[0];else if(/substantive/i.test(all)&&ci)out.legalAid.cert=LA_STATUS[1];
+  return out;
+}
+function applyCare(c,filled){
+  if(!c)return;
+  function set(k,v,l){if(v==null||v===""||(Array.isArray(v)&&!v.length))return;S[k]=Array.isArray(v)?v.join("\n"):v;if(filled.indexOf(l)<0)filled.push(l)}
+  if(c.orders.length||c.hasText){
+    var o={nmo:"o_nmo",occ:"o_occ",cao:"o_cao",pso:"o_pso",sio:"o_sio"};c.orders.forEach(function(x){S[o[x]]=true;if(filled.indexOf("orders sought")<0)filled.push("orders sought")});
+    if(c.orders.indexOf("nmo")>-1&&c.withoutNotice){S.o_nmo_wn=true}
+    var nm=c.orders.indexOf("nmo")>-1,oc=c.orders.indexOf("occ")>-1,ch=c.orders.some(function(x){return["cao","pso","sio"].indexOf(x)>-1});
+    if(nm||oc||ch){
+      var mt=nm&&oc?"Non-molestation and occupation orders":nm?"Non-molestation order":oc?"Occupation order":c.orders.indexOf("cao")>-1&&c.orders.length===1?"Child arrangements order":c.orders.indexOf("pso")>-1&&c.orders.length===1?"Prohibited steps order":c.orders.indexOf("sio")>-1&&c.orders.length===1?"Specific issue order":"Section 8 children order(s)";
+      if(!(nm||oc)||true)set("matterType",mt,"type of matter");
+    }
+  }
+  if(!S.clientName||S.clientName===""){set("clientName",c.clientName,"client name");set("clientAddress",c.clientAddress,"client address")}
+  if(!S.otherParty)set("otherParty",c.otherParty,"other party");
+  set("relationship",c.relationship,"relationship");set("childrenInfo",c.children,"children");set("childLiveWith",c.liveWith,"where the children live");
+  set("abuseSummary",c.incidents,"what happened (from the statement)");set("urgency",c.urgency,"urgency");set("policeRef",c.policeRef,"police reference");set("interpreter",c.interpreter,"language needs");set("safeContact",c.safeContact,"safe contact");
+  set("daEvidence",c.evidence,"evidence mentioned");set("laCertNo",c.legalAid&&c.legalAid.certNo,"legal aid certificate number");if(c.legalAid&&c.legalAid.cert)set("laStatus",c.legalAid.cert,"legal aid status");
+}
+
+
+(function(){
+  var CH=["Children arrangements","Child arrangements order","Prohibited steps order","Specific issue order","Section 8 children order(s)"];
+  var INJ=["Domestic abuse injunction","Non-molestation order","Occupation order","Non-molestation and occupation orders"];
+  CHECKS.forEach(function(c){if(c[3]&&c[3].indexOf("Children arrangements")>-1)CH.forEach(function(x){if(c[3].indexOf(x)<0)c[3].push(x)})});
+  [["Legal aid","c_la_cert","Legal aid certificate (or emergency certificate) on file, with its scope and costs limit noted"],
+   ["Legal aid","c_la_da","Evidence of domestic abuse for the legal aid application recorded"],
+   ["Legal aid","c_la_means","Client told to report changes in income, savings or circumstances to us"],
+   ["Legal aid","c_la_charge","Statutory charge explained, or noted as not applicable"],
+   ["Legal aid","c_la_ext","Extension or amendment sought before the costs limit is reached"],
+   ["Legal aid","c_la_close","Outcome reported to the LAA and certificate closed"]].forEach(function(c){c[3]=null;c[4]="la";CHECKS.push(c)});
+  [["Injunction","c_inj_stmt","Client's witness statement taken and signed, with exhibits ready"],
+   ["Injunction","c_inj_wn","If without notice: reasons for no notice recorded, full and frank disclosure checked"],
+   ["Injunction","c_inj_serve","Order served on the respondent, with proof of service on file"],
+   ["Injunction","c_inj_copy","Client given a copy of the order and told what to do if it is broken"],
+   ["Injunction","c_inj_return","Return date diarised and client prepared to attend"]].forEach(function(c){c[3]=INJ.slice();CHECKS.push(c)});
+  [["Children","c_ch_pd12j","Allegations of abuse: Practice Direction 12J steps and special measures considered",CH.slice()],
+   ["Children","c_ch_c100","Application form for the children order filed, with MIAM exemption evidence"],
+  ].forEach(function(c){if(!c[3])c[3]=CH.slice();CHECKS.push(c)});
+})();
+/* ----- plain English explanation of orders, for the closing letter ----- */
+function explainOrders(texts){
+  var t=texts.join(" \n ").toLowerCase(),o=[];
+  if(/non[- ]?molestation/.test(t))o.push("The non-molestation order stops the other party from using or threatening violence against you, and from intimidating, harassing or pestering you, as the order sets out. Breaking it is a criminal offence. If it is broken, call the police and tell me.");
+  var d=/\b(?:until|for a period of|for)\s+(?:a period of\s+)?(\d+|one|two|three|four|five|six|twelve)\s+(days?|weeks?|months?|years?)\b/.exec(t);
+  if(d&&/non[- ]?molestation|occupation|prohibited|injunction/.test(t))o.push("The order applies for "+d[1]+" "+d[2]+".");
+  else if(/until further order|further order/.test(t)&&/non[- ]?molestation|occupation/.test(t))o.push("The order lasts until a court changes or ends it.");
+  if(/occupation order|exclu\w+[^.]{0,40}(?:home|property)|shall not (?:enter|return)|allow the applicant to (?:enter|return)/.test(t))o.push("The occupation order decides who may live in, or enter, the home. Please read it carefully and follow it exactly.");
+  if(/undertaking/.test(t))o.push("An undertaking is a formal promise made to the court. If it is broken, the court can treat that as contempt of court. Please keep a copy, and tell me if the other party breaks one.");
+  if(/penal notice/.test(t))o.push("The order carries a penal notice, which is a warning that breaking it can be punished by the court.");
+  if(/child arrangements|lives? with|spend time|spends time/.test(t))o.push("The child arrangements order sets out who the children live with and when they spend time with the other parent. Both parents must follow it, usually until the child is 16, unless a court changes it.");
+  if(/prohibited steps/.test(t))o.push("The prohibited steps order stops the person named from doing the things listed without the court's permission.");
+  if(/specific issue/.test(t))o.push("The specific issue order records the court's decision on the question it was asked to decide.");
+  return o;
+}
+function representationFrom(hs,ns,P){
+  var out=[];
+  hs.forEach(function(h){
+    if(!isDate(h.date))return;
+    var n=ns.filter(function(x){return x.date===h.date})[0],nt=n?(String(n.present||"")+" "+String(n.summary||"")):"";
+    var counsel=/counsel|barrister/i.test(nt),absent=/client (?:did not attend|was absent|absent|not present)|did not attend/i.test(nt);
+    var s="On "+fmtDate(h.date,false)+(h.type?", the court held the "+(/^[A-Z][a-z]/.test(h.type)?h.type.charAt(0).toLowerCase()+h.type.slice(1):h.type):", there was a hearing")+(h.court?" at "+h.court:"")+(h.judge?" before "+h.judge:"")+". ";
+    s+=absent?(counsel?"You did not attend, and counsel instructed by us attended on your behalf. ":"You did not attend, and I attended on your behalf. "):(counsel?"Counsel instructed by us represented you at court. ":"I represented you at court. ");
+    if(n&&n.instructions){var ins=P(String(n.instructions)).replace(/\s+$/,"").replace(/\.?$/,".");s+="Your instructions were "+(/^to /i.test(ins)?"":"as follows: ")+ins.charAt(0).toLowerCase()+ins.slice(1)+" "}
+    var nsum="";if(n&&n.summary){nsum=String(n.summary);var sm=/summary\s*:\s*([\s\S]+)/i.exec(nsum);nsum=(sm?sm[1]:nsum).replace(/^\s*(?:type|hearing|present|date|client instructions|instructions)\s*:.*$/gim,"").replace(/\s+/g," ").trim()}
+    if(nsum&&!/^The court held/.test(nsum))s+="In summary: "+nsum.replace(/\.?$/,".")+" ";
+    else if(h.summary&&!/^The court held/.test(String(h.summary)))s+=P(String(h.summary));
+    out.push(s.trim());
+  });
+  return out;
+}
+
+/* ----- order advice for the client care letter ----- */
+function careAdvice(){
+  var h="",n=0;
+  if(S.o_nmo){n++;
+    h+="<h3>Non-molestation order</h3><p>A non-molestation order is an order of the family court under the Family Law Act 1996. It can stop the other party from using or threatening violence against you or your children, and from intimidating, harassing or pestering you. The court can make it where you and the other party are associated, for example if you are or were partners, live or lived in the same household, are related, or are the parents of a child, and where an order is needed to protect your health, safety and well-being or that of a child.</p>";
+    if(S.o_nmo_wn)h+="<p>Because of the risk you have described, we may ask the court to make the order without telling the other party first (a &quot;without notice&quot; application). The court can do this where there is urgency or a risk of harm, but it will then set a short return date when the other party can respond. Where we apply without notice, we must give the court a full and fair account, including anything that does not help you, so I need you to be completely open with me. A without notice order only protects you once the other party has been told about it, so the order must be served on them. I will explain how and when this will happen. You will need to attend the return date hearing.</p>";
+    else h+="<p>We will apply with notice, which means the other party is told about the application and can respond to it. The court may make an order at the first hearing, or give directions for statements and a further hearing. The other party may offer undertakings, which are formal promises to the court, instead of an order. I will advise you on whether to accept them if that happens.</p>";
+    h+="<p>If an order is made, breaking it is a criminal offence, and you should call the police if it is broken. Please then tell me as well. An order lasts for the time the court sets, and it can be extended on application.</p>";}
+  if(S.o_occ){n++;
+    h+="<h3>Occupation order</h3><p>An occupation order decides who may live in the home, and can require the other party to leave or keep away from the home or part of it, or allow you to return. The rules depend on whether you or the other party own or rent the home or have a right to occupy it, and on your relationship. In making a decision, the court looks at all the circumstances, including your housing needs and resources, the effect on your health, safety and well-being and that of any child, and the conduct of each of you. Occupation orders usually last for a limited period. I will explain how this applies to your situation once I have the details about the home.</p>";}
+  if(S.o_cao){n++;
+    h+="<h3>Child arrangements order</h3><p>A child arrangements order, made under section 8 of the Children Act 1989, decides who a child lives with, when the child spends time with the other parent, and in what way. The court's main concern is the child's welfare. It will decide with reference to the welfare checklist in the Act, which includes the child's wishes and feelings, needs and any risk of harm. The court normally expects people to try to resolve things first, by a mediation information and assessment meeting (MIAM). There is an exemption where there is evidence of domestic abuse, and I will explain what evidence is accepted. Cafcass will usually carry out safeguarding checks and may talk to you and to the other party. Where domestic abuse is alleged, the court will follow Practice Direction 12J and may decide whether to hold a hearing to decide the facts before deciding arrangements. If you are worried about seeing the other party at court, I can ask for special measures, such as separate waiting areas or a screen.</p>";}
+  if(S.o_pso){n++;
+    h+="<h3>Prohibited steps order</h3><p>A prohibited steps order stops a person from taking a particular step in relation to a child without the court's permission, for example removing the child from your care, from the area or from the country, or changing the child's school. We will ask the court for the specific wording that fits your concerns.</p>";}
+  if(S.o_sio){n++;
+    h+="<h3>Specific issue order</h3><p>A specific issue order asks the court to decide a particular question about a child's upbringing where the parents cannot agree, for example about schooling, medical treatment or moving to live elsewhere. The court will decide the question based on the child's welfare.</p>";}
+  if(!n)h+="<p>"+gap("orders you want the court to make")+"</p>";
+  return h;
+}
+function evidenceBlock(){
+  var h="";
+  h+="<h3>Evidence of abuse</h3><p>The court needs evidence to decide, and legal aid in family cases involving abuse usually requires it. Evidence can include a police report or crime reference, a letter from your doctor or a hospital, a letter from an independent domestic violence adviser, a refuge or housing provider, a letter from children&#39;s services, a previous injunction, or a conviction or caution.</p>";
+  if(lines("daEvidence").length)h+="<p>Your documents mention the following. I will need copies, or a letter confirming it, for each one:</p>"+ul("daEvidence",false);
+  if(lines("evidenceNeeded").length)h+="<p>Please also send me:</p>"+ul("evidenceNeeded",false);
+  h+="<p>Please keep any messages, emails, voicemails, photographs and notes of what happened, with dates. Do not delete anything, even if it is upsetting. If you want to send me screenshots, please make sure the date and sender can be seen.</p>";
+  return h;
+}
+function buildCareLA(){
+  var h=openLetter(false);
+  h+="<p class=\"re\">Your instructions, legal aid and our terms: your "+esc(matterWord())+"</p>";
+  h+="<p>Thank you for instructing "+val("firmName","firm name")+" to act for you. This letter explains who will work on your case, what we will do, how legal aid works and what we need from you. Please read it carefully, and ask me if anything is unclear.</p>";
+  if(S.c_safety)h+="<p><strong>Your safety comes first.</strong> If you are in immediate danger, call 999. "+(has("safeContact")?"I will contact you only in the way you have told us is safe: "+esc(S.safeContact.trim())+". ":"Please tell me the safest way to contact you, and whether it is safe for me to leave messages or send post. ")+"If that changes, please tell me straight away.</p>";
+  h+="<h3>Who will work on your case</h3><p>I will have day-to-day conduct of your case"+(has("supervisor")?", supervised by "+esc(S.supervisor.trim()):"")+". You can contact me using the details at the top of this letter. If I am not available, please ask for another member of the family team.</p>";
+  h+="<h3>What you have told us</h3><p>From your statement and instructions, I understand that "+(has("otherParty")?esc(S.otherParty.trim()):"the other party")+" is your "+(has("relationship")?esc(S.relationship):gap("relationship"))+".</p>";
+  if(lines("childrenInfo").length)h+="<p>The children involved are:</p>"+ul("childrenInfo",false)+(has("childLiveWith")?"<p>They live "+esc(S.childLiveWith.trim())+".</p>":"");
+  if(lines("abuseSummary").length)h+="<p>You have told us in your statement and instructions that:</p>"+ul("abuseSummary",false)+"<p>I have not yet tested this account, and it is a summary only. Please tell me if anything is wrong or if anything important is missing.</p>";
+  else h+="<p>"+gap("summary of what you have told us")+"</p>";
+  if(has("urgency"))h+="<p>"+esc(S.urgency.trim())+"</p>";
+  if(has("policeRef"))h+="<p>The police reference you have given us is "+esc(S.policeRef.trim())+".</p>";
+  h+="<h3>What we will do for you</h3>";
+  h+="<p>We will advise you about your case and about the orders you are asking the court to make, prepare the application and your evidence, and represent you at court hearings. We will do the work covered by your legal aid certificate"+(has("laScope")?": "+esc(S.laScope.trim()):"")+".</p>";
+  if(lines("careServices").length)h+="<p>We have also agreed that we will:</p>"+ul("careServices",false);
+  h+="<p>Our work does not include anything that your certificate does not cover. If something new comes up, I will tell you whether it can be covered, and I will ask the Legal Aid Agency to extend the certificate where needed.</p>";
+  h+="<h3>Advice about the orders</h3>"+careAdvice();
+  if(S.hearingDate)h+="<p>The next hearing is on "+dateOr("hearingDate","date",true)+(has("hearingTime")?" at "+esc(S.hearingTime):"")+(has("court")?" at "+esc(S.court.trim()):"")+". I will write to you separately about it, and about what you need to do to prepare.</p>";
+  h+=evidenceBlock();
+  h+="<h3>How legal aid works for you</h3>";
+  h+="<p>Your case is funded by legal aid from the Legal Aid Agency (LAA). "+(has("laStatus")?"Your funding status is: "+esc(S.laStatus)+(has("laCertNo")?", certificate number "+esc(S.laCertNo.trim()):"")+". ":"")+"This means you do not pay our fees directly, and you must not pay us any money for this case unless I have agreed it with you in writing and the LAA has approved it.</p>";
+  h+="<p>"+(has("laContribution")?esc(S.laContribution.trim())+". ":gap("contribution under your certificate")+" ")+"Your certificate sets out what work it covers"+(has("laCostsLimit")?" and a limit of "+esc(S.laCostsLimit.trim())+" on the costs we can incur before we ask for more":"")+". We can only do work within that scope and limit.</p>";
+  if(S.c_statcharge)h+="<p><strong>The statutory charge.</strong> If you recover or keep money or property because of this case, for example a home, the LAA may take back from it the costs it has paid for you. Cases about protection from abuse and arrangements for children seldom involve money or property, but if there is a risk that the charge could apply, I will tell you at once and explain what it means.</p>";
+  if(S.laStatus===LA_STATUS[0]||S.laStatus===LA_STATUS[2])h+="<p><strong>"+(S.laStatus===LA_STATUS[0]?"Emergency certificate":"Your application")+".</strong> An emergency certificate is temporary funding so that urgent work can start. "+(S.laStatus===LA_STATUS[0]?"I will apply for a full (substantive) certificate, and I may need more information from you for that. ":"If the LAA grants an emergency certificate, I will apply for a full (substantive) certificate, and I may need more information from you. ")+"If the LAA refuses or ends the funding, I will tell you straight away and explain your options.</p>";
+  h+="<p><strong>Costs protection.</strong> If you lose, legal aid gives you some protection against having to pay the other side&#39;s costs, but it is not complete protection, and the court can still order you to pay some of them. If your legal aid ends, you may lose that protection.</p>";
+  h+="<p><strong>Your responsibilities.</strong> You must:</p><ul><li>give me honest and full information, and tell me promptly about anything that changes;</li><li>tell me at once if your money, income, savings or living arrangements change, as I must tell the LAA, who can change or end your certificate;</li><li>give me the evidence and documents I ask for, and answer my letters and calls in time;</li><li>attend appointments and court hearings; and</li><li>not agree anything with the other party or take any step in the case without speaking to me first.</li></ul>";
+  h+="<p>The LAA can withdraw or end your certificate if, for example, your finances change, the case no longer meets its tests, or you do not co-operate with us. If that happens, you may become responsible for the costs of the case. We must give the LAA information about your case, and the LAA or its auditors may look at our file. Otherwise, we will keep your information confidential.</p>";
+  h+="<h3>What we need from you</h3><p>Please give us:</p><ul><li>proof of your identity and address, and anything the LAA needs to check your means;</li><li>copies of any court papers, orders or letters you have received about this case;</li><li>details of the people the order should protect, such as the children, with their dates of birth; and</li><li>a safe address, phone number or email that we can use.</li></ul>";
+  if(S.c_aml)h+="<p>"+W("aml")+"</p>";
+  if(S.c_safety)h+="<h3>If you need support</h3><p>The National Domestic Abuse Helpline is free and open 24 hours a day on 0808 2000 247. If it is not safe to speak, or if you have been hurt or are in danger, call 999. Keep a copy of any order with you, and give a copy to your children&#39;s school or nursery if the order covers the children.</p>";
+  if(has("interpreter"))h+="<p>You have told us that "+esc(S.interpreter.trim())+". I will arrange an interpreter for meetings and for court hearings, and I will tell you who will be there.</p>";
+  h+="<h3>Ending our instructions</h3><p>You can end our instructions at any time by telling us in writing, and I will then tell the LAA, who may end your certificate. We may stop acting for you for good reason, and if so we will give you reasonable notice and tell the LAA. You will not be asked to pay our costs for work done under your certificate, but you must pay anything the LAA recovers from you under the rules in this letter.</p>";
+  if(S.c_privacy)h+="<h3>Your personal information</h3><p>"+W("privacy")+"</p>";
+  h+="<h3>Regulation</h3><p>"+val("firmName","firm name")+" is authorised and regulated by the Solicitors Regulation Authority, number "+val("sraNumber","SRA number")+".</p>";
+  h+="<h3>If you have a complaint</h3><p>We hope you will be pleased with our service, but if you are not, please tell "+(has("complaintsContact")?esc(S.complaintsContact.trim()):gap("complaints contact"))+" so that we can try to put it right. We have a complaints procedure and will send you a copy on request. If we have not resolved your complaint within eight weeks, or you are unhappy with our final response, you may be able to complain to the Legal Ombudsman (www.legalombudsman.org.uk, telephone 0300 555 0333). Time limits apply.</p>";
+  h+="<p>Please sign and date the confirmation at the very end of this document, and return it to me, to confirm that you have read it and that you understand and agree to the terms. If you have any questions, please contact me before you sign.</p>";
+  h+=signoff(["Our terms of business"].concat(S.c_privacy?["Privacy notice"]:[]));
+  return h;
+}
+/* ----- sections ----- */
+(function(){
+  var ci=SECTIONS.map(function(x){return x.id}).indexOf("care");
+  var caseSec={id:"lacase",title:"Your case: orders and facts (from the statement)",types:["care"],open:true,fields:[
+    {k:"o_nmo",l:"Non-molestation order",t:"check"},{k:"o_nmo_wn",l:"Apply without notice (non-molestation)",t:"check"},{k:"o_occ",l:"Occupation order",t:"check"},
+    {k:"o_cao",l:"Child arrangements order",t:"check"},{k:"o_pso",l:"Prohibited steps order",t:"check"},{k:"o_sio",l:"Specific issue order",t:"check"},
+    {k:"relationship",l:"Relationship to the other party",t:"select",opts:REL},
+    {k:"childrenInfo",l:"Children involved",t:"textarea",rows:3,hint:"One child per line, with age."},{k:"childLiveWith",l:"Where the children live now"},
+    {k:"abuseSummary",l:"What happened, from the statement",t:"textarea",rows:6,hint:"One point per line, in the second person. Check against the statement."},
+    {k:"urgency",l:"Urgency or immediate risk"},{k:"policeRef",l:"Police crime reference"},{k:"interpreter",l:"Language or interpreter needs"},{k:"safeContact",l:"Safe way to contact the client"},
+    {k:"daEvidence",l:"Evidence of abuse we already hold",t:"textarea",rows:3,hint:"One item per line."},{k:"evidenceNeeded",l:"Evidence we still need",t:"textarea",rows:3,hint:"One item per line."},
+    {k:"c_safety",l:"Add safety advice and helpline",t:"check"}]};
+  var laSec={id:"lafund",title:"Legal aid",types:["care"],open:true,fields:[
+    {k:"laStatus",l:"Funding status",t:"select",opts:LA_STATUS},{k:"laCertNo",l:"Certificate number"},{k:"laScope",l:"What the certificate covers"},
+    {k:"laContribution",l:"Client contribution",hint:"For example: No contribution is payable under your certificate. Leave blank to flag it."},{k:"laCostsLimit",l:"Costs limit on the certificate"},
+    {k:"c_statcharge",l:"Explain the statutory charge",t:"check"}]};
+  SECTIONS.splice(ci+1,0,caseSec,laSec);
+  var cs=SECTIONS.filter(function(x){return x.id==="closingfields"})[0];
+  if(cs){var oi=cs.fields.map(function(f){return f.k}).indexOf("c_outcome");
+    cs.fields.splice(oi<0?0:oi,0,{k:"c_represent",l:"How we represented you",t:"textarea",rows:5,hint:"One paragraph per line. Filled from the hearings and attendance notes when you read them."});
+    var oi2=cs.fields.map(function(f){return f.k}).indexOf("c_outcome");
+    cs.fields.splice(oi2+1,0,{k:"c_meaning",l:"What the orders mean for you",t:"textarea",rows:5,hint:"One paragraph per line. Plain explanation of the orders."},{k:"careFunding",l:"How the matter was funded",t:"select",opts:FUNDING},{k:"laChargeOutcome",l:"Legal aid: statutory charge at the end",t:"select",opts:CHARGE_OUT});}
+})();
+
+$("btnExampleMatter").insertAdjacentHTML("afterend",'<button class="btn" id="btnExampleLA" type="button">Add legal aid example</button>');
+$("btnExampleLA").addEventListener("click",function(){var m=newMatterObj("Example legal aid matter",Object.assign({},EXAMPLE_LA));m.cur="care";addMatter(m);toast("Legal aid example added.")});
 
 /* ---------- standard information library ---------- */
 var LKEY="family-letter-desk-library-v1";
@@ -2576,7 +2834,7 @@ function hearingTypeOf(t){
   if(/financial dispute resolution|\bFDR\b/i.test(t))return HEARINGS[5];
   if(/first appointment/i.test(t))return HEARINGS[4];
   if(/final hearing/i.test(t))return fin?HEARINGS[6]:HEARINGS[3];
-  if(/non-molestation|injunction/i.test(t))return HEARINGS[7];
+  if(/non-?molestation|injunction|without notice|ex[- ]?parte|return date|occupation order/i.test(t))return HEARINGS[7];
   if(/enforcement|committal/i.test(t))return HEARINGS[8];
   if(/directions/i.test(t))return HEARINGS[2];
   return"";
@@ -2694,7 +2952,7 @@ function extractRules(items){
       out.courtOrders.push({title:title,date:odate});
       if(/final order|decree absolute|consent order|child arrangements order|conditional order|financial remedy order|pension sharing/i.test(title)){out.finalOrders.push(title);if(odate&&odate>out.concludedDate)out.concludedDate=odate}
     }else{
-      out.notes.push(it.name+" was not recognised as a court order or an attendance note, so it was not used.");
+      if(/witness statement|statement of truth|instruction form|client information|make this statement/i.test(it.text))out.notes.push(it.name+" was read for the client's circumstances, not for court orders.");else out.notes.push(it.name+" was not recognised as a court order or an attendance note, so it was not used.");
     }
   });
   out.hearings.forEach(function(h){
@@ -2966,6 +3224,7 @@ async function readDocs(){
     var data=await runEngine(buildPrompt(items,imgNames),opts,items);
     if(!data||typeof data!=="object"||Array.isArray(data))throw{code:"invalid_json"};
     data.__issues=issues;
+    try{data.care=extractCare(items)}catch(e){}
     lastExtract=data;
     var res=applyExtract(data,cleanStart);
     showResult(res,data);
@@ -3040,7 +3299,7 @@ function applyExtract(d,clean){
   set("finalOrders",joinLines((d.finalOrders||[]).map(P)),"final orders");
   if(isDate(d.concludedDate))set("concludedDate",d.concludedDate,"date concluded");
   set("c_tasks",joinLines((d.clientTasks||[]).map(P)),"what the client should do");
-  var enc=(Array.isArray(d.courtOrders)?d.courtOrders:[]).map(function(o){if(!o||typeof o!=="object")return"";var t=String(o.title||"").trim();if(!t)return"";return t+(isDate(o.date)?" dated "+fmtDate(o.date,false):"")}).filter(Boolean);
+  var enc=(Array.isArray(d.courtOrders)?d.courtOrders:[]).map(function(o){if(!o||typeof o!=="object")return"";var t=String(o.title||"").trim();if(!t)return"";if(/^order$/i.test(t.replace(/\s+made on.*$/i,"")))t="Court order";else if(/^(?:consent |final |interim )?order\b/i.test(t))t=t.replace(/\s+made on.*$/i,"").replace(/\s+before.*$/i,"");return t+(isDate(o.date)?" dated "+fmtDate(o.date,false):"")}).filter(Boolean);
   set("enclosures",enc.join("\n"),"enclosures");
   set("summaryInstructions",d.instructionsSummary,"instructions");
   var ns=(Array.isArray(d.attendanceNotes)?d.attendanceNotes:[]).filter(function(n){return n&&typeof n==="object"});
@@ -3060,6 +3319,14 @@ function applyExtract(d,clean){
     }
     set("discussion",last.summary,"discussion");set("instructionsRec",last.instructions,"instructions received");set("adviceGiven",last.advice,"advice given");
     set("actions",joinLines(last.actions),"action points");
+  }
+  if(d.care)applyCare(d.care,filled);
+  if(cur==="closing"){
+    var pastH=hs.filter(function(h){return isDate(h.date)&&h.date<todayISO});
+    var rep=representationFrom(pastH,ns,P);if(rep.length)set("c_represent",rep.join("\n"),"how we represented you");
+    var ordTexts=[];pastH.forEach(function(h){(h.orders||[]).forEach(function(o){ordTexts.push(String(o))})});(d.finalOrders||[]).forEach(function(o){ordTexts.push(String(o))});ordTexts.push(S.matterType||"");ns.forEach(function(n){ordTexts.push(String(n.summary||""))});(d.courtOrders||[]).forEach(function(o){ordTexts.push(String(o&&o.title||""))});
+    if((!d.outcomeSummary||settings.engine==="rules")&&pastH.length){var oc=[];pastH.forEach(function(h){var os=(h.orders||[]).map(P).filter(Boolean).map(function(x,i){return"("+(i+1)+") "+String(x).trim().replace(/[.;\s]+$/,"")});if(os.length)oc.push("On "+fmtDate(h.date,false)+", the court ordered: "+os.join("; ")+".")});if(oc.length)set("c_outcome",oc.join("\n"),"outcome")}
+    var ex=explainOrders(ordTexts);if(ex.length)set("c_meaning",ex.join("\n"),"what the orders mean");
   }
   save();renderForm();rebuild();
   return filled;
