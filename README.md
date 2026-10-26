@@ -88,6 +88,16 @@ Start the server in LM Studio (Developer tab), switch on **Enable CORS**, choose
 **Local AI with LM Studio or another OpenAI-compatible server**, set the address
 (LM Studio uses `http://localhost:1234`) and the model name.
 
+## Summaries of uploaded documents
+
+Click **Summarise documents** in the document panel. You get an overview, upcoming deadlines and hearings, a timeline, and a
+short summary and key points for each document. **Copy summary** copies it as text, and **Add overview to this letter** puts the
+overview into the matching part of the letter you are working on.
+
+- **Built-in reader:** picks out the key sentences, the orders and the dates by pattern. It does not interpret the documents.
+- **Local AI:** writes a proper plain-English summary, with the usual risk that a model makes mistakes. Always check it
+  against the documents.
+
 ## Standard information
 
 Most firms send the same information sheets with every letter, such as file storage, complaints, data
@@ -121,3 +131,20 @@ before use. Nothing here is legal advice, and every letter must be read before i
   with **Clear matter details**, or by clearing site data, on shared computers.
 - The app loads no fonts, scripts or analytics from the internet. `vendor/` holds the PDF, Word and
   scan readers (PDF.js, JSZip and Tesseract.js with its English data, all open source).
+
+
+## Matters, security and output (added)
+
+- **Matters**: each client is a separate matter, stored in this browser only. Duplicate, rename, delete, or load an example. Export a backup regularly (Settings > Backup); clearing browser data loses matters.
+- **Encryption and lock**: Settings > Security lets you set a passphrase. Matters are then stored encrypted (AES-GCM, key from PBKDF2) and the app locks after idle time. A lost passphrase cannot be recovered.
+- **Letters**: 15 documents in three groups: client letters (care, advice, progress, appointment, documents request, notice of hearing, outcome, offer, costs update, closing), other parties (to solicitors, to court, consent order, instructions to counsel) and attendance notes.
+- **Output**: Download Word (.docx with letterhead, logo, signature, footer), print or save as PDF, copy, and save to the matter file. The email helper opens a short email with no client details; attach the Word file yourself.
+- **Time and costs**: time ledger in 6-minute units, disbursements, estimate calculator, CSV export. Feeds the progress and costs letters.
+- **Checklists**: opening, matter-specific, hearing and closing prompts with N/A and your own items. They are prompts, not compliance advice.
+- **Wording**: Settings > Standard wording edits the fixed legal paragraphs; record who reviewed the wording. The supplied wording has had no legal review.
+- **Local AI extras**: "Explain in plain English" needs Ollama or LM Studio. Identifiers (emails, phones, NI numbers, sort codes, account numbers, postcodes, dates of birth, plus your own words) are replaced with codes before sending and restored afterwards. You are warned if the AI address is not on your own network.
+- **Import**: Settings > Import matter details reads a CSV (template provided) to create matters.
+
+## Limits
+
+Tested in Chromium only. Scanned documents depend on OCR quality and can be misread. The built-in reader finds patterns and cannot interpret. Local AI can make mistakes. There is no e-signature, no sending of email and no direct link to Clio or other systems (use CSV import). Check every letter before it goes out.

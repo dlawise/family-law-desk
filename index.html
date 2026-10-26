@@ -127,6 +127,62 @@ details.sec[open]>summary::after{content:"\2212"}
 .std .inc label{display:flex;gap:7px;align-items:flex-start;font-size:13.5px;color:var(--ink);font-weight:400}
 .std .inc input{margin-top:3px;accent-color:var(--accent)}
 .std .grp{grid-column:1/-1;font-weight:600;font-size:12.5px;color:var(--muted);margin-top:4px}
+.mbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-bottom:8px}
+.mbar label{font-weight:600;font-size:12.5px;color:var(--muted)}
+.mbar select,.mbar input{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 9px;min-width:0}
+.mbar select{max-width:260px}.mbar input{flex:1 1 200px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:12.5px;color:var(--muted);background:var(--surface)}
+.tabs.views{position:static;margin-bottom:12px}
+.groups{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.gbtn{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12.5px;font-weight:500}
+.gbtn[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent);font-weight:600}
+.vh{margin:4px 0 12px;font-size:18px}
+.vstack{display:flex;flex-direction:column;gap:10px;max-width:760px}
+.imgprev{border:1px dashed var(--line);border-radius:6px;padding:8px;background:#fff;min-height:44px;display:flex;align-items:center}
+.imgprev img{max-height:70px;max-width:100%}
+#lock{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}
+#lock[hidden]{display:none}
+.lockcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;max-width:380px;width:100%;display:flex;flex-direction:column;gap:10px}
+.lockcard h2{margin:0;font-size:18px}.lockcard p{margin:0}.lockcard input{border:1px solid var(--line);background:var(--surface-2);border-radius:6px;padding:9px}
+.lockerr{color:var(--danger);font-weight:600;min-height:1.2em}
+.paper .sigimg{display:block;max-height:64px;max-width:240px;margin:14px 0 2px}
+.paper .sig.has{margin-top:.4em}
+.hrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:var(--surface-2)}
+.hrow .hmain{flex:1 1 220px;min-width:0}
+@media print{
+  @page{margin:18mm}
+  .revbar,.modal,.top,.mbar,.views,.groups,.tabs,.mswitch,.form,.toolbar,.stalebar,#vOther,.toast,#lock{display:none!important}
+  body{background:#fff!important;color:#000!important;padding:0!important}
+  .wrap{max-width:none}.split{display:block}.split[data-view] .out{display:block!important}.sheet{overflow:visible}
+  .paper{box-shadow:none!important;padding:0!important;max-width:none!important;min-height:0!important;margin:0!important}
+  .paper .gap{background:none!important;color:inherit!important}
+}
+.revbar{margin:0 0 10px;padding:8px 12px;border:1px solid #c98a00;background:var(--surface-2);border-radius:8px;font-size:13px}
+.xcard{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:8px 0;background:var(--surface)}.xcard blockquote{margin:0 0 6px;padding-left:10px;border-left:3px solid var(--line);color:var(--muted);font-size:13px}.xcard p{margin:0 0 6px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}.mcard{background:var(--surface);color:var(--ink);border-radius:12px;padding:16px;max-width:520px;width:100%;display:flex;flex-direction:column;gap:8px;max-height:90vh;overflow:auto}.mcard label{display:flex;flex-direction:column;gap:2px;font-size:12px}.mcard input,.mcard textarea{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:6px;padding:6px 8px;font:inherit}
+.twrap{overflow-x:auto}
+table.ledger{border-collapse:collapse;width:100%;font-size:13px}
+table.ledger th,table.ledger td{border:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:middle}
+table.ledger th{background:var(--surface-2);font-weight:600;font-size:12px}
+table.ledger input[type=text],table.ledger input[type=date],table.ledger input[type=number]{width:100%;min-width:70px;border:1px solid var(--line);background:var(--surface);border-radius:4px;padding:4px 6px}
+table.ledger input[type=number]{min-width:56px}
+.totals{display:flex;flex-wrap:wrap;gap:8px 18px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:10px 12px}
+.totals .stat{display:flex;flex-direction:column;min-width:110px}.totals .sl{font-size:12px;color:var(--muted)}.totals strong{font-size:15px;font-variant-numeric:tabular-nums}
+.estbar{flex:1 1 100%;display:flex;flex-direction:column;gap:4px}
+.bar{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.bar .fill{height:100%;background:var(--accent)}.bar .fill.warn{background:#c98a00}.bar .fill.over{background:var(--danger)}
+.erows{display:flex;flex-direction:column;gap:8px}
+.erow{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
+.erow label{display:flex;flex-direction:column;gap:2px;font-size:12px}
+.erow input{border:1px solid var(--line);background:var(--surface-2);border-radius:6px;padding:6px 8px;min-width:0}
+.erow label:first-child{flex:1 1 220px}.erow input[type=number]{width:90px}
+.crow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2)}
+.crow.na{opacity:.55}
+.crow .cmain{display:flex;gap:8px;align-items:flex-start;flex:1 1 280px;min-width:0}
+.crow .cmain input{margin-top:3px;accent-color:var(--accent)}
+.crow .cmain label{font-size:13.5px;color:var(--ink);font-weight:400}
+.crow .cna{display:flex;align-items:center;gap:4px}
+.crow input[type=text]{flex:1 1 140px;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:5px 8px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:6px;font-weight:500;z-index:50;opacity:0;pointer-events:none;transition:opacity .15s;max-width:90vw}
 .toast.on{opacity:1}
 
@@ -150,11 +206,25 @@ details.sec[open]>summary::after{content:"\2212"}
       <p>Client care, advice, hearing, outcome and closing letters, and attendance notes. England and Wales.</p>
     </div>
     <div class="hd-actions">
-      <button class="btn" id="btnExample" type="button">Load example matter</button>
-      <button class="btn warn" id="btnClear" type="button">Clear matter details</button>
+      <button class="btn" id="btnLock" type="button" hidden>Lock</button>
     </div>
   </header>
 
+  <div class="mbar" id="mbar">
+    <label for="matterSel">Matter</label>
+    <select id="matterSel"></select>
+    <input id="matterName" type="text" aria-label="Matter name" autocomplete="off">
+    <button class="btn" id="btnNewMatter" type="button">New</button>
+    <button class="btn" id="btnDupMatter" type="button">Duplicate</button>
+    <button class="btn" id="btnExampleMatter" type="button">Add example</button>
+    <button class="btn warn" id="btnDelMatter" type="button">Delete matter</button>
+    <span class="chip" id="chkChip" hidden></span>
+  </div>
+  <div class="tabs views" role="tablist" id="views" aria-label="Sections"></div>
+
+  <div id="vOther" hidden></div>
+  <div id="vLetters">
+  <div class="groups" id="groups" role="group" aria-label="Kind of document"></div>
   <div class="tabs" role="tablist" id="tabs" aria-label="Document type"></div>
 
   <div class="mswitch" id="mswitch">
@@ -162,12 +232,17 @@ details.sec[open]>summary::after{content:"\2212"}
     <button type="button" id="mvLetter" aria-pressed="false">Letter</button>
   </div>
 
+  <p class="revbar" id="revbar" hidden></p>
   <div class="split" id="split" data-view="form">
     <section class="panel form" id="form" aria-label="Matter details"></section>
     <section class="panel out" aria-label="Letter preview">
       <div class="toolbar">
-        <button class="btn primary" id="btnCopyRich" type="button">Copy for Word</button>
+        <button class="btn primary" id="btnDocx" type="button">Download Word</button>
+        <button class="btn" id="btnCopyRich" type="button">Copy for Word</button>
+        <button class="btn" id="btnPrint" type="button">Print or save as PDF</button>
+        <button class="btn" id="btnSaveFile" type="button">Save to matter file</button>
         <button class="btn" id="btnCopyText" type="button">Copy plain text</button>
+        <button class="btn" id="btnEmail" type="button">Email helper</button>
         <button class="btn" id="btnRebuild" type="button">Rebuild from details</button>
         <span class="status" id="status" role="status"></span>
       </div>
@@ -178,6 +253,7 @@ details.sec[open]>summary::after{content:"\2212"}
       <div class="sheet"><article class="paper" id="paper" contenteditable="true" spellcheck="true" aria-label="Document. You can edit the text directly."></article></div>
     </section>
   </div>
+  </div>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -185,13 +261,23 @@ details.sec[open]>summary::after{content:"\2212"}
 (function(){
 "use strict";
 var TYPES=[
-  {id:"care",label:"Client care letter"},
-  {id:"advice",label:"Advice letter"},
-  {id:"notice",label:"Notice of hearing"},
-  {id:"outcome",label:"Outcome letter"},
-  {id:"note",label:"Attendance note"},
-  {id:"closing",label:"Closing letter"}
+  {id:"care",label:"Client care letter",g:"Client letters"},
+  {id:"advice",label:"Advice letter",g:"Client letters"},
+  {id:"progress",label:"Progress update",g:"Client letters"},
+  {id:"appointment",label:"Appointment",g:"Client letters"},
+  {id:"docrequest",label:"Documents needed",g:"Client letters"},
+  {id:"notice",label:"Notice of hearing",g:"Client letters"},
+  {id:"outcome",label:"Outcome letter",g:"Client letters"},
+  {id:"offer",label:"Settlement offer",g:"Client letters"},
+  {id:"costs",label:"Costs update",g:"Client letters"},
+  {id:"closing",label:"Closing letter",g:"Client letters"},
+  {id:"tosols",label:"To other solicitors",g:"Other parties"},
+  {id:"tocourt",label:"To the court",g:"Other parties"},
+  {id:"consent",label:"Consent order cover",g:"Other parties"},
+  {id:"counsel",label:"Instruct counsel",g:"Other parties"},
+  {id:"note",label:"Attendance note",g:"File"}
 ];
+var GROUPS=["Client letters","Other parties","File"];
 var ALL=TYPES.map(function(t){return t.id});
 var MATTERS=["Divorce","Financial remedy","Children arrangements","Divorce and financial remedy","Domestic abuse injunction","Other family matter"];
 var MATTER_WORD={"Divorce":"divorce","Financial remedy":"financial remedy proceedings","Children arrangements":"children proceedings","Divorce and financial remedy":"divorce and financial remedy proceedings","Domestic abuse injunction":"injunction proceedings","Other family matter":"family matter"};
@@ -222,7 +308,7 @@ function addDays(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
 
 var BLANK={
   firmName:"",firmAddress:"",firmContact:"",caseWorker:"",caseWorkerTitle:"Case Worker",
-  clientName:"",clientAddress:"",salutation:"",ourRef:"",letterDate:addDays(0),matterType:MATTERS[0],otherParty:"",court:"",caseNumber:"",
+  clientName:"",clientAddress:"",clientEmail:"",salutation:"",ourRef:"",letterDate:addDays(0),matterType:MATTERS[0],otherParty:"",court:"",caseNumber:"",
   meetingDate:"",meetingType:"meeting at our office",summaryInstructions:"",adv_divorce:false,adv_finances:false,adv_children:false,adv_protection:false,adv_mediation:false,
   specificAdvice:"",nextSteps:"",docsNeeded:"",adv_costs:true,hourlyRate:"",costStage:"",costEstimate:"",paymentOnAccount:"",
   hearingType:HEARINGS[0],hearingDate:"",hearingTime:"10:00",timeEstimate:"",venue:"",judiciary:"",attendMode:"In person at court",arriveBefore:"30",counsel:"",conferenceDate:"",conferenceTime:"",
@@ -261,13 +347,7 @@ var EXAMPLE=Object.assign({},BLANK,{
   careServices:"Advise you on the divorce, the arrangements for your children and your finances\nPrepare and issue the divorce application\nObtain and exchange financial disclosure\nNegotiate a settlement and, if agreed, prepare a consent order for the court\nRepresent you at court hearings, including instructing counsel where appropriate"
 });
 
-var S=Object.assign({},BLANK);
-var KEY="family-letter-desk-v1";
-try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);if(o&&o.S)S=Object.assign({},BLANK,o.S);}}catch(e){}
-var cur="advice";
-try{var raw2=localStorage.getItem(KEY);if(raw2){var o2=JSON.parse(raw2);if(o2&&o2.cur&&ALL.indexOf(o2.cur)>-1)cur=o2.cur;}}catch(e){}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({S:S,cur:cur}))}catch(e){}}
-
+var S,cur="care";
 /* ---------- form definition ---------- */
 function T(a){return a}
 var SECTIONS=[
@@ -280,6 +360,7 @@ var SECTIONS=[
 {id:"matter",title:"Client and matter",types:ALL,open:true,fields:[
   {k:"clientName",l:"Client name"},
   {k:"clientAddress",l:"Client address",t:"textarea",rows:3,not:["note"]},
+  {k:"clientEmail",l:"Client email (for the email helper only)",not:["note"]},
   {k:"salutation",l:"Dear ...",h:1,not:["note"]},
   {k:"ourRef",l:"Our reference",h:1},
   {k:"letterDate",l:"Letter date",t:"date",h:1,not:["note"]},
@@ -416,7 +497,7 @@ function openLetter(withRe){
   return h;
 }
 function signoff(enc){
-  var h='<p>Yours sincerely</p><div class="sig"><strong>'+val("caseWorker","case worker")+'</strong><br>'+val("caseWorkerTitle","job title")+'<br>'+val("firmName","firm name")+'</div>';
+  var h='<p>Yours sincerely</p>'+(FIRM.useSignature&&FIRM.signature?'<img class="sigimg" alt="Signature" src="'+FIRM.signature+'">':'')+'<div class="sig'+(FIRM.useSignature&&FIRM.signature?' has':'')+'"><strong>'+val("caseWorker","case worker")+'</strong><br>'+val("caseWorkerTitle","job title")+'<br>'+val("firmName","firm name")+'</div>';
   if(enc&&enc.length)h+='<p class="enc">Enclosures: '+enc.map(esc).join("; ")+'</p>';
   return h;
 }
@@ -561,7 +642,7 @@ function buildClosing(){
   }else if(S.billOption===BILL_OPTS[1]){h+='<p>There will be no further charge for work on this matter.</p>'}
   else{h+='<p>My final bill will follow under separate cover.</p>'}
   h+='<h3>Your file</h3><p>'+(S.originalsReturned?'I have returned your original documents with this letter. ':'')+'We will keep our file for '+esc(S.retention)+' from today. After that it may be destroyed securely without further notice unless you ask us in writing to keep it longer. If you would like the file or any papers from it before then, please let me know. After I close the file we will not monitor any deadlines or changes in the law that might affect you, unless you instruct us again.</p>';
-  if(S.c_complaints){h+='<h3>Your feedback</h3><p>I hope you are satisfied with the service you have received. If you have any concern or complaint, please tell me or our complaints partner first so that we can try to put it right. If we cannot resolve it, you may be able to refer it to the Legal Ombudsman (www.legalombudsman.org.uk, telephone 0300 555 0333). Time limits apply to complaints to the Legal Ombudsman, so please do not delay.</p>'}
+  if(S.c_complaints){h+='<h3>Your feedback</h3><p>'+W('feedback')+'</p>'}
   h+='<p>Thank you for instructing us. If you need our help again in future, I would be glad to hear from you.</p>';
   h+=signoff(lines("enclosures"));
   return h;
@@ -588,11 +669,11 @@ function buildCare(){
   else{h+='<p>You are paying for our services privately. In most family cases the court does not order one party to pay the other party\'s costs, so you should expect to meet our costs yourself.</p>'}
   if(has("paymentOnAccount"))h+='<p>Before I start work I will need you to pay '+gbp(S.paymentOnAccount)+' on account of costs. We hold this in our client account and use it to pay our bills as they are issued.</p>';
   h+='<p>We will send you a bill '+esc(S.careBilling)+', and each bill will say when payment is due. In addition to our costs you will have to pay disbursements, which are expenses we pay on your behalf, such as court fees, counsel\'s fees, and valuation and expert fees. I will ask you before we incur any significant disbursement. Money we hold for you is kept in our client account, and we will pay you a fair amount of interest on it where this is due.</p>';
-  h+='<h3>What we need from you</h3><p>Please give us full and accurate information and documents promptly, tell us about any change of address or circumstances, and let me know straight away if you receive anything from the court or from the other party.</p>';
-  if(S.c_aml)h+='<p>The law requires us to check the identity of our clients. Please provide a copy of your passport or driving licence and a recent utility bill or bank statement that shows your address, dated within the last three months.</p>';
-  h+='<h3>Ending our instructions</h3><p>You can end our instructions at any time by telling us in writing, and we may stop acting for good reason, giving you reasonable notice. In either case you will pay our costs and disbursements up to that point.</p>';
-  if(S.c_cancel)h+='<p>If you have instructed us without meeting us in person, or away from our office, you may have the right to cancel this contract within 14 days of the date of this letter under the Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013. If you ask us to start work during that period and then cancel, you will pay for the work already done.</p>';
-  if(S.c_privacy)h+='<h3>Your personal information</h3><p>We will use your personal information to act for you, to meet our legal duties and to run our business. Our privacy notice explains what we hold, who we share it with, how long we keep it and your rights. A copy is enclosed.</p>';
+  h+='<h3>What we need from you</h3><p>'+W('need')+'</p>';
+  if(S.c_aml)h+='<p>'+W('aml')+'</p>';
+  h+='<h3>Ending our instructions</h3><p>'+W('ending')+'</p>';
+  if(S.c_cancel)h+='<p>'+W('cancel')+'</p>';
+  if(S.c_privacy)h+='<h3>Your personal information</h3><p>'+W('privacy')+'</p>';
   h+='<h3>Regulation</h3><p>'+val("firmName","firm name")+' is authorised and regulated by the Solicitors Regulation Authority, number '+val("sraNumber","SRA number")+'.</p>';
   h+='<h3>If you have a complaint</h3><p>We hope you will be pleased with our service, but if you are not, please tell '+(has("complaintsContact")?esc(S.complaintsContact.trim()):gap("complaints contact"))+' so that we can try to put it right. We have a complaints procedure and will send you a copy on request. If we have not resolved your complaint within eight weeks, or you are unhappy with our final response, you may be able to complain to the Legal Ombudsman (www.legalombudsman.org.uk, telephone 0300 555 0333). Time limits apply.</p>';
   h+='<p>Please sign and date the confirmation at the very end of this document, and return it to me, to confirm that you have read it and that you agree to our terms. If you have any questions, please contact me before you sign.</p>';
@@ -600,7 +681,321 @@ function buildCare(){
 
   return h;
 }
+var DEFW={need:"Please give us full and accurate information and documents promptly, tell us about any change of address or circumstances, and let me know straight away if you receive anything from the court or from the other party.",aml:"The law requires us to check the identity of our clients. Please provide a copy of your passport or driving licence and a recent utility bill or bank statement that shows your address, dated within the last three months.",ending:"You can end our instructions at any time by telling us in writing, and we may stop acting for good reason, giving you reasonable notice. In either case you will pay our costs and disbursements up to that point.",cancel:"If you have instructed us without meeting us in person, or away from our office, you may have the right to cancel this contract within 14 days of the date of this letter under the Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013. If you ask us to start work during that period and then cancel, you will pay for the work already done.",privacy:"We will use your personal information to act for you, to meet our legal duties and to run our business. Our privacy notice explains what we hold, who we share it with, how long we keep it and your rights. A copy is enclosed.",feedback:"I hope you are satisfied with the service you have received. If you have any concern or complaint, please tell me or our complaints partner first so that we can try to put it right. If we cannot resolve it, you may be able to refer it to the Legal Ombudsman (www.legalombudsman.org.uk, telephone 0300 555 0333). Time limits apply to complaints to the Legal Ombudsman, so please do not delay."};
+var WLAB={need:"What we need from you",aml:"Identity checks",ending:"Ending our instructions",cancel:"Right to cancel",privacy:"Personal information",feedback:"Feedback and complaints (closing letter)"};
+var WOV={};try{WOV=JSON.parse(localStorage.getItem("fld-wording-v1")||"{}")||{}}catch(e){WOV={}}
+function saveWov(){try{localStorage.setItem("fld-wording-v1",JSON.stringify(WOV))}catch(e){}}
+function W(k){var t=(WOV[k]&&WOV[k].trim())?WOV[k]:DEFW[k];return esc(t)}
 var BUILD={care:buildCare,advice:buildAdvice,notice:buildNotice,outcome:buildOutcome,note:buildNote,closing:buildClosing};
+/* ---------- more letters: progress, appointment, documents, costs, offer, other parties ---------- */
+function vatRate(){var v=parseFloat(FIRM.vat);return isNaN(v)?0.2:v/100}
+function unitsOf(min){return Math.ceil((+min||0)/6)}
+function money(n){return"£"+(+n||0).toLocaleString("en-GB",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function ledgerTotals(){
+  var rows=((CURM&&CURM.time)||[]).filter(function(e){return e.chargeable!==false}),amount=0,units=0;
+  rows.forEach(function(e){var u=unitsOf(e.minutes);units+=u;amount+=u*0.1*(+e.rate||0)});
+  var dEx=0,dVat=0;((CURM&&CURM.disb)||[]).forEach(function(d){var a=+d.amount||0;dEx+=a;if(d.vat)dVat+=a*vatRate()});
+  var vat=amount*vatRate();
+  return{count:rows.length,units:units,hours:units/10,amount:amount,vat:vat,disbEx:dEx,disbVat:dVat,total:amount+vat+dEx+dVat};
+}
+function costsFigures(useLedger){
+  var L=ledgerTotals(),f={fromLedger:false};
+  if(useLedger&&L.count){f.fromLedger=true;f.amount=L.amount;f.vat=L.vat;f.disb=L.disbEx+L.disbVat;f.total=L.total;f.hours=L.hours}
+  else{var m=num(S.costToDate);if(!isNaN(m)){f.amount=m;f.vat=m*vatRate();f.disb=0;f.total=m+f.vat}}
+  var est=num(S.costEstimate);f.estimate=isNaN(est)?NaN:est;
+  if(f.amount!=null&&!isNaN(f.estimate)&&f.estimate>0)f.pct=Math.round(f.amount/f.estimate*100);
+  return f;
+}
+function reEnd(parts){return parts.length?'<br><span>'+parts.join(" | ")+'</span>':''}
+function matterRe(title){
+  var parts=[];if(has("court"))parts.push(esc(S.court));if(has("caseNumber"))parts.push("Case number "+esc(S.caseNumber));
+  return'<p class="re">'+title+reEnd(parts)+'</p>';
+}
+function openOther(o){
+  var h=letterhead();
+  var rec=(o.toName?esc(o.toName)+'<br>':'')+(o.toAddr&&String(o.toAddr).trim()?String(o.toAddr).split(/\n/).map(function(x){return esc(x.trim())}).filter(Boolean).join("<br>"):gap("address"));
+  h+='<div class="addr">'+(o.conf?'<div class="conf">'+esc(o.conf)+'</div>':'')+rec+'</div>';
+  h+='<p class="refs">'+dateOr("letterDate","date")+'<br>Our ref: '+val("ourRef","reference")+(o.yourRef&&String(o.yourRef).trim()?'<br>Your ref: '+esc(String(o.yourRef).trim()):'')+'</p>';
+  h+='<p>Dear '+(o.sal&&String(o.sal).trim()?esc(String(o.sal).trim()):(o.salDefault||"Sir or Madam"))+',</p>';
+  return h;
+}
+function closeFor(sal){return sal&&String(sal).trim()?"Yours sincerely":"Yours faithfully"}
+function signoff2(enc,closing){
+  var h=signoff(enc);return h.replace("<p>Yours sincerely</p>","<p>"+esc(closing||"Yours sincerely")+"</p>");
+}
+function buildProgress(){
+  var h=openLetter(false);
+  h+='<p class="re">Progress of your '+esc(matterWord())+'</p>';
+  h+='<p>I am writing to update you on your '+esc(matterWord())+(has("pr_lastDate")?' since my last update on '+dateOr("pr_lastDate","date"):'')+'.</p>';
+  if(has("pr_status"))h+='<h3>Where things stand</h3>'+paras("pr_status","");
+  if(lines("pr_done").length)h+='<h3>What we have done</h3>'+ul("pr_done",false);
+  if(lines("pr_waiting").length){h+='<h3>What we are waiting for</h3><ul>'+lines("pr_waiting").map(function(l){var p=l.split("|").map(function(x){return x.trim()});return"<li>"+esc(p[0])+(p[1]?" (from "+esc(p[1])+")":"")+"</li>"}).join("")+'</ul>'}
+  if(has("pr_next")||has("pr_nextDate")||has("pr_timescale")){
+    h+='<h3>What happens next</h3>';if(has("pr_next"))h+=paras("pr_next","");
+    if(has("pr_nextDate"))h+='<p>I expect this to happen by '+dateOr("pr_nextDate","date")+'.</p>';
+    if(has("pr_timescale"))h+='<p>'+esc(S.pr_timescale.trim())+'</p>';
+  }
+  if(lines("pr_actions").length)h+='<h3>What I need from you</h3>'+ul("pr_actions",true);
+  if(S.pr_incCosts){
+    var f=costsFigures(S.pr_useLedger);h+='<h3>Costs</h3>';
+    if(f.amount!=null){
+      h+='<p>Our costs to date are '+esc(money(f.amount))+' plus VAT of '+esc(money(f.vat))+(f.disb?', and disbursements of '+esc(money(f.disb))+' including VAT':'')+', a total of '+esc(money(f.total))+'.'+(!isNaN(f.estimate)?' My estimate for '+(has("costStage")?esc(S.costStage.trim()):"this stage")+' is '+esc(money(f.estimate))+' plus VAT'+(f.pct!=null?', so we have used about '+f.pct+'% of it':'')+'.':'')+' I will tell you before we reach the estimate.</p>';
+    }else h+='<p>'+gap("costs to date")+'</p>';
+  }
+  h+='<p>Please contact me if you have any questions or if anything has changed for you.</p>';
+  return h+signoff([]);
+}
+function buildAppointment(){
+  var h=openLetter(false);
+  h+='<p class="re">'+(S.apt_reminder?'Reminder: your appointment':'Your appointment')+'</p>';
+  h+='<p>'+(S.apt_reminder?'This is a reminder of your appointment with me. ':'I am writing to confirm your appointment with me. ')+'The details are below.</p>';
+  var rows='<tr><th>Date</th><td>'+dateOr("apt_date","date",true)+'</td></tr><tr><th>Time</th><td>'+timeOr("apt_time","time")+'</td></tr>';
+  if(has("apt_duration"))rows+='<tr><th>How long</th><td>'+esc(S.apt_duration)+'</td></tr>';
+  rows+='<tr><th>How</th><td>'+esc(S.apt_mode)+'</td></tr>';
+  if(S.apt_mode==="At our office")rows+='<tr><th>Where</th><td>'+(lines("firmAddress").length?brs("firmAddress"):gap("address"))+'</td></tr>';
+  else rows+='<tr><th>'+(S.apt_mode==="By video"?'Link':'Number')+'</th><td>'+(has("apt_contact")?esc(S.apt_contact):gap(S.apt_mode==="By video"?"link":"phone number"))+'</td></tr>';
+  if(has("apt_purpose"))rows+='<tr><th>Purpose</th><td>'+esc(S.apt_purpose)+'</td></tr>';
+  h+='<table>'+rows+'</table>';
+  if(S.apt_mode==="By video")h+='<p>Please join a few minutes early from a quiet, private room, and check your camera and microphone beforehand.</p>';
+  if(S.apt_mode==="By telephone")h+='<p>I will call you at the time above. Please make sure you are somewhere private and that your phone is charged.</p>';
+  if(lines("apt_bring").length)h+='<h3>What to bring or send</h3>'+ul("apt_bring",false);
+  if(has("apt_prep"))h+='<h3>To prepare</h3>'+paras("apt_prep","");
+  h+='<p>If you cannot attend, please tell me as soon as possible so that we can arrange another time.</p>';
+  return h+signoff([]);
+}
+function buildDocRequest(){
+  var h=openLetter(true);
+  if(S.dr_reminder)h+='<p>I wrote to you'+(has("dr_first")?' on '+dateOr("dr_first","date"):'')+' asking for some documents. I have not yet received all of them. This is a reminder.</p>';
+  else h+='<p>To move your '+esc(matterWord())+' forward I need the following documents from you.</p>';
+  h+='<h3>Documents I need</h3>'+(lines("dr_docs").length?ul("dr_docs",true):'<p>'+gap("list of documents")+'</p>');
+  if(has("dr_reason"))h+='<h3>Why I need them</h3>'+paras("dr_reason","");
+  h+='<h3>When and how</h3><p>Please send them to me by '+dateOr("dr_deadline","deadline",true)+'. '+esc(S.dr_how)+'. If you do not have a document, or cannot get it by then, please tell me what is missing so we can find another way.</p>';
+  if(S.dr_consequence)h+='<p>Delay may mean that we cannot meet a court deadline. The court can then make decisions without your information, and it may order you to pay costs.</p>';
+  return h+signoff([]);
+}
+function buildCostsUpdate(){
+  var h=openLetter(true);
+  h+='<p>I am writing to update you on our costs on your '+esc(matterWord())+'.</p>';
+  var f=costsFigures(S.cu_useLedger);
+  var rows="";
+  if(f.amount!=null){
+    rows+='<tr><th>Our costs to date</th><td>'+esc(money(f.amount))+'</td></tr><tr><th>VAT on our costs</th><td>'+esc(money(f.vat))+'</td></tr>';
+    if(f.disb)rows+='<tr><th>Disbursements including VAT</th><td>'+esc(money(f.disb))+'</td></tr>';
+    rows+='<tr><th>Total to date</th><td><strong>'+esc(money(f.total))+'</strong></td></tr>';
+  }else rows+='<tr><th>Costs to date</th><td>'+gap("costs to date")+'</td></tr>';
+  var billed=num(S.cu_billed),paid=num(S.cu_paid);
+  if(!isNaN(billed))rows+='<tr><th>Billed so far</th><td>'+esc(money(billed))+'</td></tr>';
+  if(!isNaN(paid))rows+='<tr><th>Paid so far</th><td>'+esc(money(paid))+'</td></tr>';
+  if(!isNaN(billed)&&!isNaN(paid))rows+='<tr><th>Outstanding on bills</th><td>'+esc(money(Math.max(0,billed-paid)))+'</td></tr>';
+  var held=num(S.heldOnAccount);if(!isNaN(held))rows+='<tr><th>Held on account</th><td>'+esc(money(held))+'</td></tr>';
+  h+='<table>'+rows+'</table>';
+  if(f.amount!=null&&!isNaN(f.estimate)){
+    h+='<p>My estimate for '+(has("costStage")?esc(S.costStage.trim()):"this stage")+' was '+esc(money(f.estimate))+' plus VAT. Our costs to date are '+(f.pct!=null?'about '+f.pct+'% of that.':'shown above.')+'</p>';
+  }
+  if(has("cu_revised"))h+='<p>I now expect the costs for this stage to be '+esc(money(num(S.cu_revised)))+' plus VAT'+(has("cu_narr")?'.':'. ')+'</p>';
+  if(has("cu_narr"))h+=paras("cu_narr","");
+  if(has("cu_ask"))h+='<h3>Payment on account</h3><p>I ask that you pay '+esc(money(num(S.cu_ask)))+' on account of costs before I do further work. Payment details are in the enclosed bill.</p>';
+  if(S.cu_detail&&(CURM.time||[]).length){
+    var tr=CURM.time.filter(function(e){return e.chargeable!==false}).slice().sort(function(a,b){return String(a.date).localeCompare(String(b.date))});
+    h+='<h3>Work done</h3><table class="grid"><tr><th>Date</th><th>Work</th><th>Units</th><th>Amount</th></tr>'+tr.map(function(e){var u=unitsOf(e.minutes);return"<tr><td>"+esc(fmtDate(e.date,false))+"</td><td>"+esc(e.desc||"")+"</td><td>"+u+"</td><td>"+esc(money(u*0.1*(+e.rate||0)))+"</td></tr>"}).join("")+'</table>';
+  }
+  h+='<p>If you have any questions about our costs, please ask me. You can also ask for a detailed breakdown at any time.</p>';
+  return h+signoff([]);
+}
+var OFFER_BASIS={"Open offer":"This offer is open, which means it can be shown to the court.","Without prejudice":"This offer is made without prejudice. It is confidential to the parties and cannot normally be shown to the judge at the final hearing.","Without prejudice save as to costs":"This offer is made without prejudice save as to costs. It cannot be shown to the judge on the substance of the case, but it may be shown to the judge when the court considers costs after a decision."};
+function buildOffer(){
+  var h=openLetter(true);
+  h+='<p>'+(has("of_date")?'On '+dateOr("of_date","date")+', ':'')+esc(S.of_from)+' made an offer to settle. This letter explains the offer, gives my advice and sets out what I need from you.</p>';
+  h+='<h3>The offer</h3>'+(lines("of_terms").length?ul("of_terms",false):'<p>'+gap("terms of the offer")+'</p>');
+  h+='<p>'+esc(OFFER_BASIS[S.of_basis]||"")+'</p>';
+  if(has("of_advice"))h+='<h3>My advice</h3>'+paras("of_advice","");
+  if(lines("of_pros").length)h+='<h3>In favour of accepting</h3>'+ul("of_pros",false);
+  if(lines("of_cons").length)h+='<h3>Against accepting</h3>'+ul("of_cons",false);
+  h+='<h3>My recommendation</h3>';
+  var rec={"Accept the offer":"I recommend that you accept the offer.","Reject the offer":"I recommend that you do not accept the offer.","Make a counter-offer":"I recommend that you do not accept the offer as it stands, and that you make a counter-offer.","Take more time and information":"I recommend that you do not respond yet, because we need more information first."}[S.of_recommend]||"";
+  h+='<p>'+esc(rec)+(has("of_counter")?' '+esc(S.of_counter.trim()):'')+'</p>';
+  if(S.of_costs)h+='<p>If the case continues, both sides will incur further costs, and the court may take into account how reasonably each side has behaved, including how offers were handled. I cannot guarantee any outcome at court.</p>';
+  h+='<h3>Time limit</h3><p>'+(has("of_deadline")?'The offer is open for acceptance until '+dateOr("of_deadline","date",true)+'. ':'')+'The decision is yours, and you should take the time you need. Please do not respond to the other side directly.</p>';
+  if(S.of_instr)h+='<p>Please tell me whether you accept the offer, reject it, or want to make a counter-offer. I can speak to you by phone first if that would help. I will only reply to the other side once I have your instructions.</p>';
+  return h+signoff([]);
+}
+function buildToSols(){
+  var h=openOther({toName:S.ts_firm,toAddr:S.ts_addr,yourRef:S.ts_ref,sal:S.ts_attn,conf:S.ts_basis==="Open correspondence"?"":S.ts_basis.toUpperCase()});
+  var subj=has("ts_subject")?esc(S.ts_subject.trim()):val("clientName","client name")+(has("otherParty")?" and "+esc(S.otherParty):"")+": "+esc(S.matterType);
+  h+=matterRe(subj);
+  h+='<p>'+(has("ts_intro")?esc(S.ts_intro.trim()):'We act for '+val("clientName","client name")+' in this matter. Please address all further correspondence to us and do not contact our client directly.')+'</p>';
+  if(has("ts_body"))h+=paras("ts_body","");
+  if(lines("ts_requests").length)h+='<p>We ask that you:</p>'+ul("ts_requests",true);
+  if(has("ts_deadline"))h+='<p>Please reply by '+dateOr("ts_deadline","date",true)+'.</p>';
+  if(S.ts_basis==="Open correspondence"&&S.ts_costs)h+='<p>We reserve the right to refer to this letter on the question of costs.</p>';
+  h+=signoff2([],closeFor(S.ts_attn));
+  if(has("ts_cc"))h+='<p class="enc">Copy to: '+esc(S.ts_cc.trim())+'</p>';
+  return h;
+}
+var TC_OPEN={"Request to adjourn or vacate a hearing":"We write to ask the court to adjourn the hearing in this case.","Notification of change of address or solicitor":"We write to tell the court of a change in the details held for this case.","Filing of documents":"We write to file the enclosed documents in this case.","Request to expedite listing":"We write to ask the court to list this case urgently.","Confirming terms agreed between the parties":"We write to tell the court that the parties have reached agreement.","Other":"We write in relation to this case."};
+function buildToCourt(){
+  var h=openOther({toName:S.tc_to,toAddr:S.tc_addr||S.venue,yourRef:"",sal:"",conf:""});
+  var parts=[];if(has("caseNumber"))parts.push("Case number "+esc(S.caseNumber));
+  var who=val("clientName","client name")+(has("otherParty")?" and "+esc(S.otherParty):"");
+  h+='<p class="re">'+who+'<br><span>'+(parts.length?parts.join(" | "):gap("case number"))+(has("hearingDate")?' | Hearing on '+esc(fmtDate(S.hearingDate,false)):'')+'</span></p>';
+  h+='<p>'+(S.tc_urgent?'<strong>Urgent. </strong>':'')+'We act for '+val("clientName","client name")+'. '+esc(TC_OPEN[S.tc_purpose]||"")+'</p>';
+  if(has("tc_body"))h+=paras("tc_body","");
+  if(S.tc_copy)h+='<p>A copy of this letter has been sent to the other party'+(has("ts_firm")?"'s solicitors, "+esc(S.ts_firm.trim()):"'s solicitors")+'.</p>';
+  h+='<p>Please confirm receipt and tell us if anything further is needed.</p>';
+  return h+signoff2(lines("tc_enclosures"),"Yours faithfully");
+}
+function buildCounsel(){
+  var h=openOther({toName:(has("ct_name")?S.ct_name.trim()+(has("ct_chambers")?", "+S.ct_chambers.trim():""):""),toAddr:S.ct_addr,yourRef:"",sal:S.ct_clerk||"",salDefault:"Clerks",conf:"Privileged and confidential: instructions to counsel"});
+  h+=matterRe('Instructions to counsel: '+val("clientName","client name")+(has("otherParty")?" and "+esc(S.otherParty):""));
+  var task={"Conference and hearing":"to represent our client at the hearing below, and to hold a conference with our client beforehand","Advice on evidence":"to advise on the evidence in this case","Draft consent order":"to draft a consent order recording the terms agreed","Settlement advice":"to advise on settlement"}[S.ct_role]||"to act in this case";
+  h+='<p>We instruct '+(has("ct_name")?esc(S.ct_name.trim()):gap("counsel"))+' '+task+'.</p>';
+  if(S.ct_role==="Conference and hearing"||has("hearingDate")){
+    var hr='<tr><th>Hearing</th><td>'+esc(S.hearingType)+'</td></tr><tr><th>Date</th><td>'+dateOr("hearingDate","hearing date",true)+'</td></tr>';
+    if(has("court"))hr+='<tr><th>Court</th><td>'+esc(S.court)+'</td></tr>';if(has("timeEstimate"))hr+='<tr><th>Time allowed</th><td>'+esc(S.timeEstimate)+'</td></tr>';
+    if(has("conferenceDate"))hr+='<tr><th>Conference</th><td>'+esc(fmtDate(S.conferenceDate,true))+(fmtTime(S.conferenceTime)?' at '+esc(fmtTime(S.conferenceTime)):'')+'</td></tr>';
+    h+='<table>'+hr+'</table>';
+  }
+  if(has("ct_summary"))h+='<h3>Background</h3>'+paras("ct_summary","");
+  if(lines("ct_tasks").length)h+='<h3>What we ask counsel to do</h3>'+ul("ct_tasks",true);
+  if(lines("ct_bundle").length)h+='<h3>Documents sent with these instructions</h3>'+ul("ct_bundle",false);
+  if(has("ct_due"))h+='<p>We would be grateful for counsel\'s response by '+dateOr("ct_due","date",true)+'.</p>';
+  if(has("ct_fee"))h+='<h3>Fees</h3><p>'+esc(S.ct_fee.trim())+'</p>';
+  h+='<p>Please contact me if anything further is needed.</p>';
+  return h+signoff2([],"Yours sincerely");
+}
+function buildConsent(){
+  var h=openOther({toName:S.tc_to||"The Court Manager",toAddr:S.tc_addr||S.venue,yourRef:"",sal:"",conf:""});
+  var parts=[];if(has("caseNumber"))parts.push("Case number "+esc(S.caseNumber));
+  h+='<p class="re">'+val("clientName","client name")+(has("otherParty")?" and "+esc(S.otherParty):"")+'<br><span>'+(parts.length?parts.join(" | "):gap("case number"))+'</span></p>';
+  h+='<p>We act for '+val("clientName","client name")+'. The parties have reached agreement, and we enclose a draft consent order for the court\'s approval.</p>';
+  if(has("cs_agreed"))h+=paras("cs_agreed","");
+  h+='<h3>Documents enclosed</h3>'+(lines("cs_docs").length?ul("cs_docs",false):'<p>'+gap("documents")+'</p>');
+  if(has("cs_fee"))h+='<p>'+esc(S.cs_fee.trim())+'</p>';
+  if(S.cs_nohearing)h+='<p>The parties ask the court to approve the order without a hearing.</p>';
+  if(S.cs_vacate&&has("hearingDate"))h+='<p>If the order is approved, the hearing listed on '+esc(fmtDate(S.hearingDate,false))+' will not be needed, and we ask that it is vacated.</p>';
+  h+='<p>Please let us know if the court needs anything further.</p>';
+  return h+signoff2(lines("cs_docs"),"Yours faithfully");
+}
+Object.assign(BUILD,{progress:buildProgress,appointment:buildAppointment,docrequest:buildDocRequest,costs:buildCostsUpdate,offer:buildOffer,tosols:buildToSols,tocourt:buildToCourt,counsel:buildCounsel,consent:buildConsent});
+var NEWDEF={
+  pr_lastDate:"",pr_status:"",pr_done:"",pr_waiting:"",pr_next:"",pr_nextDate:"",pr_timescale:"",pr_actions:"",pr_incCosts:true,pr_useLedger:true,costToDate:"",
+  apt_date:"",apt_time:"10:00",apt_duration:"",apt_mode:"At our office",apt_contact:"",apt_purpose:"",apt_bring:"Photographic ID",apt_prep:"",apt_reminder:false,
+  dr_docs:"",dr_deadline:"",dr_reason:"",dr_how:"Please email clear scans or photographs, or post copies to us",dr_reminder:false,dr_first:"",dr_consequence:true,
+  cu_billed:"",cu_paid:"",cu_ask:"",cu_narr:"",cu_revised:"",cu_detail:false,cu_useLedger:true,
+  of_from:"the other party",of_date:"",of_terms:"",of_basis:"Without prejudice save as to costs",of_advice:"",of_pros:"",of_cons:"",of_recommend:"Take more time and information",of_counter:"",of_deadline:"",of_costs:true,of_instr:true,
+  ts_firm:"",ts_addr:"",ts_ref:"",ts_attn:"",ts_basis:"Open correspondence",ts_subject:"",ts_intro:"",ts_body:"",ts_requests:"",ts_deadline:"",ts_costs:false,ts_cc:"",
+  tc_to:"The Court Manager",tc_addr:"",tc_purpose:"Filing of documents",tc_body:"",tc_enclosures:"",tc_copy:true,tc_urgent:false,
+  ct_name:"",ct_chambers:"",ct_clerk:"",ct_addr:"",ct_role:"Conference and hearing",ct_summary:"",ct_tasks:"",ct_bundle:"",ct_due:"",ct_fee:"",
+  cs_docs:"Draft consent order\nStatement of information form for the consent order (check the court's current form and number)\nCourt fee",cs_fee:"",cs_agreed:"",cs_nohearing:true,cs_vacate:false
+};
+Object.assign(EXAMPLE,{
+  pr_lastDate:"2026-09-30",pr_status:"Both financial statements have now been exchanged. The main issues are the family home and the pension.",pr_done:"Received Mr Example's Form E and supporting documents\nWrote to his solicitors about the two accounts that were not disclosed\nAsked each pension provider for a Cash Equivalent Transfer Value",pr_waiting:"Cash Equivalent Transfer Values | the pension providers\nReply about the undisclosed accounts | Mr Example's solicitors",pr_next:"Once we have the pension valuations I will advise you on the options for the family home and for dividing the pensions.",pr_nextDate:"2026-11-20",pr_actions:"Send me your answers to the questionnaire\nTell me if the children's arrangements change",costToDate:"",
+  apt_date:"2026-11-03",apt_time:"14:00",apt_duration:"45 minutes",apt_purpose:"To go through the pension valuations and your options",apt_bring:"Photographic ID\nYour pension statements",
+  dr_docs:"Bank statements for the last 12 months\nYour last three payslips\nA recent mortgage statement",dr_deadline:"2026-11-06",dr_reason:"The court expects full financial disclosure, and we must send your documents to the other side by the deadline in the order.",
+  cu_billed:"2000",cu_paid:"2000",cu_ask:"1500",cu_narr:"Most of the work this month was reviewing Mr Example's disclosure and preparing questions.",
+  of_date:"2026-10-20",of_terms:"You keep the family home and take on the mortgage\nMr Example keeps his pension\nThere is a lump sum of GBP 25,000 to you\nEach side pays their own costs",of_advice:"The offer deals with the home but leaves out the pensions, which are a significant asset. I need the pension valuations before I can say whether the offer is fair.",of_pros:"You would keep the home for the children\nIt would end the case sooner and cut costs",of_cons:"The pensions are not shared\nThe lump sum may be low once the pensions are valued",of_recommend:"Make a counter-offer",of_counter:"I suggest we ask for the pensions to be valued and shared before any agreement.",of_deadline:"2026-11-27",
+  ts_firm:"Other & Co Solicitors",ts_addr:"5 Market Square\nLondon\nWC2N 5DU",ts_ref:"JB/EXAMPLE/22",ts_subject:"Jane Example and John Example: financial remedy",ts_body:"Mr Example's Form E lists two bank accounts that were not in his earlier voluntary disclosure.",ts_requests:"Explain why the accounts were not disclosed earlier\nProvide statements for both accounts for the last 12 months",ts_deadline:"2026-11-13",
+  tc_addr:"Central Family Court\nFirst Avenue House\n42-49 High Holborn\nLondon WC1V 6NP",tc_body:"We enclose the parties' updated pension valuations, as the order of 12 October 2026 required.",tc_enclosures:"Pension valuations of Ms Example",
+  ct_name:"A. Counsel",ct_chambers:"Example Chambers",ct_clerk:"",ct_addr:"1 Chambers Court\nLondon WC2A 1AA",ct_summary:"The parties were married for 12 years and have two children. The main assets are the family home and two pensions.",ct_tasks:"Hold a conference with our client before the hearing\nAdvise on the pension sharing options\nRepresent our client at the hearing",ct_bundle:"Form E of each party\nThe order of 12 October 2026\nOur chronology",ct_due:"2027-01-05",ct_fee:"The brief fee has been agreed with your clerk.",
+  cs_agreed:"The parties have agreed that the family home is transferred to Ms Example, and that the pensions are shared in equal parts.",cs_fee:"The court fee is enclosed."
+});
+
+Object.assign(BLANK,NEWDEF);
+SECTIONS.push(
+{id:"s_progress",title:"Progress update",types:["progress"],open:true,fields:[
+  {k:"pr_lastDate",l:"Date of last update",t:"date",h:1},
+  {k:"pr_nextDate",l:"Next step expected by",t:"date",h:1},
+  {k:"pr_status",l:"Where things stand",t:"textarea",rows:4,hint:"One paragraph per line."},
+  {k:"pr_done",l:"Work done since the last update",t:"textarea",rows:4,hint:"One item per line."},
+  {k:"pr_waiting",l:"Waiting for",t:"textarea",rows:3,hint:"One per line as: what | from whom."},
+  {k:"pr_next",l:"What happens next",t:"textarea",rows:3},
+  {k:"pr_timescale",l:"Expected timescale"},
+  {k:"pr_actions",l:"What the client needs to do",t:"textarea",rows:3,hint:"One per line."},
+  {k:"pr_incCosts",l:"Include costs to date",t:"check"},
+  {k:"pr_useLedger",l:"Take the figures from the time ledger when it has entries",t:"check"},
+  {k:"costToDate",l:"Costs to date, if not using the ledger (GBP, excluding VAT)",h:1},
+  {k:"costEstimate",l:"Estimate for this stage (GBP, excluding VAT)",h:1},
+  {k:"costStage",l:"Stage the estimate covers"}]},
+{id:"s_appt",title:"Appointment",types:["appointment"],open:true,fields:[
+  {k:"apt_reminder",l:"This is a reminder",t:"check"},
+  {k:"apt_date",l:"Date",t:"date",h:1},{k:"apt_time",l:"Time",t:"time",h:1},
+  {k:"apt_duration",l:"How long",h:1},
+  {k:"apt_mode",l:"How",t:"select",opts:["At our office","By video","By telephone"],h:1},
+  {k:"apt_contact",l:"Video link or phone number"},
+  {k:"apt_purpose",l:"Purpose"},
+  {k:"apt_bring",l:"What to bring or send",t:"textarea",rows:3,hint:"One per line."},
+  {k:"apt_prep",l:"Anything to prepare",t:"textarea",rows:3}]},
+{id:"s_docreq",title:"Documents needed",types:["docrequest"],open:true,fields:[
+  {k:"dr_docs",l:"Documents needed",t:"textarea",rows:5,hint:"One per line."},
+  {k:"dr_deadline",l:"Send by",t:"date",h:1},
+  {k:"dr_reminder",l:"This is a reminder",t:"check"},
+  {k:"dr_first",l:"Date of the first request",t:"date",h:1},
+  {k:"dr_reason",l:"Why they are needed",t:"textarea",rows:3},
+  {k:"dr_how",l:"How to send them",t:"select",opts:["Please email clear scans or photographs, or post copies to us","Please post copies to us","Please bring them to our office","Please upload them through our secure portal"]},
+  {k:"dr_consequence",l:"Explain the effect of delay",t:"check"}]},
+{id:"s_costsup",title:"Costs update",types:["costs"],open:true,fields:[
+  {k:"cu_useLedger",l:"Take the figures from the time ledger when it has entries",t:"check"},
+  {k:"costToDate",l:"Costs to date, if not using the ledger (GBP, excluding VAT)",h:1},
+  {k:"costEstimate",l:"Estimate for this stage (GBP, excluding VAT)",h:1},
+  {k:"costStage",l:"Stage the estimate covers"},
+  {k:"cu_revised",l:"Revised estimate, if any (GBP, excluding VAT)",h:1},
+  {k:"cu_billed",l:"Billed so far (GBP)",h:1},{k:"cu_paid",l:"Paid so far (GBP)",h:1},
+  {k:"heldOnAccount",l:"Held on account (GBP)",h:1},{k:"cu_ask",l:"Payment on account requested (GBP)",h:1},
+  {k:"cu_narr",l:"Explanation",t:"textarea",rows:4,hint:"One paragraph per line."},
+  {k:"cu_detail",l:"List the work done from the time ledger",t:"check"}]},
+{id:"s_offer",title:"Settlement offer",types:["offer"],open:true,fields:[
+  {k:"of_from",l:"Offer made by",t:"select",opts:["the other party","the other party's solicitors","the mediator"],h:1},
+  {k:"of_date",l:"Date of offer",t:"date",h:1},
+  {k:"of_basis",l:"Basis of the offer",t:"select",opts:["Open offer","Without prejudice","Without prejudice save as to costs"]},
+  {k:"of_terms",l:"Terms of the offer",t:"textarea",rows:5,hint:"One term per line."},
+  {k:"of_advice",l:"My advice",t:"textarea",rows:4,hint:"One paragraph per line."},
+  {k:"of_pros",l:"In favour of accepting",t:"textarea",rows:3,hint:"One per line."},
+  {k:"of_cons",l:"Against accepting",t:"textarea",rows:3,hint:"One per line."},
+  {k:"of_recommend",l:"Recommendation",t:"select",opts:["Accept the offer","Reject the offer","Make a counter-offer","Take more time and information"]},
+  {k:"of_counter",l:"Detail of the counter-offer or what is needed"},
+  {k:"of_deadline",l:"Offer open until",t:"date",h:1},
+  {k:"of_costs",l:"Add a note on costs if the case continues",t:"check"},
+  {k:"of_instr",l:"Ask for the client's instructions",t:"check"}]},
+{id:"s_tosols",title:"To the other side's solicitors",types:["tosols"],open:true,fields:[
+  {k:"ts_firm",l:"Firm name"},{k:"ts_addr",l:"Address",t:"textarea",rows:3},
+  {k:"ts_attn",l:"Dear (name, or leave blank for Sir or Madam)",h:1},{k:"ts_ref",l:"Their reference",h:1},
+  {k:"ts_basis",l:"Basis of the letter",t:"select",opts:["Open correspondence","Without prejudice","Without prejudice save as to costs"]},
+  {k:"ts_subject",l:"Heading (leave blank to use the parties)"},
+  {k:"ts_intro",l:"Opening paragraph (leave blank for the standard one)",t:"textarea",rows:2},
+  {k:"ts_body",l:"Main points",t:"textarea",rows:5,hint:"One paragraph per line."},
+  {k:"ts_requests",l:"What we ask them to do",t:"textarea",rows:4,hint:"One per line."},
+  {k:"ts_deadline",l:"Reply by",t:"date",h:1},
+  {k:"ts_costs",l:"Say we may refer to this letter on costs",t:"check"},
+  {k:"ts_cc",l:"Copy to"}]},
+{id:"s_tocourt",title:"To the court",types:["tocourt","consent"],open:true,fields:[
+  {k:"tc_to",l:"Addressed to"},{k:"tc_addr",l:"Court address",t:"textarea",rows:4},
+  {k:"tc_purpose",l:"Purpose",t:"select",opts:Object.keys({"Request to adjourn or vacate a hearing":1,"Notification of change of address or solicitor":1,"Filing of documents":1,"Request to expedite listing":1,"Confirming terms agreed between the parties":1,"Other":1}),only:["tocourt"]},
+  {k:"tc_urgent",l:"Mark as urgent",t:"check",only:["tocourt"]},
+  {k:"tc_body",l:"Details",t:"textarea",rows:5,hint:"One paragraph per line.",only:["tocourt"]},
+  {k:"tc_enclosures",l:"Enclosures",t:"textarea",rows:3,hint:"One per line.",only:["tocourt"]},
+  {k:"tc_copy",l:"Say a copy has gone to the other side's solicitors",t:"check",only:["tocourt"]},
+  {k:"ts_firm",l:"Other side's solicitors (for the copy line)",only:["tocourt"]}]},
+{id:"s_consent",title:"Consent order",types:["consent"],open:true,fields:[
+  {k:"cs_agreed",l:"What has been agreed",t:"textarea",rows:4,hint:"One paragraph per line."},
+  {k:"cs_docs",l:"Documents enclosed",t:"textarea",rows:4,hint:"One per line. Check the court's current forms and fee."},
+  {k:"cs_fee",l:"Fee wording"},
+  {k:"cs_nohearing",l:"Ask the court to approve without a hearing",t:"check"},
+  {k:"cs_vacate",l:"Ask the court to vacate the listed hearing",t:"check"}]},
+{id:"s_counsel",title:"Instructions to counsel",types:["counsel"],open:true,fields:[
+  {k:"ct_name",l:"Counsel",h:1},{k:"ct_chambers",l:"Chambers",h:1},
+  {k:"ct_clerk",l:"Dear (clerk's name, or blank for Clerks)"},{k:"ct_addr",l:"Chambers address",t:"textarea",rows:3},
+  {k:"ct_role",l:"What counsel is asked to do",t:"select",opts:["Conference and hearing","Advice on evidence","Draft consent order","Settlement advice"]},
+  {k:"ct_summary",l:"Background",t:"textarea",rows:5,hint:"One paragraph per line."},
+  {k:"ct_tasks",l:"What we ask counsel to do",t:"textarea",rows:4,hint:"One per line."},
+  {k:"ct_bundle",l:"Documents sent",t:"textarea",rows:3,hint:"One per line."},
+  {k:"ct_due",l:"Response needed by",t:"date",h:1},{k:"ct_fee",l:"Fee wording"}]}
+);
+(function(){
+  SECTIONS.forEach(function(sec){
+    if(sec.id==="hearing")sec.types=["notice","outcome","counsel","tocourt","consent"];
+    if(sec.id==="costs")sec.types=["advice","care","progress","costs"];
+  });
+})();
 
 /* ---------- UI ---------- */
 var $=function(id){return document.getElementById(id)};
@@ -608,8 +1003,14 @@ var paper=$("paper"),statusEl=$("status"),stalebar=$("stalebar");
 var edited={},draft={};
 
 function renderTabs(){
+  var gr=$("groups");gr.innerHTML="";
+  var cg=(TYPES.filter(function(t){return t.id===cur})[0]||TYPES[0]).g;
+  GROUPS.forEach(function(g){
+    var b=document.createElement("button");b.type="button";b.className="gbtn";b.textContent=g;b.setAttribute("aria-pressed",g===cg?"true":"false");
+    b.addEventListener("click",function(){var first=TYPES.filter(function(t){return t.g===g})[0];if(first&&g!==cg)switchTo(first.id)});gr.appendChild(b);
+  });
   var el=$("tabs");el.innerHTML="";
-  TYPES.forEach(function(t){
+  TYPES.filter(function(t){return t.g===cg}).forEach(function(t){
     var b=document.createElement("button");b.type="button";b.className="tab";b.setAttribute("role","tab");
     b.setAttribute("aria-selected",t.id===cur?"true":"false");b.textContent=t.label;b.id="tab_"+t.id;
     b.addEventListener("click",function(){switchTo(t.id)});el.appendChild(b);
@@ -628,6 +1029,7 @@ function renderForm(){
     fields.forEach(function(fd){g.appendChild(makeField(fd))});
     d.appendChild(g);f.appendChild(d);
   });
+  if(cur==="note"){var lt=document.createElement("div");lt.className="row";var lb=document.createElement("button");lb.type="button";lb.className="btn";lb.textContent="Log this attendance to the time ledger";lb.addEventListener("click",logAttendanceTime);lt.appendChild(lb);f.appendChild(lt)}
   f.appendChild(makeStdSection());
   var p=document.createElement("p");p.className="privacy";
   p.textContent="Details are kept only in this browser. Check every draft before it is sent.";
@@ -645,7 +1047,7 @@ function makeField(fd){
   else{inp=document.createElement("input");inp.type=t;inp.value=S[fd.k]||"";if(t==="number"){inp.min="0";inp.step="5"}}
   inp.id=id;
   inp.addEventListener(t==="check"||t==="select"||t==="date"||t==="time"?"change":"input",function(){
-    S[fd.k]=t==="check"?inp.checked:inp.value;save();fieldChanged();
+    S[fd.k]=t==="check"?inp.checked:inp.value;if(FIRM_KEYS.indexOf(fd.k)>-1&&fd.k!=="hourlyRate"){FIRM[fd.k]=S[fd.k];saveFirm()}save();fieldChanged();
   });
   if(t==="check"){w.appendChild(inp);w.appendChild(lab)}
   else{w.appendChild(lab);w.appendChild(inp);if(fd.hint){var h=document.createElement("span");h.className="hint";h.textContent=fd.hint;w.appendChild(h)}}
@@ -673,6 +1075,7 @@ function switchTo(id){
 paper.addEventListener("input",function(){edited[cur]=true;draft[cur]=paper.innerHTML;stalebar.classList.add("on");updateStatus()});
 
 var toastT;
+function copyText(t){var fb=function(){var a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Copied.")}catch(e){toast("Could not copy.")}a.remove()};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(function(){toast("Copied.")},fb);else fb()}
 function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove("on")},2400)}
 function selectPaper(){var r=document.createRange();r.selectNodeContents(paper);var s=window.getSelection();s.removeAllRanges();s.addRange(r);return s}
 $("btnCopyRich").addEventListener("click",function(){
@@ -685,26 +1088,799 @@ $("btnCopyText").addEventListener("click",function(){
   function fallback(){selectPaper();var ok=false;try{ok=document.execCommand("copy")}catch(e){}toast(ok?"Copied as text.":"Copy was blocked. The document is selected: press Ctrl+C or Cmd+C.")}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){toast("Copied as plain text.")},fallback)}else fallback();
 });
+$("btnDocx").addEventListener("click",function(){var c=paper.cloneNode(true);downloadDocx(c,docName(cur),typeLabel(cur))});
+$("btnPrint").addEventListener("click",function(){try{window.print()}catch(e){toast("Printing is not available here. Use Download Word.")}});
+$("btnSaveFile").addEventListener("click",saveLetterToFile);
 function doRebuild(){rebuild();toast("Rebuilt from the details.")}
 $("btnRebuild").addEventListener("click",doRebuild);
 $("btnRebuild2").addEventListener("click",doRebuild);
 
-$("btnExample").addEventListener("click",function(){S=Object.assign({},EXAMPLE);edited={};draft={};save();renderForm();rebuild();toast("Example matter loaded.")});
-var clearArmed=false,clearT;
-$("btnClear").addEventListener("click",function(){
-  var b=$("btnClear");
-  if(!clearArmed){clearArmed=true;b.textContent="Click again to clear";clearT=setTimeout(function(){clearArmed=false;b.textContent="Clear matter details"},3500);return}
-  clearTimeout(clearT);clearArmed=false;b.textContent="Clear matter details";
-  var keep={firmName:S.firmName,firmAddress:S.firmAddress,firmContact:S.firmContact,caseWorker:S.caseWorker,caseWorkerTitle:S.caseWorkerTitle};
-  S=Object.assign({},BLANK,keep);edited={};draft={};save();renderForm();rebuild();toast("Matter cleared. Firm details kept.");
+/* ---------- matter bar handlers ---------- */
+$("matterSel").addEventListener("change",function(){switchMatter(this.value)});
+$("matterName").addEventListener("input",function(){CURM.name=this.value.trim()||"Untitled matter";CURM.autoName=false;var op=document.querySelector('#matterSel option[value="'+CURM.id+'"]');if(op)op.textContent=CURM.name;save()});
+$("btnNewMatter").addEventListener("click",function(){addMatter(newMatterObj());toast("New matter started.")});
+$("btnDupMatter").addEventListener("click",function(){
+  save();var c=copyJSON(CURM);c.id=mid();c.name=CURM.name+" (copy)";c.autoName=false;c.created=Date.now();c.history=[];addMatter(c);toast("Matter duplicated. Sent-letter history was not copied.");
 });
+$("btnExampleMatter").addEventListener("click",function(){var m=newMatterObj("Example matter",Object.assign({},EXAMPLE));m.cur="care";addMatter(m);toast("Example matter added.")});
+var delArmed=false,delT;
+$("btnDelMatter").addEventListener("click",function(){
+  var b=this;
+  if(!delArmed){delArmed=true;b.textContent="Click again to delete";delT=setTimeout(function(){delArmed=false;b.textContent="Delete matter"},3500);return}
+  clearTimeout(delT);delArmed=false;b.textContent="Delete matter";
+  STORE.matters=STORE.matters.filter(function(m){return m!==CURM});
+  if(!STORE.matters.length)STORE.matters.push(newMatterObj());
+  loadMatter(STORE.matters[0].id);resetDocsState();afterMatterChange();persistNow();toast("Matter deleted.");
+});
+$("btnLock").addEventListener("click",lockNow);
+
+/* ---------- settings view ---------- */
+function setSec(title,open){var d=mk("details",{class:"sec"});if(open)d.open=true;d.appendChild(mk("summary",{text:title}));var g=mk("div",{class:"fields"});d.appendChild(g);return{d:d,g:g}}
+function fld(label,input,hint,half){
+  var w=mk("div",{class:"f"+(half?" half":"")});
+  if(input.type==="checkbox"){w.className+=" chk";w.appendChild(input);w.appendChild(mk("label",{for:input.id,text:label}))}
+  else{w.appendChild(mk("label",{for:input.id,text:label}));w.appendChild(input);if(hint)w.appendChild(mk("span",{class:"hint",text:hint}))}
+  return w;
+}
+function bindInput(obj,key,id,opts){
+  opts=opts||{};
+  var inp=opts.area?mk("textarea",{id:id,rows:opts.rows||3}):mk("input",{id:id,type:opts.type||"text"});
+  inp.value=obj[key]==null?"":obj[key];
+  inp.addEventListener("input",function(){obj[key]=opts.num?(parseInt(inp.value,10)||0):inp.value;if(opts.after)opts.after();else saveFirm()});
+  return inp;
+}
+function imageField(label,key,maxW,maxH,hint){
+  var w=mk("div",{class:"f"});w.appendChild(mk("label",{text:label}));
+  var prev=mk("div",{class:"imgprev"});
+  function paint(){prev.innerHTML="";if(FIRM[key]){prev.appendChild(mk("img",{src:FIRM[key],alt:label}));}else prev.appendChild(mk("span",{class:"hint",text:"None added."}))}
+  var up=mk("input",{type:"file",accept:"image/png,image/jpeg,image/webp",id:"up_"+key});
+  up.addEventListener("change",async function(){
+    var f=up.files[0];up.value="";if(!f)return;
+    try{FIRM[key]=await imgToDataURL(f,maxW,maxH);saveFirm();paint();toast(label+" saved.")}catch(e){toast("That image could not be read.")}
+  });
+  var rm=mk("button",{type:"button",class:"btn",text:"Remove",onclick:function(){FIRM[key]="";saveFirm();paint()}});
+  w.appendChild(prev);w.appendChild(mk("div",{class:"row"},[up,rm]));if(hint)w.appendChild(mk("span",{class:"hint",text:hint}));paint();return w;
+}
+var VIEWFN=VIEWFN||{};
+VIEWFN.settings=function(box){
+  box.appendChild(mk("h2",{class:"vh",text:"Settings"}));
+  var wrap=mk("div",{class:"vstack"});box.appendChild(wrap);
+  /* firm */
+  var a=setSec("Firm profile",true);wrap.appendChild(a.d);
+  a.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"These details are used for every new matter. For a matter you already started, change them in its details form or use the button below."}));
+  [["firmName","Firm name",{}],["firmAddress","Firm address",{area:true}],["firmContact","Phone and email",{}],["sraNumber","SRA number",{}],["caseWorker","Case worker",{}],["caseWorkerTitle","Job title",{}],["supervisor","Supervising partner or solicitor",{}],["supervisorRate","Their hourly rate (GBP, plus VAT)",{}],["hourlyRate","Case worker hourly rate (GBP, plus VAT)",{}],["complaintsContact","Who handles complaints",{}]].forEach(function(r){
+    a.g.appendChild(fld(r[1],bindInput(FIRM,r[0],"fs_"+r[0],r[2])));
+  });
+  a.g.appendChild(fld("VAT rate (%)",bindInput(FIRM,"vat","fs_vat",{}),"Used in the time and costs calculations.",true));
+  a.g.appendChild(fld("Footer text for Word letters",bindInput(FIRM,"footer","fs_footer",{area:true,rows:2}),"For example: authorised and regulated by the Solicitors Regulation Authority, SRA number, registered office."));
+  a.g.appendChild(imageField("Logo","logo",800,260,"Appears at the top of Word letters. A wide logo works best."));
+  a.g.appendChild(imageField("Signature image","signature",520,200,"Optional. Appears above your name in the sign-off."));
+  var sg=mk("input",{type:"checkbox",id:"fs_usesig"});sg.checked=!!FIRM.useSignature;sg.addEventListener("change",function(){FIRM.useSignature=sg.checked;saveFirm()});
+  a.g.appendChild(fld("Show the signature image in letters",sg));
+  a.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",text:"Apply these details to the current matter",onclick:function(){FIRM_KEYS.forEach(function(k){if(FIRM[k])S[k]=FIRM[k]});save();renderForm();rebuild();toast("Applied to this matter.")}})]));
+  /* security */
+
+  var wd=setSec("Standard wording",false);wrap.appendChild(wd.d);
+  wd.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"These fixed paragraphs appear in your letters. Edit them to match your firm's approved wording. The wording supplied is a starting point written without legal review, so have a solicitor in your firm approve it before use."}));
+  Object.keys(DEFW).forEach(function(k){
+    var ta=mk("textarea",{rows:4,id:"w_"+k,"aria-label":WLAB[k]});ta.value=(WOV[k]&&WOV[k].trim())?WOV[k]:DEFW[k];
+    ta.addEventListener("input",function(){if(ta.value.trim()===DEFW[k])delete WOV[k];else WOV[k]=ta.value;saveWov()});
+    var rs=mk("button",{type:"button",class:"btn",text:"Reset to default",onclick:function(){delete WOV[k];saveWov();ta.value=DEFW[k]}});
+    wd.g.appendChild(fld(WLAB[k],ta));wd.g.appendChild(mk("div",{class:"row"},[rs]));
+  });
+  var rv=setSec("Wording reviewed by",false);wrap.appendChild(rv.d);
+  rv.g.appendChild(fld("Reviewed by",bindInput(FIRM,"reviewedBy","fs_revby",{}),"The solicitor who approved the templates and standard wording."));
+  var rd=bindInput(FIRM,"reviewedOn","fs_revon",{});rd.type="date";rv.g.appendChild(fld("Date reviewed",rd));
+
+  var pv=setSec("Local AI privacy",false);wrap.appendChild(pv.d);
+  var mk1=mk("input",{type:"checkbox",id:"o_mask"});mk1.checked=OPTS.mask!==false;mk1.addEventListener("change",function(){OPTS.mask=mk1.checked;saveOpts()});
+  var mt=mk("textarea",{id:"o_terms",rows:3});mt.value=OPTS.maskTerms||"";mt.addEventListener("input",function(){OPTS.maskTerms=mt.value;saveOpts()});
+  var rk=mk("input",{type:"checkbox",id:"o_remote"});rk.checked=!!OPTS.remoteOk;rk.addEventListener("change",function(){OPTS.remoteOk=rk.checked;saveOpts()});
+  pv.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Before text goes to a local AI model, emails, phone numbers, National Insurance numbers, sort codes, account numbers, postcodes and dates of birth are replaced with codes, then put back in the answer. Names are not hidden because the model needs them to read orders."}));
+  pv.g.appendChild(fld("Hide identifiers before sending to local AI",mk1,null,true));
+  pv.g.appendChild(fld("Also hide these words (one per line)",mt,"For example a child's name or an employer."));
+  pv.g.appendChild(fld("Do not warn me about AI servers that are not on this network",rk,"Leave this off unless your firm runs its own approved server elsewhere.",true));
+  var im=setSec("Import matter details from a spreadsheet",false);wrap.appendChild(im.d);
+  im.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Export your docket or case management list as CSV and import it to create matters. The first row must be column names. Use the template to see the names. Unknown columns are ignored."}));
+  var cf=mk("input",{type:"file",id:"csvIn",accept:".csv,text/csv"});
+  im.g.appendChild(fld("CSV file",cf));
+  var ist=mk("p",{class:"dstatus",role:"status",style:"grid-column:1/-1"});
+  im.g.appendChild(mk("div",{class:"row"},[
+    mk("button",{type:"button",class:"btn",text:"Download template",onclick:function(){downloadBlob("matter-import-template.csv",new Blob(["﻿"+CSV_COLS.join(",")+"\r\n"+"Ms Jane Example,Dear Ms Example,\"12 Sample Road, London, E1 2AB\",jane@example.com,FAM/2026/0001,Mr John Example,ZZ26D00000,Central Family Court,Divorce and financial remedy\r\n"],{type:"text/csv"}))}}),
+    mk("button",{type:"button",class:"btn primary",text:"Import",onclick:function(){
+      var f=cf.files&&cf.files[0];if(!f){ist.textContent="Choose a CSV file first.";return}
+      var r=new FileReader();r.onload=function(){var m=importCsv(String(r.result));ist.textContent=m;toast(m)};r.readAsText(f);
+    }})]));
+  im.g.appendChild(ist);
+  var sc=setSec("Security",false);wrap.appendChild(sc.d);
+  var sst=mk("p",{class:"dstatus",role:"status",style:"grid-column:1/-1"});
+  function secPaint(){
+    sc.g.innerHTML="";
+    sc.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:OPTS.lock?"Matters are encrypted in this browser with your passphrase. If you forget it, they cannot be recovered, so keep a backup.":"Matters are stored in this browser without encryption. Anyone who can use this browser profile can read them. A passphrase encrypts them and locks the app after a period of inactivity."}));
+    if(!OPTS.lock){
+      var p1=mk("input",{type:"password",id:"sec_p1",autocomplete:"new-password"}),p2=mk("input",{type:"password",id:"sec_p2",autocomplete:"new-password"});
+      sc.g.appendChild(fld("New passphrase (at least 10 characters)",p1));sc.g.appendChild(fld("Repeat passphrase",p2));
+      sc.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn primary",text:"Turn on encryption and lock",onclick:async function(){
+        if(p1.value.length<10){sst.textContent="Use at least 10 characters.";sst.className="dstatus err";return}
+        if(p1.value!==p2.value){sst.textContent="The two passphrases do not match.";sst.className="dstatus err";return}
+        try{
+          var salt=b64(crypto.getRandomValues(new Uint8Array(16)));CKEY=await deriveKey(p1.value,salt,250000);
+          OPTS.salt=salt;OPTS.iter=250000;OPTS.lock=true;saveOpts();save();await persistNow();
+          try{localStorage.removeItem(OLDKEY)}catch(e){}
+          renderMatterBar();secPaint();sst.textContent="Encryption is on. The app will lock after "+OPTS.autoMin+" minutes without use.";sst.className="dstatus";
+        }catch(e){OPTS.lock=false;CKEY=null;sst.textContent="Encryption is not available in this browser. Use a current version of Chrome, Edge, Firefox or Safari over https or localhost.";sst.className="dstatus err"}
+      }})]));
+    }else{
+      var am=mk("input",{type:"number",id:"sec_auto",min:"0",step:"5"});am.value=OPTS.autoMin;am.addEventListener("input",function(){OPTS.autoMin=Math.max(0,parseInt(am.value,10)||0);saveOpts()});
+      sc.g.appendChild(fld("Lock after this many idle minutes (0 means never)",am));
+      sc.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",text:"Lock now",onclick:lockNow})]));
+      var cp=mk("input",{type:"password",id:"sec_cur",autocomplete:"current-password"});
+      sc.g.appendChild(fld("Current passphrase (to turn encryption off or change it)",cp));
+      var np=mk("input",{type:"password",id:"sec_new",autocomplete:"new-password"});
+      sc.g.appendChild(fld("New passphrase (to change it)",np));
+      async function verify(){
+        try{var k=await deriveKey(cp.value,OPTS.salt,OPTS.iter);await decWith(k,JSON.parse(localStorage.getItem(MENC)));return true}catch(e){sst.textContent="The current passphrase is wrong.";sst.className="dstatus err";return false}
+      }
+      sc.g.appendChild(mk("div",{class:"row"},[
+        mk("button",{type:"button",class:"btn",text:"Change passphrase",onclick:async function(){
+          if(np.value.length<10){sst.textContent="Use at least 10 characters for the new passphrase.";sst.className="dstatus err";return}
+          if(!await verify())return;
+          var salt=b64(crypto.getRandomValues(new Uint8Array(16)));CKEY=await deriveKey(np.value,salt,250000);OPTS.salt=salt;saveOpts();save();await persistNow();secPaint();sst.textContent="Passphrase changed.";sst.className="dstatus";
+        }}),
+        mk("button",{type:"button",class:"btn warn",text:"Turn encryption off",onclick:async function(){
+          if(!await verify())return;
+          OPTS.lock=false;saveOpts();CKEY=null;save();await persistNow();renderMatterBar();secPaint();sst.textContent="Encryption is off. Matters are stored without a passphrase.";sst.className="dstatus";
+        }})]));
+    }
+    sc.g.appendChild(sst);
+  }
+  secPaint();
+  /* backup */
+  var b=setSec("Backup and restore",false);wrap.appendChild(b.d);
+  var bst=mk("p",{class:"dstatus",role:"status",style:"grid-column:1/-1"});
+  b.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Matters live only in this browser. Clearing site data, changing browser or using a private window loses them. Export a backup regularly. If encryption is on, the backup of your matters is encrypted with the same passphrase."}));
+  b.g.appendChild(mk("div",{class:"row",style:"grid-column:1/-1"},[
+    mk("button",{type:"button",class:"btn primary",text:"Export all matters",onclick:async function(){
+      save();await persistNow();
+      var out={app:"family-letter-desk",v:2,exported:new Date().toISOString(),firm:FIRM,library:LIB,wording:typeof WOV!=="undefined"?WOV:{}};
+      if(OPTS.lock){out.encrypted=true;out.salt=OPTS.salt;out.iter=OPTS.iter;var eb=await encStore();out.iv=eb.iv;out.ct=eb.ct}
+      else{out.encrypted=false;out.store=STORE}
+      downloadBlob("family-letter-desk-backup-"+iso(new Date())+".json",new Blob([JSON.stringify(out)],{type:"application/json"}));
+      bst.textContent=OPTS.lock?"Exported. The matters in the file are encrypted.":"Exported. This file is not encrypted and contains client details, so store it safely.";bst.className="dstatus";
+    }}),
+    mk("button",{type:"button",class:"btn",text:"Export this matter only",onclick:function(){
+      save();downloadBlob("matter-"+(CURM.name.replace(/[^a-z0-9]+/gi,"-").slice(0,40)||"export")+".json",new Blob([JSON.stringify({app:"family-letter-desk",v:2,encrypted:false,store:{v:2,current:CURM.id,matters:[CURM]}})],{type:"application/json"}));
+      bst.textContent="Exported without encryption. The file contains client details, so store it safely.";bst.className="dstatus";
+    }})]));
+  var imp=mk("input",{type:"file",accept:".json,application/json",id:"bk_file"});
+  var ipw=mk("input",{type:"password",id:"bk_pass",autocomplete:"off"});
+  var ifm=mk("input",{type:"checkbox",id:"bk_firm"});
+  b.g.appendChild(fld("Restore from a backup file",imp,"Matters are added to the ones you already have. Nothing is overwritten."));
+  b.g.appendChild(fld("Passphrase for the backup (only if it was encrypted)",ipw));
+  b.g.appendChild(fld("Also replace my firm profile, standard information and wording with the ones in the backup",ifm));
+  b.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",text:"Restore",onclick:async function(){
+    var f=imp.files[0];if(!f){bst.textContent="Choose a backup file first.";bst.className="dstatus err";return}
+    try{
+      var o=JSON.parse(await f.text());if(!o||o.app!=="family-letter-desk")throw new Error("shape");
+      var st=o.store;
+      if(o.encrypted){var k=await deriveKey(ipw.value,o.salt,o.iter||250000);st=await decWith(k,{iv:o.iv,ct:o.ct})}
+      if(!st||!Array.isArray(st.matters))throw new Error("shape");
+      var n=0;st.matters.forEach(function(m){var c=copyJSON(m);c.id=mid();c.name=(c.name||"Restored matter");c.autoName=false;STORE.matters.push(c);n++});
+      if(ifm.checked){
+        if(o.firm&&typeof o.firm==="object"){FIRM=Object.assign(FIRM,o.firm);saveFirm()}
+        if(o.library&&Array.isArray(o.library.blocks)){LIB=o.library;saveLib()}
+        if(o.wording&&typeof o.wording==="object"&&typeof WOV!=="undefined"){WOV=o.wording;if(typeof saveWov==="function")saveWov()}
+      }
+      normaliseStore(STORE);save();await persistNow();renderMatterBar();bst.textContent=n+" matter"+(n===1?"":"s")+" restored.";bst.className="dstatus";
+    }catch(e){bst.textContent=o_isEnc(e)?"The passphrase is wrong, or the backup is damaged.":"That is not a backup made by this app.";bst.className="dstatus err"}
+  }})]));
+  b.g.appendChild(bst);
+  if(typeof settingsExtra==="function")settingsExtra(wrap);
+};
+function o_isEnc(e){return e&&(e.name==="OperationError"||/decrypt/i.test(String(e.message)))}
+
 function setView(v){$("split").dataset.view=v;$("mvForm").setAttribute("aria-pressed",v==="form"?"true":"false");$("mvLetter").setAttribute("aria-pressed",v==="letter"?"true":"false");window.scrollTo(0,0)}
 $("mvForm").addEventListener("click",function(){setView("form")});
 $("mvLetter").addEventListener("click",function(){setView("letter")});
 
+/* ---------- storage: matters, firm profile, optional encryption ---------- */
+var FKEY="fld-firm-v2",MKEY="fld-matters-v2",MENC="fld-matters-enc-v2",OKEY="fld-opts-v2",OLDKEY="family-letter-desk-v1";
+var FIRM_KEYS=["firmName","firmAddress","firmContact","caseWorker","caseWorkerTitle","supervisor","supervisorRate","sraNumber","complaintsContact","hourlyRate"];
+var FIRM={footer:"",vat:"20",logo:"",signature:"",useSignature:true,reviewedBy:"",reviewedOn:""};
+FIRM_KEYS.forEach(function(k){FIRM[k]=""});FIRM.caseWorkerTitle="Case Worker";
+var OPTS={lock:false,salt:"",iter:250000,autoMin:15,mask:true,maskTerms:"",remoteOk:false};
+var STORE=null,CURM=null,CKEY=null,view="letters",pT=null,saveFailed=false,lastActive=Date.now();
+S=Object.assign({},BLANK);
+try{var f0=localStorage.getItem(FKEY);if(f0)FIRM=Object.assign(FIRM,JSON.parse(f0))}catch(e){}
+try{var o0=localStorage.getItem(OKEY);if(o0)OPTS=Object.assign(OPTS,JSON.parse(o0))}catch(e){}
+function saveFirm(){try{localStorage.setItem(FKEY,JSON.stringify(FIRM))}catch(e){toast("Could not save the firm profile. Browser storage may be full.")}}
+function saveOpts(){try{localStorage.setItem(OKEY,JSON.stringify(OPTS))}catch(e){}}
+function autoNameOf(x){return[(x.clientName||"").trim()||"New matter",(x.ourRef||"").trim()].filter(Boolean).join(" \u00b7 ")}
+function mid(){return"m"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function newMatterObj(name,base){
+  var s=Object.assign({},BLANK,base||{});
+  if(!base){FIRM_KEYS.forEach(function(k){if(FIRM[k])s[k]=FIRM[k]})}
+  return{id:mid(),name:name||autoNameOf(s),autoName:!name,created:Date.now(),updated:Date.now(),S:s,cur:"care",ed:{},dr:{},time:[],disb:[],estimate:[],checks:{},history:[]};
+}
+function save(){
+  if(!CURM)return;
+  CURM.S=S;CURM.cur=cur;CURM.ed=edited;CURM.dr=draft;CURM.updated=Date.now();
+  if(CURM.autoName){var nm=[(S.clientName||"").trim()||"New matter",(S.ourRef||"").trim()].filter(Boolean).join(" · ");CURM.name=nm;var ni=document.getElementById("matterName");if(ni&&document.activeElement!==ni)ni.value=nm;var op=document.querySelector('#matterSel option[value="'+CURM.id+'"]');if(op)op.textContent=nm}
+  persistSoon();
+}
+function persistSoon(){clearTimeout(pT);pT=setTimeout(persistNow,500)}
+async function persistNow(){
+  clearTimeout(pT);pT=null;if(!STORE)return;
+  try{
+    if(OPTS.lock){if(!CKEY)return;localStorage.setItem(MENC,JSON.stringify(await encStore()));localStorage.removeItem(MKEY)}
+    else{localStorage.setItem(MKEY,JSON.stringify(STORE));localStorage.removeItem(MENC)}
+    saveFailed=false;
+  }catch(e){saveFailed=true;toast("Could not save. Browser storage is full or blocked. Export a backup now.")}
+}
+/* crypto */
+function b64(buf){var a=new Uint8Array(buf),s="";for(var i=0;i<a.length;i+=0x8000)s+=String.fromCharCode.apply(null,a.subarray(i,i+0x8000));return btoa(s)}
+function unb64(t){var s=atob(t),a=new Uint8Array(s.length);for(var i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a}
+async function deriveKey(pass,saltB64,iter){
+  var km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2",salt:unb64(saltB64),iterations:iter||250000,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+}
+async function encWith(key,obj){
+  var iv=crypto.getRandomValues(new Uint8Array(12));
+  var ct=await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},key,new TextEncoder().encode(JSON.stringify(obj)));
+  return{iv:b64(iv),ct:b64(ct)};
+}
+async function decWith(key,blob){
+  var pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:unb64(blob.iv)},key,unb64(blob.ct));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+function encStore(){return encWith(CKEY,STORE)}
+/* load */
+function loadStoreFromPlain(){
+  try{var r=localStorage.getItem(MKEY);if(r){var o=JSON.parse(r);if(o&&Array.isArray(o.matters)&&o.matters.length)return o}}catch(e){}
+  try{
+    var old=localStorage.getItem(OLDKEY);
+    if(old){
+      var oo=JSON.parse(old);
+      if(oo&&oo.S){
+        var m=newMatterObj("",Object.assign({},BLANK,oo.S));m.cur=ALL.indexOf(oo.cur)>-1?oo.cur:"care";
+        FIRM_KEYS.forEach(function(k){if(oo.S[k]&&!FIRM[k])FIRM[k]=oo.S[k]});saveFirm();
+        var st={v:2,current:m.id,matters:[m]};
+        localStorage.setItem(MKEY,JSON.stringify(st));localStorage.removeItem(OLDKEY);return st;
+      }
+    }
+  }catch(e){}
+  var m2=newMatterObj();return{v:2,current:m2.id,matters:[m2]};
+}
+function normaliseStore(st){
+  st.matters.forEach(function(m){
+    m.S=Object.assign({},BLANK,m.S||{});m.ed=m.ed||{};m.dr=m.dr||{};m.time=m.time||[];m.disb=m.disb||[];m.estimate=m.estimate||[];m.checks=m.checks||{};m.history=m.history||[];
+    if(ALL.indexOf(m.cur)<0)m.cur="care";
+    if(m.autoName)m.name=autoNameOf(m.S);
+  });
+  if(!st.matters.some(function(m){return m.id===st.current}))st.current=st.matters[0].id;
+  return st;
+}
+function loadMatter(id){
+  var m=STORE.matters.filter(function(x){return x.id===id})[0]||STORE.matters[0];
+  CURM=m;STORE.current=m.id;S=m.S;cur=m.cur;edited=m.ed;draft=m.dr;
+  FIRM_KEYS.forEach(function(k){if(!S[k]&&FIRM[k])S[k]=FIRM[k]});
+}
+function resetDocsState(){files=[];pasteText="";lastExtract=null;lastResult="";lastSummary=null;try{lastInterp=null}catch(e){}}
+function clearScreen(){
+  paper.innerHTML="";$("form").innerHTML="";var vo=$("vOther");if(vo)vo.innerHTML="";
+  $("matterSel").innerHTML="";$("matterName").value="";
+}
+/* matter bar */
+function renderMatterBar(){
+  var sel=$("matterSel");sel.innerHTML="";
+  STORE.matters.slice().sort(function(a,b){return b.updated-a.updated}).forEach(function(m){
+    var o=document.createElement("option");o.value=m.id;o.textContent=m.name;sel.appendChild(o);
+  });
+  sel.value=CURM.id;$("matterName").value=CURM.name;
+  $("btnLock").hidden=!OPTS.lock;
+  updateChecksChip();
+}
+function updateRevBar(){var r=$("revbar");if(!r)return;var ok=FIRM.reviewedBy&&FIRM.reviewedOn;r.hidden=!!ok;r.textContent=ok?"":"The letter wording has not been marked as reviewed by a solicitor. Check it, then record the review in Settings."}
+function updateChecksChip(){var c=$("chkChip");if(!c)return;if(typeof checkProgress==="function"){var p=checkProgress();c.textContent=p.total?("Checklist "+p.done+" of "+p.total):"";c.hidden=!p.total}else c.hidden=true}
+async function switchMatter(id){
+  if(id===CURM.id)return;
+  save();await persistNow();
+  loadMatter(id);resetDocsState();afterMatterChange();
+}
+function afterMatterChange(){
+  renderMatterBar();renderTabs();renderForm();
+  if(edited[cur]&&draft[cur]){paper.innerHTML=draft[cur];stalebar.classList.add("on");updateStatus()}else rebuild();
+  showView(view);
+}
+function addMatter(m){STORE.matters.push(m);loadMatter(m.id);resetDocsState();save();afterMatterChange();persistNow()}
+/* views */
+var VIEWS=[["letters","Letters"],["time","Time and costs"],["checks","Checklists"],["file","Matter file"],["settings","Settings"]];
+var VIEWFN=VIEWFN||{};
+function renderViewNav(){
+  var nav=$("views");nav.innerHTML="";
+  VIEWS.forEach(function(v){
+    var b=document.createElement("button");b.type="button";b.className="tab";b.setAttribute("role","tab");b.id="view_"+v[0];
+    b.setAttribute("aria-selected",v[0]===view?"true":"false");b.textContent=v[1];
+    b.addEventListener("click",function(){showView(v[0])});nav.appendChild(b);
+  });
+}
+function showView(v){
+  view=v;renderViewNav();
+  var L=v==="letters";$("vLetters").hidden=!L;$("vOther").hidden=L;
+  if(!L){var box=$("vOther");box.innerHTML="";if(VIEWFN[v])VIEWFN[v](box);else box.textContent="Not available."}
+  else if(typeof updateStatus==="function")updateStatus();
+  updateRevBar();window.scrollTo(0,0);
+}
+function mk(tag,props,kids){
+  var e=document.createElement(tag);
+  if(props)Object.keys(props).forEach(function(k){
+    if(k==="text")e.textContent=props[k];else if(k==="class")e.className=props[k];else if(k==="html")e.innerHTML=props[k];
+    else if(k.slice(0,2)==="on")e.addEventListener(k.slice(2),props[k]);else if(props[k]===true)e.setAttribute(k,"");else if(props[k]!==false&&props[k]!=null)e.setAttribute(k,props[k]);
+  });
+  (kids||[]).forEach(function(c){if(c!=null)e.appendChild(typeof c==="string"?document.createTextNode(c):c)});
+  return e;
+}
+function downloadBlob(name,blob){
+  var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},800);
+}
+function imgToDataURL(file,maxW,maxH){
+  return createImageBitmap(file).then(function(bm){
+    var k=Math.min(1,maxW/bm.width,maxH/bm.height),cv=document.createElement("canvas");
+    cv.width=Math.max(1,Math.round(bm.width*k));cv.height=Math.max(1,Math.round(bm.height*k));
+    cv.getContext("2d").drawImage(bm,0,0,cv.width,cv.height);return cv.toDataURL("image/png");
+  });
+}
+/* lock screen */
+var lockBox=null;
+function showLock(msg){
+  if(!lockBox){lockBox=mk("div",{id:"lock",role:"dialog","aria-modal":"true","aria-label":"Unlock"});document.body.appendChild(lockBox)}
+  lockBox.hidden=false;lockBox.innerHTML="";
+  var card=mk("div",{class:"lockcard"});
+  card.appendChild(mk("h2",{text:"Family Letter Desk is locked"}));
+  card.appendChild(mk("p",{text:"Enter your passphrase to open your matters."}));
+  var inp=mk("input",{type:"password",id:"lockPass",autocomplete:"current-password","aria-label":"Passphrase"});
+  var err=mk("p",{class:"lockerr",role:"alert",text:msg||""});
+  var go=mk("button",{type:"button",class:"btn primary",text:"Unlock"});
+  async function tryUnlock(){
+    if(!inp.value)return;go.disabled=true;err.textContent="";
+    try{
+      var key=await deriveKey(inp.value,OPTS.salt,OPTS.iter);
+      var blob=JSON.parse(localStorage.getItem(MENC)||"null");if(!blob)throw new Error("none");
+      var st=normaliseStore(await decWith(key,blob));
+      CKEY=key;STORE=st;lockBox.hidden=true;inp.value="";startApp();
+    }catch(e){err.textContent="That passphrase did not work, or the stored data is damaged.";go.disabled=false;inp.select()}
+  }
+  go.addEventListener("click",tryUnlock);inp.addEventListener("keydown",function(e){if(e.key==="Enter")tryUnlock()});
+  var wipeArmed=false,wipeT,wipe=mk("button",{type:"button",class:"btn warn",text:"Erase all matters on this computer"});
+  wipe.addEventListener("click",function(){
+    if(!wipeArmed){wipeArmed=true;wipe.textContent="Click again to erase everything";wipeT=setTimeout(function(){wipeArmed=false;wipe.textContent="Erase all matters on this computer"},4000);return}
+    clearTimeout(wipeT);try{localStorage.removeItem(MENC);localStorage.removeItem(MKEY)}catch(e){}
+    OPTS.lock=false;saveOpts();lockBox.hidden=true;STORE=normaliseStore(loadStoreFromPlain());startApp();
+  });
+  card.appendChild(inp);card.appendChild(err);card.appendChild(mk("div",{class:"row"},[go]));
+  card.appendChild(mk("p",{class:"hint",text:"If you have forgotten the passphrase, the data cannot be recovered. You can erase it and restore from a backup file."}));
+  card.appendChild(wipe);lockBox.appendChild(card);
+  setTimeout(function(){inp.focus()},50);
+}
+async function lockNow(){
+  if(!OPTS.lock||!STORE)return;
+  save();await persistNow();
+  STORE=null;CURM=null;CKEY=null;S=Object.assign({},BLANK);edited={};draft={};resetDocsState();clearScreen();
+  showLock("");
+}
+["mousemove","keydown","click","touchstart","scroll"].forEach(function(ev){document.addEventListener(ev,function(){lastActive=Date.now()},{passive:true})});
+setInterval(function(){if(OPTS.lock&&STORE&&OPTS.autoMin>0&&Date.now()-lastActive>OPTS.autoMin*60000)lockNow()},15000);
+window.addEventListener("pagehide",function(){if(STORE&&!OPTS.lock){try{save();localStorage.setItem(MKEY,JSON.stringify(STORE))}catch(e){}}});
+function boot(){
+  if(OPTS.lock&&localStorage.getItem(MENC)){showLock("");return}
+  if(OPTS.lock){OPTS.lock=false;saveOpts()}
+  STORE=normaliseStore(loadStoreFromPlain());startApp();
+}
+function startApp(){
+  loadMatter(STORE.current);resetDocsState();lastActive=Date.now();
+  renderMatterBar();renderViewNav();renderTabs();renderForm();
+  if(edited[cur]&&draft[cur]){paper.innerHTML=draft[cur];stalebar.classList.add("on");updateStatus()}else rebuild();
+  showView("letters");
+}
+
+/* ---------- Word (.docx) export, print, matter file ---------- */
+function xesc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function dataUrlInfo(src){
+  var m=/^data:image\/(png|jpeg|jpg|webp|gif);base64,(.+)$/.exec(src||"");if(!m)return null;
+  var ext=m[1]==="jpg"?"jpeg":m[1],w=0,h=0;
+  try{
+    var bin=atob(m[2].slice(0,64)),u=function(i){return bin.charCodeAt(i)};
+    if(ext==="png"){w=(u(16)<<24)|(u(17)<<16)|(u(18)<<8)|u(19);h=(u(20)<<24)|(u(21)<<16)|(u(22)<<8)|u(23)}
+  }catch(e){}
+  if(!(w>0&&h>0)){w=300;h=100}
+  return{ext:ext==="webp"||ext==="gif"?"png":ext,b64:m[2],w:w,h:h};
+}
+async function buildDocx(rootEl,title){
+  await lib("jszip");
+  var imgs=[],nums=[],numId=2,docPr=1,pageBreakNext=false;
+  function addImg(src,maxW,maxH){
+    var info=dataUrlInfo(src);if(!info)return"";
+    var k=Math.min(maxW/info.w,maxH/info.h,1),cx=Math.round(info.w*k*9525),cy=Math.round(info.h*k*9525),id=imgs.length+1;
+    imgs.push({id:id,ext:info.ext,b64:info.b64});
+    return'<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="'+cx+'" cy="'+cy+'"/><wp:docPr id="'+(docPr++)+'" name="Image '+id+'"/><wp:cNvGraphicFramePr><a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/></wp:cNvGraphicFramePr><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="'+id+'" name="image'+id+'.'+info.ext+'"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rIdImg'+id+'"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="'+cx+'" cy="'+cy+'"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>';
+  }
+  function rpr(f){
+    var o="";if(f.b)o+="<w:b/>";if(f.i)o+="<w:i/>";if(f.caps)o+="<w:caps/>";if(f.color)o+='<w:color w:val="'+f.color+'"/>';if(f.sp)o+='<w:spacing w:val="'+f.sp+'"/>';if(f.sz)o+='<w:sz w:val="'+f.sz+'"/><w:szCs w:val="'+f.sz+'"/>';if(f.hl)o+='<w:highlight w:val="yellow"/>';
+    return o?"<w:rPr>"+o+"</w:rPr>":"";
+  }
+  function runs(node,f){
+    var out="";
+    node.childNodes.forEach(function(c){
+      if(c.nodeType===3){
+        var t=c.nodeValue.replace(/\s+/g," ");if(!t)return;
+        t.split("\t").forEach(function(seg,i){if(i>0)out+="<w:r><w:tab/></w:r>";if(seg)out+="<w:r>"+rpr(f)+'<w:t xml:space="preserve">'+xesc(seg)+"</w:t></w:r>"});
+      }else if(c.nodeType===1){
+        var tg=c.tagName.toLowerCase();
+        if(tg==="br")out+="<w:r><w:br/></w:r>";
+        else if(tg==="img")out+=addImg(c.getAttribute("src"),240,70);
+        else{
+          var g=Object.assign({},f);
+          if(tg==="strong"||tg==="b")g.b=true;if(tg==="em"||tg==="i")g.i=true;
+          if(c.classList&&c.classList.contains("gap"))g.hl=true;
+          out+=runs(c,g);
+        }
+      }
+    });
+    return out;
+  }
+  function ppr(o){
+    o=o||{};var x="";
+    if(o.keepNext)x+="<w:keepNext/>";
+    if(o.pb||pageBreakNext){x+="<w:pageBreakBefore/>";pageBreakNext=false}
+    if(o.num)x+='<w:numPr><w:ilvl w:val="0"/><w:numId w:val="'+o.num+'"/></w:numPr>';
+    if(o.bdr)x+='<w:pBdr><w:bottom w:val="single" w:sz="12" w:space="6" w:color="1B4D5C"/></w:pBdr>';
+    x+='<w:spacing w:before="'+(o.before||0)+'" w:after="'+(o.after==null?120:o.after)+'" w:line="'+(o.line||276)+'" w:lineRule="auto"/>';
+    if(o.ind)x+='<w:ind w:left="'+o.ind+'" w:hanging="'+(o.hang||0)+'"/>';
+    if(o.jc)x+='<w:jc w:val="'+o.jc+'"/>';
+    return"<w:pPr>"+x+"</w:pPr>";
+  }
+  function para(inner,o){return"<w:p>"+ppr(o)+inner+"</w:p>"}
+  function table(el){
+    var rows=Array.prototype.slice.call(el.querySelectorAll("tr")),grid=el.classList.contains("grid"),acc=el.classList.contains("accept");
+    var n=Math.max.apply(null,rows.map(function(r){return r.children.length}).concat([1])),total=9400,cols=[];
+    if(n===2&&!grid){cols=[Math.round(total*.32),total-Math.round(total*.32)]}else{for(var i=0;i<n;i++)cols.push(Math.floor(total/n))}
+    var bd=["top","left","bottom","right","insideH","insideV"].map(function(s){return'<w:'+s+' w:val="single" w:sz="4" w:space="0" w:color="C9CED4"/>'}).join("");
+    var x='<w:tbl><w:tblPr><w:tblW w:w="'+total+'" w:type="dxa"/><w:tblBorders>'+bd+'</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="60" w:type="dxa"/><w:left w:w="100" w:type="dxa"/><w:bottom w:w="60" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>'+cols.map(function(c){return'<w:gridCol w:w="'+c+'"/>'}).join("")+'</w:tblGrid>';
+    rows.forEach(function(r){
+      x+="<w:tr>"+(acc?'<w:trPr><w:trHeight w:val="640" w:hRule="atLeast"/></w:trPr>':'<w:trPr><w:cantSplit/></w:trPr>');
+      Array.prototype.forEach.call(r.children,function(c,i){
+        var th=c.tagName.toLowerCase()==="th",f={sz:21};if(th){f.b=true}
+        x+='<w:tc><w:tcPr><w:tcW w:w="'+(cols[i]||cols[0])+'" w:type="dxa"/>'+(th?'<w:shd w:val="clear" w:color="auto" w:fill="F1F3F5"/>':'')+'</w:tcPr>'+para(runs(c,f),{after:0,line:252})+"</w:tc>";
+      });
+      x+="</w:tr>";
+    });
+    return x+"</w:tbl>"+para("",{after:60,line:240});
+  }
+  function block(el){
+    var tg=el.tagName.toLowerCase(),cl=el.classList;
+    if(tg==="p"){
+      var f={},o={};
+      if(cl.contains("re")){f.b=true;o.before=120}
+      if(cl.contains("refs")||cl.contains("enc")){f.sz=19;f.color="555A60"}
+      if(cl.contains("conf")){f.b=true;f.sz=18;f.color="555A60";f.caps=true;f.sp=20}
+      if(cl.contains("sig")){o.before=480}
+      return para(runs(el,f),o);
+    }
+    if(tg==="h2")return para(runs(el,{b:true,caps:true,sp:24,color:"1B4D5C",sz:23}),{keepNext:true,before:60,after:160});
+    if(tg==="h3")return para(runs(el,{b:true,sz:22}),{keepNext:true,before:200,after:80});
+    if(tg==="ul"||tg==="ol"){
+      var nid=1;if(tg==="ol"){nid=numId++;nums.push(nid)}
+      var x="";Array.prototype.forEach.call(el.children,function(li){if(li.tagName.toLowerCase()==="li")x+=para(runs(li,{}),{num:nid,after:60,ind:567,hang:283})});
+      return x+para("",{after:40,line:200});
+    }
+    if(tg==="table")return table(el);
+    if(tg==="img"){return para(addImg(el.getAttribute("src"),260,80),{after:40})}
+    if(tg==="div"){
+      if(cl.contains("lh")){
+        var x2="";
+        if(FIRM.logo)x2+=para(addImg(FIRM.logo,260,70),{after:80});
+        var kids=Array.prototype.slice.call(el.children);
+        kids.forEach(function(k,i){
+          var last=i===kids.length-1,isFirm=k.classList.contains("firm");
+          x2+=para(runs(k,isFirm?{b:true,sz:36,color:"1B4D5C"}:{sz:19,color:"555A60"}),{bdr:last,after:last?280:20,line:252});
+        });
+        return x2;
+      }
+      if(el.style&&el.style.pageBreakBefore==="always")pageBreakNext=true;
+      var y="";Array.prototype.forEach.call(el.children,function(k){y+=block(k)});return y;
+    }
+    return runs(el,{})?para(runs(el,{}),{}):"";
+  }
+  var body="";Array.prototype.forEach.call(rootEl.children,function(k){body+=block(k)});
+  var W='xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"';
+  var footLines=String(FIRM.footer||"").split(/\n/).map(function(l){return l.trim()}).filter(Boolean);
+  var footer='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:ftr '+W+'>'+footLines.map(function(l){return para('<w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:t xml:space="preserve">'+xesc(l)+'</w:t></w:r>',{jc:"center",after:0,line:220})}).join("")+
+    para('<w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:t xml:space="preserve">Page </w:t></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:t>1</w:t></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="end"/></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:t xml:space="preserve"> of </w:t></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:instrText xml:space="preserve"> NUMPAGES </w:instrText></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:t>1</w:t></w:r><w:r><w:rPr><w:color w:val="666666"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="end"/></w:r>',{jc:"center",after:0,line:220})+'</w:ftr>';
+  var doc='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document '+W+'><w:body>'+body+'<w:sectPr><w:footerReference w:type="default" r:id="rIdFtr"/><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1247" w:right="1247" w:bottom="1247" w:left="1247" w:header="708" w:footer="567" w:gutter="0"/></w:sectPr></w:body></w:document>';
+  var styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:eastAsia="Arial" w:cs="Arial"/><w:sz w:val="22"/><w:szCs w:val="22"/><w:lang w:val="en-GB"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="120" w:line="276" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style></w:styles>';
+  var numbering='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="singleLevel"/><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="bullet"/><w:lvlText w:val="•"/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="567" w:hanging="283"/></w:pPr></w:lvl></w:abstractNum><w:abstractNum w:abstractNumId="1"><w:multiLevelType w:val="singleLevel"/><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="decimal"/><w:lvlText w:val="%1."/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="567" w:hanging="283"/></w:pPr></w:lvl></w:abstractNum><w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num>'+nums.map(function(n){return'<w:num w:numId="'+n+'"><w:abstractNumId w:val="1"/><w:lvlOverride w:ilvl="0"><w:startOverride w:val="1"/></w:lvlOverride></w:num>'}).join("")+'</w:numbering>';
+  var rels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdSt" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rIdNum" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering" Target="numbering.xml"/><Relationship Id="rIdFtr" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/>'+imgs.map(function(im){return'<Relationship Id="rIdImg'+im.id+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/image'+im.id+'.'+im.ext+'"/>'}).join("")+'</Relationships>';
+  var exts={};imgs.forEach(function(im){exts[im.ext]=1});
+  var ct='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>'+Object.keys(exts).map(function(e){return'<Default Extension="'+e+'" ContentType="image/'+e+'"/>'}).join("")+'<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>';
+  var core='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>'+xesc(title||"Letter")+'</dc:title><dc:creator>Family Letter Desk</dc:creator></cp:coreProperties>';
+  var root='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>';
+  var z=new window.JSZip();
+  z.file("[Content_Types].xml",ct);z.file("_rels/.rels",root);z.file("word/document.xml",doc);z.file("word/styles.xml",styles);z.file("word/numbering.xml",numbering);z.file("word/footer1.xml",footer);z.file("word/_rels/document.xml.rels",rels);z.file("docProps/core.xml",core);
+  imgs.forEach(function(im){z.file("word/media/image"+im.id+"."+im.ext,im.b64,{base64:true})});
+  return z.generateAsync({type:"blob",mimeType:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
+}
+function fileSafe(s){return String(s||"").replace(/[^a-z0-9 _.\-]+/gi," ").replace(/\s+/g," ").trim().slice(0,70)}
+function docName(typeId,html){return fileSafe(typeLabel(typeId)+" - "+(S.clientName||"client"))+".docx"}
+async function downloadDocx(rootEl,name,title){
+  try{var blob=await buildDocx(rootEl,title);downloadBlob(name,blob);toast("Word file downloaded.")}catch(e){toast("The Word file could not be made. Try Copy for Word instead.")}
+}
+function tempEl(html){var d=document.createElement("div");d.innerHTML=html;return d}
+/* matter file */
+function saveLetterToFile(){
+  var html=paper.innerHTML;
+  CURM.history.push({id:mid(),type:cur,label:typeLabel(cur),saved:Date.now(),sent:"",html:html});
+  save();persistNow();toast("Saved to the matter file.");
+}
+VIEWFN.file=function(box){
+  box.appendChild(mk("h2",{class:"vh",text:"Matter file: "+CURM.name}));
+  var wrap=mk("div",{class:"vstack"});box.appendChild(wrap);
+  var n=setSec("Matter notes (internal, never added to letters)",true);wrap.appendChild(n.d);
+  var ta=mk("textarea",{id:"mf_notes",rows:5});ta.value=CURM.notes||"";ta.addEventListener("input",function(){CURM.notes=ta.value;save()});
+  n.g.appendChild(fld("Notes",ta));
+  var h=setSec("Letters saved to this matter",true);wrap.appendChild(h.d);
+  var prev=mk("div",{class:"paper",style:"display:none;margin-top:10px"});
+  if(!CURM.history.length)h.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Nothing saved yet. Use Save to matter file on a letter, and it will be listed here with the date."}));
+  CURM.history.slice().reverse().forEach(function(e){
+    var row=mk("div",{class:"hrow",style:"grid-column:1/-1"});
+    row.appendChild(mk("div",{class:"hmain"},[mk("strong",{text:e.label}),mk("span",{class:"hint",text:" saved "+new Date(e.saved).toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})})]));
+    var sent=mk("input",{type:"date",id:"sent_"+e.id,"aria-label":"Date sent"});sent.value=e.sent||"";sent.addEventListener("change",function(){e.sent=sent.value;save()});
+    row.appendChild(mk("label",{class:"hint",for:sent.id,text:"Date sent"}));row.appendChild(sent);
+    var bw=mk("div",{class:"row"});
+    bw.appendChild(mk("button",{type:"button",class:"btn",text:"View",onclick:function(){prev.style.display="block";prev.innerHTML=e.html;prev.setAttribute("contenteditable","false");prev.scrollIntoView({behavior:"smooth",block:"start"})}}));
+    bw.appendChild(mk("button",{type:"button",class:"btn",text:"Download Word",onclick:function(){downloadDocx(tempEl(e.html),fileSafe(e.label+" - "+(S.clientName||"client")+" - "+iso(new Date(e.saved)))+".docx",e.label)}}));
+    bw.appendChild(mk("button",{type:"button",class:"btn",text:"Copy for Word",onclick:function(){prev.style.display="block";prev.innerHTML=e.html;var r=document.createRange();r.selectNodeContents(prev);var sl=window.getSelection();sl.removeAllRanges();sl.addRange(r);var ok=false;try{ok=document.execCommand("copy")}catch(x){}sl.removeAllRanges();toast(ok?"Copied. Paste it into Word.":"Copy was blocked.")}}));
+    var armed=false,tm;var del=mk("button",{type:"button",class:"btn warn",text:"Delete",onclick:function(){
+      if(!armed){armed=true;del.textContent="Click again";tm=setTimeout(function(){armed=false;del.textContent="Delete"},3000);return}
+      clearTimeout(tm);CURM.history=CURM.history.filter(function(x){return x!==e});save();persistNow();showView("file");
+    }});bw.appendChild(del);row.appendChild(bw);h.g.appendChild(row);
+  });
+  h.g.appendChild(prev);
+};
+
+/* ---------- time recording, costs estimate, checklists ---------- */
+var TASKS=["Telephone call with client","Meeting with client","Email to client","Letter to client","Letter to other side","Telephone call with other side","Reading documents","Drafting documents","Preparing for hearing","Attending court","Travel","Research","File review","Instructing counsel"];
+function numInput(id,val,min,step){var i=mk("input",{type:"number",id:id,min:min==null?"0":min,step:step||"1"});i.value=val==null?"":val;return i}
+function tcell(content){var td=mk("td");if(content!=null)td.appendChild(typeof content==="string"?document.createTextNode(content):content);return td}
+function wrapTable(table){var w=mk("div",{class:"twrap"});w.appendChild(table);return w}
+function defaultRate(){var r=num(S.hourlyRate);return isNaN(r)?(num(FIRM.hourlyRate)||0):r}
+VIEWFN.time=function(box){
+  box.appendChild(mk("h2",{class:"vh",text:"Time and costs: "+CURM.name}));
+  var wrap=mk("div",{class:"vstack",style:"max-width:980px"});box.appendChild(wrap);
+  var tot=mk("div",{class:"totals",role:"status"});
+  function paintTotals(){
+    var L=ledgerTotals(),est=num(S.costEstimate);tot.innerHTML="";
+    function stat(label,val){tot.appendChild(mk("div",{class:"stat"},[mk("span",{class:"sl",text:label}),mk("strong",{text:val})]))}
+    stat("Units of 6 minutes",String(L.units));stat("Hours",L.hours.toFixed(1));stat("Costs (ex VAT)",money(L.amount));stat("VAT",money(L.vat));stat("Disbursements (inc VAT)",money(L.disbEx+L.disbVat));stat("Total",money(L.total));
+    if(!isNaN(est)&&est>0){
+      var pct=Math.round(L.amount/est*100);
+      var bar=mk("div",{class:"bar","aria-label":"Estimate used"},[mk("div",{class:"fill"+(pct>=100?" over":pct>=80?" warn":""),style:"width:"+Math.min(100,pct)+"%"})]);
+      tot.appendChild(mk("div",{class:"estbar"},[mk("span",{class:"sl",text:"Estimate "+money(est)+" (ex VAT) is "+pct+"% used"+(pct>=80?". Tell the client before you reach it.":"")}),bar]));
+    }
+  }
+  /* record time */
+  var a=setSec("Record time",true);wrap.appendChild(a.d);
+  var d1=mk("input",{type:"date",id:"t_date"});d1.value=iso(new Date());
+  var ds=mk("input",{type:"text",id:"t_desc",list:"t_tasks",autocomplete:"off"});var dl=mk("datalist",{id:"t_tasks"});TASKS.forEach(function(t){dl.appendChild(mk("option",{value:t}))});
+  var mi=numInput("t_min","","0","1"),rt=numInput("t_rate",defaultRate()||"","0","5");
+  var ch=mk("input",{type:"checkbox",id:"t_ch"});ch.checked=true;
+  a.g.appendChild(fld("Date",d1,null,true));a.g.appendChild(fld("Minutes",mi,"Billed in units of 6 minutes, rounded up.",true));
+  a.g.appendChild(fld("Work done",ds));a.g.appendChild(dl);
+  var q=mk("div",{class:"row",style:"grid-column:1/-1"});[6,12,18,30,45,60].forEach(function(n){q.appendChild(mk("button",{type:"button",class:"btn",text:n+" min",onclick:function(){mi.value=n}}))});a.g.appendChild(q);
+  a.g.appendChild(fld("Hourly rate (GBP)",rt,null,true));a.g.appendChild(fld("Chargeable",ch,null,true));
+  a.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn primary",text:"Add time",onclick:function(){
+    var m=parseInt(mi.value,10);if(!(m>0)||!ds.value.trim()){toast("Enter what you did and the minutes.");return}
+    CURM.time.push({id:mid(),date:d1.value||iso(new Date()),desc:ds.value.trim(),minutes:m,rate:parseFloat(rt.value)||0,chargeable:ch.checked,who:S.caseWorker||""});
+    save();persistNow();showView("time");toast("Time added.");
+  }})]));
+  /* entries */
+  var e=setSec("Time entries",true);wrap.appendChild(e.d);e.g.appendChild(mk("div",{style:"grid-column:1/-1"},[tot]));
+  if(!CURM.time.length)e.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"No time recorded yet. Entries feed the progress update and the costs update letters."}));
+  else{
+    var tb=mk("table",{class:"ledger"});var th=mk("tr");["Date","Work done","Min","Units","Rate","Amount","Chargeable",""].forEach(function(h){th.appendChild(mk("th",{text:h}))});tb.appendChild(mk("thead",null,[th]));
+    var body=mk("tbody");
+    CURM.time.slice().sort(function(x,y){return String(x.date).localeCompare(String(y.date))}).forEach(function(en){
+      var tr=mk("tr");
+      var dd=mk("input",{type:"date","aria-label":"Date"});dd.value=en.date;dd.addEventListener("change",function(){en.date=dd.value;save()});
+      var dsc=mk("input",{type:"text","aria-label":"Work done"});dsc.value=en.desc||"";dsc.addEventListener("input",function(){en.desc=dsc.value;save()});
+      var mn=numInput("","",null,"1");mn.value=en.minutes;mn.setAttribute("aria-label","Minutes");
+      var un=tcell(String(unitsOf(en.minutes))),am=tcell(money(unitsOf(en.minutes)*0.1*(+en.rate||0)));
+      var rr=numInput("","",null,"5");rr.value=en.rate;rr.setAttribute("aria-label","Rate");
+      function upd(){en.minutes=parseInt(mn.value,10)||0;en.rate=parseFloat(rr.value)||0;un.textContent=String(unitsOf(en.minutes));am.textContent=money(unitsOf(en.minutes)*0.1*en.rate);save();paintTotals()}
+      mn.addEventListener("input",upd);rr.addEventListener("input",upd);
+      var cb=mk("input",{type:"checkbox","aria-label":"Chargeable"});cb.checked=en.chargeable!==false;cb.addEventListener("change",function(){en.chargeable=cb.checked;save();paintTotals()});
+      var armed=false,tm;var del=mk("button",{type:"button",class:"btn",text:"Delete"});del.addEventListener("click",function(){
+        if(!armed){armed=true;del.textContent="Sure?";tm=setTimeout(function(){armed=false;del.textContent="Delete"},3000);return}
+        clearTimeout(tm);CURM.time=CURM.time.filter(function(x){return x!==en});save();persistNow();showView("time");
+      });
+      [tcell(dd),tcell(dsc),tcell(mn),un,tcell(rr),am,tcell(cb),tcell(del)].forEach(function(c){tr.appendChild(c)});body.appendChild(tr);
+    });
+    tb.appendChild(body);e.g.appendChild(mk("div",{style:"grid-column:1/-1"},[wrapTable(tb)]));
+    e.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",text:"Export time as CSV",onclick:function(){
+      var rows=[["Date","Work done","Minutes","Units","Rate","Amount","Chargeable","Who"]].concat(CURM.time.map(function(x){return[x.date,x.desc,x.minutes,unitsOf(x.minutes),x.rate,(unitsOf(x.minutes)*0.1*(+x.rate||0)).toFixed(2),x.chargeable!==false?"yes":"no",x.who||""]}));
+      var csv=rows.map(function(r){return r.map(function(c){c=String(c==null?"":c);return/[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(",")}).join("\r\n");
+      downloadBlob("time-"+fileSafe(CURM.name)+".csv",new Blob(["﻿"+csv],{type:"text/csv"}));
+    }})]));
+  }
+  paintTotals();
+  /* disbursements */
+  var dsb=setSec("Disbursements",false);wrap.appendChild(dsb.d);
+  var dd2=mk("input",{type:"date",id:"d_date"});dd2.value=iso(new Date());var dde=mk("input",{type:"text",id:"d_desc",autocomplete:"off"});var dam=numInput("d_amt","","0","0.01");var dvt=mk("input",{type:"checkbox",id:"d_vat"});
+  dsb.g.appendChild(fld("Date",dd2,null,true));dsb.g.appendChild(fld("Amount (GBP)",dam,null,true));dsb.g.appendChild(fld("What it is for",dde,"For example court fee, counsel's fee, valuation."));dsb.g.appendChild(fld("VAT is added to this amount",dvt,null,false));
+  dsb.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn primary",text:"Add disbursement",onclick:function(){
+    var a2=parseFloat(dam.value);if(!(a2>0)||!dde.value.trim()){toast("Enter what it is for and the amount.");return}
+    CURM.disb.push({id:mid(),date:dd2.value,desc:dde.value.trim(),amount:a2,vat:dvt.checked});save();persistNow();showView("time");
+  }})]));
+  CURM.disb.forEach(function(x){
+    var row=mk("div",{class:"hrow",style:"grid-column:1/-1"});row.appendChild(mk("div",{class:"hmain",text:(x.date?fmtDate(x.date,false)+": ":"")+x.desc+" - "+money(x.amount)+(x.vat?" plus VAT":"")}));
+    var armed=false,tm;var del=mk("button",{type:"button",class:"btn",text:"Delete"});del.addEventListener("click",function(){
+      if(!armed){armed=true;del.textContent="Sure?";tm=setTimeout(function(){armed=false;del.textContent="Delete"},3000);return}
+      clearTimeout(tm);CURM.disb=CURM.disb.filter(function(y){return y!==x});save();persistNow();showView("time");
+    });row.appendChild(del);dsb.g.appendChild(row);
+  });
+  /* estimate */
+  var es=setSec("Estimate calculator",false);wrap.appendChild(es.d);
+  es.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Build a stage-by-stage estimate. VAT is added at "+(FIRM.vat||"20")+"%. Use it to fill the estimate in the client care, advice and progress letters."}));
+  var etot=mk("p",{class:"dstatus",style:"grid-column:1/-1"}),erows=mk("div",{style:"grid-column:1/-1",class:"erows"});es.g.appendChild(erows);
+  function paintEst(){
+    var t=0;CURM.estimate.forEach(function(r){t+=(+r.hours||0)*(+r.rate||0)});
+    etot.textContent="Estimate: "+money(t)+" plus VAT "+money(t*vatRate())+" = "+money(t*(1+vatRate()));
+  }
+  function paintRows(){
+    erows.innerHTML="";
+    CURM.estimate.forEach(function(r,i){
+      var row=mk("div",{class:"erow"});
+      var st=mk("input",{type:"text","aria-label":"Stage"});st.value=r.stage||"";st.addEventListener("input",function(){r.stage=st.value;save()});
+      var hr=numInput("","",null,"0.5");hr.value=r.hours;hr.setAttribute("aria-label","Hours");hr.addEventListener("input",function(){r.hours=parseFloat(hr.value)||0;save();paintEst()});
+      var ra=numInput("","",null,"5");ra.value=r.rate;ra.setAttribute("aria-label","Rate");ra.addEventListener("input",function(){r.rate=parseFloat(ra.value)||0;save();paintEst()});
+      var rm=mk("button",{type:"button",class:"btn",text:"Remove",onclick:function(){CURM.estimate.splice(i,1);save();paintRows();paintEst()}});
+      row.appendChild(mk("label",{class:"hint"},["Stage",st]));row.appendChild(mk("label",{class:"hint"},["Hours",hr]));row.appendChild(mk("label",{class:"hint"},["Rate (GBP)",ra]));row.appendChild(rm);erows.appendChild(row);
+    });
+  }
+  es.g.appendChild(mk("div",{class:"row"},[
+    mk("button",{type:"button",class:"btn",text:"Add a stage",onclick:function(){CURM.estimate.push({stage:"",hours:1,rate:defaultRate()});save();paintRows();paintEst()}}),
+    mk("button",{type:"button",class:"btn",text:"Add the usual family stages",onclick:function(){
+      [["Initial advice and client care",2],["Divorce application and service",4],["Financial disclosure (Form E and documents)",10],["Negotiation and correspondence",8],["Court hearings and preparation",12],["Consent order and approval",5]].forEach(function(r){CURM.estimate.push({stage:r[0],hours:r[1],rate:defaultRate()})});save();paintRows();paintEst();
+    }}),
+    mk("button",{type:"button",class:"btn primary",text:"Use this as the estimate in letters",onclick:function(){
+      var t=0;CURM.estimate.forEach(function(r){t+=(+r.hours||0)*(+r.rate||0)});
+      if(!t){toast("Add at least one stage with hours and a rate.");return}
+      S.costEstimate=String(Math.round(t));var sn=CURM.estimate.map(function(r){return r.stage}).filter(Boolean);S.costStage=sn.length===1?sn[0]:"all the stages of the matter";save();paintTotals();toast("Estimate set to "+money(t)+" plus VAT.");
+    }})]));
+  es.g.appendChild(etot);paintRows();paintEst();
+};
+function logAttendanceTime(){
+  var a=/^(\d{1,2}):(\d{2})$/.exec(S.startTime||""),b=/^(\d{1,2}):(\d{2})$/.exec(S.endTime||"");
+  if(!a||!b){toast("Enter the start and end times first.");return}
+  var m=(+b[1])*60+(+b[2])-((+a[1])*60+(+a[2]));if(!(m>0)){toast("The end time must be after the start time.");return}
+  CURM.time.push({id:mid(),date:S.noteDate||iso(new Date()),desc:(S.attendType||"Attendance")+(has("purpose")?": "+S.purpose.trim():""),minutes:m,rate:defaultRate(),chargeable:!!S.chargeable,who:S.caseWorker||""});
+  save();persistNow();toast("Logged "+m+" minutes ("+unitsOf(m)+" units) to the time ledger.");
+}
+/* checklists */
+var CHECKS=[
+ ["Opening the matter","c_care_sent","Client care letter sent"],["Opening the matter","c_care_signed","Signed client care letter received"],
+ ["Opening the matter","c_id","Client identity checked and copies kept"],["Opening the matter","c_addr","Proof of address received"],
+ ["Opening the matter","c_aml","Source of funds and money laundering risk assessed where required"],["Opening the matter","c_conflict","Conflict of interests check completed"],
+ ["Opening the matter","c_funding","Funding confirmed: private, legal aid or third party"],["Opening the matter","c_scope","Scope of work agreed and recorded"],
+ ["Opening the matter","c_costs_info","Costs information given: rates, estimate, VAT, disbursements, who does the work, payments on account"],
+ ["Opening the matter","c_vuln","Vulnerability, capacity and communication needs recorded: interpreter, accessibility, safe contact details"],
+ ["Opening the matter","c_safety","Risk of domestic abuse asked about, and protective steps considered"],
+ ["Divorce","c_marriage","Marriage certificate on file",["Divorce","Divorce and financial remedy"]],
+ ["Divorce","c_conditional","Conditional order applied for and granted",["Divorce","Divorce and financial remedy"]],
+ ["Divorce","c_final","Final order applied for only after finances are resolved, or the risks explained",["Divorce","Divorce and financial remedy"]],
+ ["Finances","c_miam","MIAM attended, or an exemption evidenced",["Financial remedy","Divorce and financial remedy","Children arrangements"]],
+ ["Finances","c_forme","Form E completed and exchanged",["Financial remedy","Divorce and financial remedy"]],
+ ["Finances","c_cetv","Pension valuations requested",["Financial remedy","Divorce and financial remedy"]],
+ ["Finances","c_consent","Consent order and statement of information prepared and filed",["Financial remedy","Divorce and financial remedy"]],
+ ["Children","c_cafcass","Cafcass safeguarding letter received and discussed with the client",["Children arrangements"]],
+ ["Children","c_welfare","Arrangements for the children and any safety concerns discussed and recorded",["Children arrangements"]],
+ ["Hearings","c_notice","Client sent notice of the hearing"],["Hearings","c_prep","Client prepared for the hearing"],["Hearings","c_bundle","Bundle prepared and filed in time"],["Hearings","c_order","Order received, checked and sent to the client"],
+ ["Closing the matter","c_finalorder","Final order received and checked"],["Closing the matter","c_outcome","Client told the outcome and what to do next"],["Closing the matter","c_bill","Final bill sent"],
+ ["Closing the matter","c_ledger","Client account balance cleared or refunded"],["Closing the matter","c_orig","Original documents returned"],["Closing the matter","c_closing","Closing letter sent"],["Closing the matter","c_archive","File archived and retention date recorded"]
+];
+function checkItems(){
+  var out=CHECKS.filter(function(c){return!c[3]||c[3].indexOf(S.matterType)>-1}).map(function(c){return{id:c[1],g:c[0],t:c[2],custom:false}});
+  (CURM.customChecks||[]).forEach(function(c){out.push({id:c.id,g:c.g,t:c.t,custom:true})});
+  return out;
+}
+function checkProgress(){
+  var items=checkItems(),done=0,total=0;
+  items.forEach(function(it){var st=CURM.checks[it.id]||{};if(st.na)return;total++;if(st.done)done++});
+  return{done:done,total:total};
+}
+VIEWFN.checks=function(box){
+  box.appendChild(mk("h2",{class:"vh",text:"Checklists: "+CURM.name}));
+  var wrap=mk("div",{class:"vstack"});box.appendChild(wrap);
+  wrap.appendChild(mk("p",{class:"hint",text:"These lists are prompts for your own file review, based on common practice for family matters. They are not legal or compliance advice, and they do not replace your firm's policies or the SRA rules. Items that do not apply can be marked N/A."}));
+  var prog=mk("p",{class:"dstatus",role:"status"});function paintProg(){var p=checkProgress();prog.textContent=p.done+" of "+p.total+" done";updateChecksChip()}
+  wrap.appendChild(prog);
+  var groups=[];checkItems().forEach(function(it){if(groups.indexOf(it.g)<0)groups.push(it.g)});
+  groups.forEach(function(g){
+    var sec=setSec(g,g==="Opening the matter");wrap.appendChild(sec.d);
+    checkItems().filter(function(it){return it.g===g}).forEach(function(it){
+      var st=CURM.checks[it.id]||(CURM.checks[it.id]={});
+      var row=mk("div",{class:"crow",style:"grid-column:1/-1"});
+      var cb=mk("input",{type:"checkbox",id:"ck_"+it.id});cb.checked=!!st.done;
+      var lab=mk("label",{for:"ck_"+it.id,text:it.t});
+      var dt=mk("span",{class:"hint",text:st.done&&st.date?"done "+fmtDate(st.date,false):""});
+      var na=mk("input",{type:"checkbox",id:"na_"+it.id,"aria-label":"Not applicable: "+it.t});na.checked=!!st.na;
+      var nl=mk("label",{class:"hint",for:"na_"+it.id,text:"N/A"});
+      var nt=mk("input",{type:"text",placeholder:"Note","aria-label":"Note: "+it.t});nt.value=st.note||"";
+      cb.addEventListener("change",function(){st.done=cb.checked;st.date=cb.checked?iso(new Date()):"";dt.textContent=cb.checked?"done "+fmtDate(st.date,false):"";save();paintProg()});
+      na.addEventListener("change",function(){st.na=na.checked;row.classList.toggle("na",na.checked);save();paintProg()});
+      nt.addEventListener("input",function(){st.note=nt.value;save()});
+      row.classList.toggle("na",!!st.na);
+      row.appendChild(mk("div",{class:"cmain"},[cb,lab]));row.appendChild(dt);row.appendChild(mk("div",{class:"cna"},[na,nl]));row.appendChild(nt);
+      if(it.custom){row.appendChild(mk("button",{type:"button",class:"btn",text:"Remove",onclick:function(){CURM.customChecks=CURM.customChecks.filter(function(c){return c.id!==it.id});save();showView("checks")}}))}
+      sec.g.appendChild(row);
+    });
+  });
+  var add=setSec("Add your own item",false);wrap.appendChild(add.d);
+  var gsel=mk("select",{id:"cc_g"});["Opening the matter","Hearings","Closing the matter","Other"].forEach(function(g){gsel.appendChild(mk("option",{value:g,text:g}))});
+  var txt=mk("input",{type:"text",id:"cc_t",autocomplete:"off"});
+  add.g.appendChild(fld("Group",gsel,null,true));add.g.appendChild(fld("Item",txt));
+  add.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",text:"Add item",onclick:function(){if(!txt.value.trim())return;CURM.customChecks=CURM.customChecks||[];CURM.customChecks.push({id:"cx"+mid(),g:gsel.value,t:txt.value.trim()});save();showView("checks")}})]));
+  paintProg();
+};
+
+
+/* ----- email helper: short text only, no attachments ----- */
+$("btnEmail").addEventListener("click",function(){
+  var to=(S.clientEmail||"").trim();
+  var tdef=TYPES.filter(function(t){return t.id===cur})[0];
+  var subj=(tdef?tdef.label:"Letter")+(S.ourRef?" - our ref "+S.ourRef:"");
+  var body="Dear "+((S.salutation||S.clientName||"").trim()||"client")+",\n\nI attach my letter to you. Please let me know if you have any questions.\n\n"+(S.caseWorker||"")+"\n"+(S.firmName||"");
+  var d=document.createElement("div");d.className="modal";d.setAttribute("role","dialog");d.setAttribute("aria-label","Email helper");
+  d.innerHTML='<div class="mcard"><h3>Email helper</h3><p class="hint">This cannot attach files or send anything. Download the Word letter, then attach it in your email program. Do not put client details in an email unless your firm allows it; the short text below contains none.</p><label>To<input type="text" id="em_to"></label><label>Subject<input type="text" id="em_subj"></label><label>Text<textarea id="em_body" rows="7"></textarea></label><div class="row"><button class="btn primary" type="button" id="em_open">Open in email program</button><button class="btn" type="button" id="em_copy">Copy text</button><button class="btn" type="button" id="em_close">Close</button></div></div>';
+  document.body.appendChild(d);
+  d.querySelector("#em_to").value=to;d.querySelector("#em_subj").value=subj;d.querySelector("#em_body").value=body;
+  d.querySelector("#em_close").addEventListener("click",function(){d.remove()});
+  d.querySelector("#em_copy").addEventListener("click",function(){copyText(d.querySelector("#em_subj").value+"\n\n"+d.querySelector("#em_body").value)});
+  d.querySelector("#em_open").addEventListener("click",function(){
+    location.href="mailto:"+encodeURIComponent(d.querySelector("#em_to").value.trim())+"?subject="+encodeURIComponent(d.querySelector("#em_subj").value)+"&body="+encodeURIComponent(d.querySelector("#em_body").value);
+  });
+  d.querySelector("#em_to").focus();
+});
+
+var CSV_COLS=["clientName","salutation","clientAddress","clientEmail","ourRef","otherParty","caseNumber","court","matterType"];
+var CSV_ALIAS={client:"clientName","client name":"clientName",name:"clientName",address:"clientAddress","client address":"clientAddress",email:"clientEmail",reference:"ourRef",ref:"ourRef","our ref":"ourRef","file ref":"ourRef","other party":"otherParty",respondent:"otherParty","case number":"caseNumber","case no":"caseNumber",court:"court","matter type":"matterType",type:"matterType",salutation:"salutation"};
+function parseCsv(t){
+  var rows=[],row=[],f="",q=false;t=t.replace(/^﻿/,"");
+  for(var i=0;i<t.length;i++){var c=t[i];
+    if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c==='"')q=true;else if(c===","){row.push(f);f=""}
+    else if(c==="\n"||c==="\r"){if(c==="\r"&&t[i+1]==="\n")i++;row.push(f);f="";if(row.some(function(x){return x.trim()}))rows.push(row);row=[]}
+    else f+=c}
+  row.push(f);if(row.some(function(x){return x.trim()}))rows.push(row);return rows;
+}
+function importCsv(text){
+  var rows=parseCsv(text);if(rows.length<2)return"No rows found. The first row must be the column names.";
+  var keys=rows[0].map(function(h){var k=h.trim();if(BLANK.hasOwnProperty(k))return k;return CSV_ALIAS[k.toLowerCase()]||null});
+  if(keys.every(function(k){return!k}))return"No columns matched. Download the template to see the names.";
+  var n=0,last=null;
+  rows.slice(1).forEach(function(r){
+    var o={};keys.forEach(function(k,i){if(k&&r[i]&&r[i].trim())o[k]=r[i].trim()});
+    if(!Object.keys(o).length)return;
+    if(o.matterType&&MATTERS.indexOf(o.matterType)<0){var mt=MATTERS.filter(function(m){return m.toLowerCase()===o.matterType.toLowerCase()})[0];if(mt)o.matterType=mt;else delete o.matterType}
+    var m=newMatterObj(null,null);Object.assign(m.S,o);m.autoName=true;m.name=autoNameOf(m.S);STORE.matters.push(m);last=m;n++;
+  });
+  if(!n)return"No usable rows.";
+  loadMatter(last.id);resetDocsState();save();afterMatterChange();persistNow();
+  return"Imported "+n+" matter"+(n===1?"":"s")+". Check each one before use.";
+}
 /* ---------- standard information library ---------- */
 var LKEY="family-letter-desk-library-v1";
-var STD_TYPES=["care","advice","notice","outcome","closing"];
+var STD_TYPES=ALL.filter(function(x){return x!=="note"});
 var LIB={blocks:[]};
 var STARTERS=[
  {id:"starter-storage",title:"Storing your file",types:["closing"],body:"We will keep your file for {{retention}} after the matter ends. After that it may be destroyed securely without further notice unless you ask us in writing to keep it longer.\nThe file includes our correspondence, notes and copies of documents. Original documents are returned to you at the end of the matter.\nIf you want your file or any papers from it earlier, please ask your case worker."},
@@ -868,6 +2044,219 @@ function makeStdSection(){
   d2.appendChild(g2);wrap.appendChild(d2);
   return wrap;
 }
+/* ---------- summaries of uploaded documents ---------- */
+var lastSummary=null;
+async function gatherDocs(){
+  var items=[],issues=[],total=0;
+  for(var i=0;i<files.length;i++){
+    var f=files[i];
+    try{
+      var r=await readFile(f,function(m){setDStatus(m,false)});
+      if(r.issue)issues.push(r.issue);
+      if(r.text&&r.text.trim()){
+        var t=r.text.trim().slice(0,60000);
+        if(total+t.length>200000){issues.push(f.name+" was left out because the documents are too long.");continue}
+        total+=t.length;items.push({name:f.name,text:t});
+      }else issues.push(f.name+" has no readable text.");
+    }catch(e){issues.push(f.name+" could not be read ("+(e&&e.message==="type"?"unsupported file type":e&&e.message==="doc"?"old .doc files are not supported, so save it as .docx and upload that":"the file may be damaged or protected")+").")}
+  }
+  if(pasteText.trim())items.push({name:"Pasted text",text:pasteText.trim().slice(0,60000)});
+  return{items:items,issues:issues};
+}
+function sentencesOf(t){
+  return String(t||"").replace(/\s+/g," ").split(/(?<=[.!?])\s+(?=[A-Z0-9(])/).map(function(x){return x.trim()}).filter(function(x){return x.length>=35&&x.length<=320});
+}
+var KEYW=/\b(order(?:ed)?|must|shall|agreed?|agreement|instruct\w*|advis\w*|deadline|hearing|costs?|settle\w*|offer\w*|pension|propert\w+|house|children|child|contact|maintenance|disclos\w+|valuation|consent|adjourn\w*|listed|directions?|financial|divorce|conditional|final)\b/i;
+function keySentences(t,n){
+  var ss=sentencesOf(t);
+  var sc=ss.map(function(x,i){var v=0;if(KEYW.test(x))v+=2;var m=x.match(KEYW);if(m)v+=1;if(allDates(x).length)v+=1;if(/£\s?\d/.test(x))v+=1;if(i<2)v+=1;return{x:x,i:i,v:v}});
+  sc.sort(function(a,b){return b.v-a.v||a.i-b.i});
+  return sc.slice(0,n).sort(function(a,b){return a.i-b.i}).map(function(o){return o.x});
+}
+function summariseRules(items){
+  var role=lastExtract&&lastExtract.clientRole||"",parties=lastExtract&&lastExtract.parties||[];
+  var P=function(x){return role?plain(x,role,parties):plain(x,"",[])};
+  var today=iso(new Date());
+  var docs=items.map(function(it){
+    var ex=extractRules([it]);
+    var d={name:it.name,type:"Document",date:"",summary:"",points:[],deadlines:[],next:null};
+    if(ex.hearings.length){
+      var h=ex.hearings[0];
+      d.type=(ex.courtOrders[0]&&ex.courtOrders[0].title)||"Court order";d.date=h.date||"";
+      d.summary=(h.summary||"")+(h.costs?" Costs: "+h.costs.toLowerCase()+".":"");
+      d.points=(h.orders||[]).map(P);d.deadlines=(h.directions||[]).map(P);
+      if(ex.nextHearing&&ex.nextHearing.date){d.next=ex.nextHearing;d.summary+=" The case was listed again on "+fmtDate(ex.nextHearing.date,false)+(ex.nextHearing.time?" at "+fmtTime(ex.nextHearing.time):"")+(ex.nextHearing.type?" for a "+ex.nextHearing.type.replace(/\s*\(.*\)$/,""):"")+"."}
+    }else if(ex.attendanceNotes.length){
+      var n=ex.attendanceNotes[0];d.type="Attendance note"+(n.type?": "+n.type.toLowerCase():"");d.date=n.date||"";
+      var mins=NaN;if(n.start&&n.end){var a=n.start.split(":"),b=n.end.split(":");mins=(+b[0])*60+(+b[1])-((+a[0])*60+(+a[1]))}
+      d.summary=[n.present?"With "+n.present+".":"",!isNaN(mins)&&mins>0?"Lasted "+mins+" minutes.":"",n.instructions?"Instructions: "+n.instructions:""].filter(Boolean).join(" ");
+      d.points=keySentences(n.summary,5);
+      d.deadlines=(n.actions||[]);
+    }else{
+      var ds=allDates(it.text.slice(0,1500));d.date=ds.length?ds[0].iso:"";
+      d.points=keySentences(it.text,5);
+      if(/^\s*dear\b/i.test(it.text))d.type="Letter";
+    }
+    return d;
+  });
+  docs.sort(function(a,b){return String(a.date||"9999").localeCompare(String(b.date||"9999"))});
+  var tl=[];
+  docs.forEach(function(d){
+    if(d.date){
+      var ev=/order|notice/i.test(d.type)&&d.summary?d.summary.split(". ")[0].replace(/\.$/,""):(d.points[0]||d.summary||"");
+      if(ev.length>150)ev=ev.slice(0,147).replace(/\s+\S*$/,"")+"...";
+      tl.push({date:d.date,event:d.type+(ev?": "+ev:"")});
+    }
+    if(d.next&&d.next.date)tl.push({date:d.next.date,event:"Hearing listed"+(d.next.type?": "+d.next.type:"")});
+  });
+  tl.sort(function(a,b){return a.date.localeCompare(b.date)});
+  var up=[];
+  docs.forEach(function(d){d.deadlines.forEach(function(x){var ds=allDates(x).map(function(y){return y.iso}).filter(function(y){return y>=today});if(ds.length)up.push({date:ds[0],text:x})})});
+  up.sort(function(a,b){return a.date.localeCompare(b.date)});
+  var nOrd=docs.filter(function(d){return/order|notice/i.test(d.type)}).length,nNote=docs.filter(function(d){return/^Attendance/.test(d.type)}).length,nOth=docs.length-nOrd-nNote;
+  var dated=docs.filter(function(d){return d.date}).map(function(d){return d.date});
+  var ov=docs.length+" document"+(docs.length===1?"":"s")+" read"+(nOrd||nNote?" ("+[nOrd?nOrd+" court order"+(nOrd===1?"":"s"):"",nNote?nNote+" attendance note"+(nNote===1?"":"s"):"",nOth?nOth+" other":""].filter(Boolean).join(", ")+")":"")+(dated.length?", dated between "+fmtDate(dated[0],false)+" and "+fmtDate(dated[dated.length-1],false):"")+".";
+  var futureNext=tl.filter(function(e){return e.date>=today&&/^Hearing listed/.test(e.event)})[0];
+  if(futureNext)ov+=" The next hearing is on "+fmtDate(futureNext.date,false)+".";
+  if(up.length)ov+=" There "+(up.length===1?"is 1 upcoming deadline":"are "+up.length+" upcoming deadlines")+", the first on "+fmtDate(up[0].date,false)+".";
+  var notes=["Built-in summaries pick out the key sentences and orders. They do not interpret the documents. Read the originals for anything that matters."];
+  return{overview:ov,documents:docs,timeline:tl,upcoming:up,notes:notes};
+}
+function sumPrompt(items){
+  var p="You are helping a family law solicitor in England and Wales. Summarise the documents below, which come from one client matter.\n\nRules:\n- Use only what the documents say. Do not guess or add legal advice. If something is unclear, say so in notes.\n- Write in plain English and the past tense. Dates as YYYY-MM-DD.\n- overview: 3 to 6 sentences on how the matter stands now.\n- For each document give a one to three sentence summary, up to 6 key points, and any deadlines with their dates.\n- timeline: the main events in date order.\n- upcoming: deadlines and hearings that are still in the future from "+iso(new Date())+".\n\nReply with only one JSON object in this shape:\n"+
+   '{"overview":"","documents":[{"name":"","type":"","date":"","summary":"","points":[""],"deadlines":[""]}],"timeline":[{"date":"","event":""}],"upcoming":[{"date":"","text":""}],"notes":[""]}\n\n';
+  items.forEach(function(it,i){p+="=== DOCUMENT "+(i+1)+": "+it.name+" ===\n"+it.text+"\n\n"});
+  return p;
+}
+function cleanSummary(o){
+  function str(x){return typeof x==="string"?x.trim():""}
+  function arr(x){return Array.isArray(x)?x.map(function(y){return typeof y==="string"?y.trim():""}).filter(Boolean):[]}
+  if(!o||typeof o!=="object")throw{code:"invalid_json"};
+  return{overview:str(o.overview),
+    documents:(Array.isArray(o.documents)?o.documents:[]).filter(function(d){return d&&typeof d==="object"}).map(function(d){return{name:str(d.name),type:str(d.type)||"Document",date:isDate(d.date)?d.date:"",summary:str(d.summary),points:arr(d.points),deadlines:arr(d.deadlines)}}),
+    timeline:(Array.isArray(o.timeline)?o.timeline:[]).filter(function(e){return e&&typeof e==="object"&&str(e.event)}).map(function(e){return{date:isDate(e.date)?e.date:"",event:str(e.event)}}),
+    upcoming:(Array.isArray(o.upcoming)?o.upcoming:[]).filter(function(e){return e&&typeof e==="object"&&str(e.text)}).map(function(e){return{date:isDate(e.date)?e.date:"",text:str(e.text)}}),
+    notes:arr(o.notes)};
+}
+function summaryText(m){
+  var o=[];
+  o.push("SUMMARY OF DOCUMENTS");if(m.overview)o.push("",m.overview);
+  if(m.upcoming&&m.upcoming.length){o.push("","Upcoming deadlines and hearings");m.upcoming.forEach(function(u){o.push("- "+(u.date?fmtDate(u.date,false)+": ":"")+u.text)})}
+  if(m.timeline&&m.timeline.length){o.push("","Timeline");m.timeline.forEach(function(e){o.push("- "+(e.date?fmtDate(e.date,false)+": ":"")+e.event)})}
+  if(m.documents.length){o.push("","Document by document");m.documents.forEach(function(d){
+    o.push("",d.name+" ("+d.type+(d.date?", "+fmtDate(d.date,false):"")+")");if(d.summary)o.push(d.summary);
+    d.points.forEach(function(x){o.push("- "+x)});if(d.deadlines.length){o.push("Deadlines and actions:");d.deadlines.forEach(function(x){o.push("- "+x)})}
+  })}
+  if(m.notes&&m.notes.length){o.push("","Please check");m.notes.forEach(function(x){o.push("- "+x)})}
+  return o.join("\n");
+}
+var SUM_FIELD={closing:"c_outcome",outcome:"outcomeSummary",advice:"summaryInstructions",note:"discussion"};
+function el(tag,txt,cls){var e=document.createElement(tag);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e}
+function renderSummary(){
+  var box=document.getElementById("sumOut");if(!box)return;
+  box.innerHTML="";box.hidden=!lastSummary;if(!lastSummary)return;
+  var m=lastSummary;
+  box.appendChild(el("p","Summary of documents","lbl"));
+  if(m.overview)box.appendChild(el("p",m.overview));
+  function list(title,items){if(!items.length)return;box.appendChild(el("p",title,"lbl"));var u=el("ul");items.forEach(function(x){u.appendChild(el("li",x))});box.appendChild(u)}
+  list("Upcoming deadlines and hearings",(m.upcoming||[]).map(function(u){return(u.date?fmtDate(u.date,false)+": ":"")+u.text}));
+  list("Timeline",(m.timeline||[]).map(function(e){return(e.date?fmtDate(e.date,false)+": ":"")+e.event}));
+  m.documents.forEach(function(d){
+    var det=document.createElement("details");var sm=el("summary",d.name+" ("+d.type+(d.date?", "+fmtDate(d.date,false):"")+")");sm.style.cursor="pointer";det.appendChild(sm);
+    if(d.summary)det.appendChild(el("p",d.summary));
+    if(d.points.length){var u=el("ul");d.points.forEach(function(x){u.appendChild(el("li",x))});det.appendChild(u)}
+    if(d.deadlines.length){det.appendChild(el("p","Deadlines and actions","lbl"));var u2=el("ul");d.deadlines.forEach(function(x){u2.appendChild(el("li",x))});det.appendChild(u2)}
+    box.appendChild(det);
+  });
+  list("Please check",m.notes||[]);
+  var row=el("div",null,"row");
+  var cp=el("button","Copy summary","btn");cp.type="button";
+  cp.addEventListener("click",function(){
+    var txt=summaryText(m);
+    function fb(){var ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand("copy")}catch(e){}ta.remove();toast(ok?"Summary copied.":"Copy was blocked by the browser.")}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(function(){toast("Summary copied.")},fb);else fb();
+  });
+  row.appendChild(cp);
+  var fld=SUM_FIELD[cur];
+  if(fld&&m.overview){
+    var us=el("button","Add overview to this letter","btn");us.type="button";
+    us.addEventListener("click",function(){
+      S[fld]=(String(S[fld]||"").trim()?String(S[fld]).trim()+"\n":"")+m.overview;save();renderForm();rebuild();toast("Overview added.");
+    });
+    row.appendChild(us);
+  }
+  box.appendChild(row);
+}
+async function summariseDocs(){
+  if(busy||!engineReady())return;
+  busy=true;updateDocsUI();setDStatus("Reading your files...",false);
+  try{
+    var g=await gatherDocs();
+    if(!g.items.length){setDStatus(g.issues.length?g.issues.join(" "):"Add at least one document or paste some text first.",true);return}
+    setDStatus("Summarising "+g.items.length+" document"+(g.items.length===1?"":"s")+(settings.engine==="rules"?"...":". This can take a minute..."),false);
+    ctl=new AbortController();
+    var m;
+    if(settings.engine==="rules")m=summariseRules(g.items);
+    else{
+      var raw=settings.engine==="ollama"?await localOllama(sumPrompt(g.items),ctl.signal):await localOpenAI(sumPrompt(g.items),ctl.signal);
+      m=cleanSummary(raw);
+      m.notes=(m.notes||[]).concat(["Written by a local AI model. It can make mistakes, so check against the documents."]);
+    }
+    m.notes=(m.notes||[]).concat(g.issues);
+    lastSummary=m;renderSummary();setDStatus("Done.",false);
+  }catch(e){
+    var code=e&&e.code;if(!code&&e&&e.name==="AbortError")code="cancelled";else if(!code&&e instanceof TypeError)code="local_unreachable";
+    var msg=ERR[code]||"Something went wrong while summarising. Try again.";if(code==="local_http"&&e.message)msg+=" ("+String(e.message).slice(0,160)+")";
+    setDStatus(msg,code!=="cancelled");
+  }finally{busy=false;ctl=null;updateDocsUI()}
+}
+
+/* ----- explain in plain English (local AI only) ----- */
+var lastExplain=null;
+function explainPrompt(items){
+  var p="You are helping a family law solicitor in England and Wales explain court documents to a client who is not a lawyer. For each important order, direction or paragraph in the documents below, quote the exact wording and then explain what it means for the client in plain English.\n\nRules:\n- Use only what the documents say. Do not add legal advice or predictions. If something is unclear, say so.\n- Copy the quote exactly. Do not change it.\n- Explain in short sentences, with no legal jargon. Say who must do what and by when.\n- At most 12 items.\n\nReturn only JSON in this shape:\n"+'{"items":[{"quote":"","plain":""}],"notes":[""]}\n\n';
+  items.forEach(function(it,i){p+="=== DOCUMENT "+(i+1)+": "+it.name+" ===\n"+it.text+"\n\n"});
+  return p;
+}
+function explainTarget(){return({closing:"c_outcome",outcome:"outcomeSummary",advice:"specificAdvice"})[cur]||null}
+function renderExplain(){
+  var box=document.getElementById("explainOut");if(!box)return;box.innerHTML="";
+  if(!lastExplain){box.hidden=true;return}
+  box.hidden=false;
+  box.appendChild(mk("p",{class:"hint",text:"Internal use only until you add it to a letter. Written by a local AI model, which can make mistakes: check each explanation against the order."}));
+  (lastExplain.items||[]).forEach(function(it){
+    var card=mk("div",{class:"xcard"});
+    card.appendChild(mk("blockquote",{text:it.quote}));
+    card.appendChild(mk("p",{text:it.plain}));
+    var tk=explainTarget();
+    var row=mk("div",{class:"row"});
+    row.appendChild(mk("button",{type:"button",class:"btn",text:"Copy",onclick:function(){copyText(it.plain)}}));
+    if(tk)row.appendChild(mk("button",{type:"button",class:"btn",text:"Add to this letter",onclick:function(){
+      var f=document.getElementById("f_"+tk)||document.getElementById(tk);
+      S[tk]=(S[tk]?S[tk].replace(/\s+$/,"")+"\n":"")+it.plain;save();if(typeof renderForm==="function")renderForm();rebuild();toast("Added to the letter.");
+    }}));
+    card.appendChild(row);box.appendChild(card);
+  });
+  (lastExplain.notes||[]).forEach(function(n){box.appendChild(mk("p",{class:"hint",text:n}))});
+}
+async function explainDocs(){
+  if(busy)return;
+  if(settings.engine==="rules"){setDStatus("Explaining needs a local AI model. Choose one in the box above. The built-in reader can only find details, it cannot interpret.",true);return}
+  busy=true;updateDocsUI();setDStatus("Reading your files...",false);
+  try{
+    var g=await gatherDocs();
+    if(!g.items.length){setDStatus(g.issues.length?g.issues.join(" "):"Add at least one document or paste some text first.",true);return}
+    setDStatus("Explaining. This can take a minute...",false);ctl=new AbortController();
+    var pr=explainPrompt(g.items);
+    var raw=settings.engine==="ollama"?await localOllama(pr,ctl.signal):await localOpenAI(pr,ctl.signal);
+    var items=(Array.isArray(raw.items)?raw.items:[]).map(function(x){return{quote:String(x&&x.quote||"").trim(),plain:String(x&&x.plain||"").trim()}}).filter(function(x){return x.quote&&x.plain});
+    lastExplain={items:items,notes:(Array.isArray(raw.notes)?raw.notes.filter(function(n){return typeof n==="string"&&n.trim()}):[]).concat(g.issues)};
+    renderExplain();setDStatus(items.length?"Done.":"The model did not return any explanations. Try again or use a larger model.",!items.length);
+  }catch(e){
+    var code=e&&e.code;if(!code&&e&&e.name==="AbortError")code="cancelled";else if(!code&&e instanceof TypeError)code="local_unreachable";
+    setDStatus(ERR[code]||"Something went wrong while explaining. Try again.",code!=="cancelled");
+  }finally{busy=false;ctl=null;updateDocsUI()}
+}
 /* ---------- fill from documents ---------- */
 var JSZIP_URL="vendor/jszip.min.js";
 var PDF_URL="vendor/pdf.min.js";
@@ -889,21 +2278,53 @@ function parseLoose(t){
   if(a>-1&&b>a){try{return JSON.parse(t.slice(a,b+1))}catch(e){}}
   throw{code:"invalid_json"};
 }
+
+/* ----- privacy guard for local AI: masking and address check ----- */
+function isLocalUrl(u){try{var h=new URL(String(u||"").trim()).hostname.toLowerCase();return h==="localhost"||h==="127.0.0.1"||h==="[::1]"||h==="::1"||/^10\./.test(h)||/^192\.168\./.test(h)||/^172\.(1[6-9]|2\d|3[01])\./.test(h)||/\.local$/.test(h)}catch(e){return false}}
+function maskPrompt(text){
+  var map={},n=0;
+  function tok(v){for(var k in map)if(map[k]===v)return k;n++;var t="[[ID"+n+"]]";map[t]=v;return t}
+  var out=String(text);
+  var pats=[/[\w.+\-]+@[\w\-]+(?:\.[\w\-]+)+/g,/\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/gi,/\b\d{2}-\d{2}-\d{2}\b/g,/(?:\+44\s?\(?0?\)?\s?|\b0)\d[\d\s]{8,11}\d\b/g,/\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b/g,/\b\d{8}\b/g];
+  out=out.replace(/((?:date of birth|d\.?o\.?b\.?|born(?: on)?)\s*[:\-]?\s*)([^\n,;]{6,28})/gi,function(m,a,b){return a+tok(b.trim())});
+  pats.forEach(function(re){out=out.replace(re,function(m){return tok(m)})});
+  String(OPTS.maskTerms||"").split(/[\n,;]+/).map(function(x){return x.trim()}).filter(function(x){return x.length>1}).forEach(function(t){
+    var re=new RegExp(t.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi");out=out.replace(re,function(m){return tok(m)});
+  });
+  return{text:out,map:map,count:n};
+}
+function unmaskDeep(v,map){
+  if(typeof v==="string"){var r=v;Object.keys(map).forEach(function(k){r=r.split(k).join(map[k])});return r}
+  if(Array.isArray(v))return v.map(function(x){return unmaskDeep(x,map)});
+  if(v&&typeof v==="object"){var o={};Object.keys(v).forEach(function(k){o[k]=unmaskDeep(v[k],map)});return o}
+  return v;
+}
+function aiGuard(url,prompt){
+  if(!isLocalUrl(url)&&!OPTS.remoteOk){
+    var ok=window.confirm("The AI server address ("+String(url).trim()+") is not on this computer or your local network. Client documents would be sent across the internet. Send them anyway?");
+    if(!ok)throw{code:"cancelled"};
+  }
+  if(OPTS.mask===false)return{prompt:prompt,fix:function(x){return x}};
+  var m=maskPrompt(prompt);
+  return{prompt:m.text,fix:function(x){return unmaskDeep(x,m.map)}};
+}
 async function localOllama(prompt,signal){
+  var G=aiGuard(settings.ollamaUrl,prompt);prompt=G.prompt;
   if(!settings.ollamaModel.trim())throw{code:"no_model"};
   var r=await fetch(baseUrl(settings.ollamaUrl)+"/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},signal:signal,
     body:JSON.stringify({model:settings.ollamaModel.trim(),stream:false,format:"json",messages:[{role:"user",content:prompt}],options:{num_ctx:parseInt(settings.ctx,10)||16384,temperature:0}})});
   if(!r.ok)throw{code:"local_http",message:await r.text().catch(function(){return""})};
   var j=await r.json();
-  return parseLoose(j.message&&j.message.content);
+  return G.fix(parseLoose(j.message&&j.message.content));
 }
 async function localOpenAI(prompt,signal){
+  var G=aiGuard(settings.openaiUrl,prompt);prompt=G.prompt;
   if(!settings.openaiModel.trim())throw{code:"no_model"};
   var r=await fetch(baseUrl(settings.openaiUrl)+"/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json"},signal:signal,
     body:JSON.stringify({model:settings.openaiModel.trim(),temperature:0,messages:[{role:"user",content:prompt}]})});
   if(!r.ok)throw{code:"local_http",message:await r.text().catch(function(){return""})};
   var j=await r.json();
-  return parseLoose(j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content);
+  return G.fix(parseLoose(j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content));
 }
 async function runEngine(prompt,opts,items){
   if(settings.engine==="rules")return extractRules(items);
@@ -1212,7 +2633,7 @@ function buildPrompt(items,imgNames){
 function setDStatus(msg,err){var st=document.getElementById("docStatus");if(!st)return;st.textContent=msg||"";st.className="dstatus"+(err?" err":"")}
 function updateDocsUI(){
   var b=document.getElementById("btnRead");if(!b)return;
-  b.disabled=busy;
+  b.disabled=busy;var bs=document.getElementById("btnSum");if(bs)bs.disabled=busy;var bx=document.getElementById("btnExplain");if(bx)bx.disabled=busy;
   var st=document.getElementById("docStatus");
   var stop=document.getElementById("btnStopRead");if(stop)stop.hidden=!busy;
   var ap=document.getElementById("btnApply");if(ap)ap.hidden=!lastExtract||busy;
@@ -1243,8 +2664,8 @@ function makeDocsSection(){
    '<ul class="filelist" id="fileList"></ul>'+
    '<div class="f"><label for="f_paste">Or paste text from a document</label><textarea id="f_paste" rows="4"></textarea></div>'+
    '<div class="f chk"><input type="checkbox" id="f_clean"><label for="f_clean">Start from a clean matter (keeps your firm details)</label></div>'+
-   '<div class="f" id="pickWrap" hidden><label for="f_client">Which party is your client?</label><select id="f_client"></select><span class="hint">This changes "the Applicant" and "the Respondent" in the orders to "you" and the other party\'s name.</span></div><div class="row"><button class="btn primary" type="button" id="btnRead">Read documents and fill details</button><button class="btn" type="button" id="btnStopRead" hidden>Stop</button><button class="btn" type="button" id="btnApply" hidden>Fill this document again from the last read</button></div>'+
-   '<div class="dstatus" id="docStatus" role="status"></div><div class="res" id="docResult" hidden></div>'+
+   '<div class="f" id="pickWrap" hidden><label for="f_client">Which party is your client?</label><select id="f_client"></select><span class="hint">This changes "the Applicant" and "the Respondent" in the orders to "you" and the other party\'s name.</span></div><div class="row"><button class="btn primary" type="button" id="btnRead">Read documents and fill details</button><button class="btn" type="button" id="btnSum">Summarise documents</button><button class="btn" type="button" id="btnExplain">Explain in plain English</button><button class="btn" type="button" id="btnStopRead" hidden>Stop</button><button class="btn" type="button" id="btnApply" hidden>Fill this document again from the last read</button></div>'+
+   '<div class="dstatus" id="docStatus" role="status"></div><div class="res" id="docResult" hidden></div><div class="res" id="sumOut" hidden></div><div class="res" id="explainOut" hidden></div>'+
    '<p class="note" id="privNote"></p></div>';
   var paste=d.querySelector("#f_paste");paste.value=pasteText;
   paste.addEventListener("input",function(){pasteText=paste.value});
@@ -1264,6 +2685,7 @@ function makeDocsSection(){
   sel.addEventListener("change",function(){settings.engine=sel.value;saveSettings();paintCfg()});
   paintCfg();
   d.querySelector("#btnRead").addEventListener("click",readDocs);
+  d.querySelector("#btnSum").addEventListener("click",summariseDocs);d.querySelector("#btnExplain").addEventListener("click",explainDocs);
   d.querySelector("#btnStopRead").addEventListener("click",function(){if(ctl)ctl.abort()});
   d.querySelector("#btnApply").addEventListener("click",function(){
     if(!lastExtract)return;
@@ -1274,7 +2696,7 @@ function makeDocsSection(){
     if(!lastExtract)return;lastExtract.clientRole=pick.value;
     var r=applyExtract(lastExtract,false);showResult(r,lastExtract);toast(pick.value?"Orders rewritten for your client.":"Client choice cleared.");
   });
-  setTimeout(function(){renderFileList();renderPicker();updateDocsUI()},0);
+  setTimeout(function(){renderFileList();renderPicker();renderSummary();updateDocsUI()},0);
   return d;
 }
 var ERR={
@@ -1431,7 +2853,7 @@ function showResult(filled,d){
 }
 
 
-renderTabs();renderForm();rebuild();
+boot();
 })();
 </script>
 
