@@ -1,0 +1,341 @@
+[
+ {
+  "name": "ws_a_unnumbered_heads.txt",
+  "text": "IN THE FAMILY COURT AT MANCHESTER\nApplication No: MA26F01877\nAPPLICANT: JOANNE PRICE\nRESPONDENT: DARREN PRICE\n\nSTATEMENT OF JOANNE PRICE\n\nI, Joanne Price, of Flat 4, 18 Mill Street, Salford M5 3AB, state as follows:\n\nBackground\nI am 34 years old. I have been in a relationship with the Respondent Darren Price for eight years and we lived together at the above address until I fled to a refuge on 12 July 2026. We have a son, Callum, aged 5.\n\nThe abuse\nOn 2 July 2026 Darren punched me in the face during an argument about money and I fell against the door. I had a black eye for a week. He has regularly called me names and told me I am worthless. In June 2026 he took my bank card and has not returned it.\nHe has sent me text messages every day since I left. On 20 July 2026 he texted \"I know where your mum lives\".\nI am frightened and I do not feel safe.\n\nWhat I want\nI am asking the court for a non-molestation order. I would like Callum to continue to live with me.\n\nI believe the facts in this statement are true.\nJoanne Price, 25 July 2026",
+  "exp": {
+   "clientName": "Joanne Price",
+   "otherParty": "Darren Price",
+   "orders": [
+    "nmo"
+   ],
+   "children": [
+    "Callum"
+   ],
+   "incidentHas": "punched you",
+   "addrHas": "Mill Street"
+  }
+ },
+ {
+  "name": "ws_b_thirdperson_solicitor.txt",
+  "text": "WITNESS STATEMENT\nStatement of: Mrs Ayesha Rahman\nStatement No: 1\nDate: 3 August 2026\n\nI, AYESHA RAHMAN, of 7 Cedar Close, Leicester LE2 4PQ, Account Manager, WILL SAY AS FOLLOWS:\n\n1. I make this statement in support of my application for non-molestation and occupation orders against my husband, Tariq Rahman.\n2. We were married on 14 February 2012. There are three children of the family: Hana (11), Idris (8) and baby Sumayyah (aged 1).\n3. Tariq has been violent towards me since 2019. On 30 July 2026 he threw a plate at me and then dragged me by my hair across the living room. I was very scared. My neighbour called the police and the police log number is LEI/4412/26.\n4. I have photographs of my injuries and a letter from my doctor.\n5. I need to ask that he be excluded from the house as I fear for my safety and the children's safety.\n6. I ask for the order to be made without notice because I am worried he will become more violent if he knows I am applying.\n\nSTATEMENT OF TRUTH\nI believe that the facts stated in this witness statement are true.\nSigned: A Rahman",
+  "exp": {
+   "clientName": "Ayesha Rahman",
+   "orders": [
+    "nmo",
+    "occ"
+   ],
+   "withoutNotice": true,
+   "children": [
+    "Hana",
+    "Idris",
+    "Sumayyah"
+   ],
+   "policeHas": "4412",
+   "incidentHas": "dragged you"
+  }
+ },
+ {
+  "name": "ws_c_male_victim_cohab.txt",
+  "text": "SECOND WITNESS STATEMENT OF MARK ELLIS\nCase No: LS26F00912\n\nI, Mark Ellis, of 3 Ash Grove, Leeds LS6 1AA, a self-employed electrician, make this statement in support of my application.\n\n1. My ex-partner is Chloe Hart. We lived together at 3 Ash Grove from 2020 to May 2026.\n2. Chloe has been harassing me since we separated. She has turned up at my workplace on at least six occasions, most recently on 9 June 2026, and shouted abuse at me in front of customers. She has also thrown a brick through my van window on 14 June 2026.\n3. I have a recording of one of the calls.\n4. We have a daughter, Poppy, who is 3. Poppy lives with Chloe. I would like to see Poppy regularly and I am asking the court for a child arrangements order.\n5. I am anxious about going to the property because of how Chloe behaves.\nDated 20 June 2026",
+  "exp": {
+   "clientName": "Mark Ellis",
+   "otherParty": "Chloe Hart",
+   "orders": [
+    "cao"
+   ],
+   "children": [
+    "Poppy"
+   ],
+   "incidentHas": "brick",
+   "relationship": "former partner"
+  }
+ },
+ {
+  "name": "ws_d_c100_children_only.txt",
+  "text": "IN THE FAMILY COURT SITTING AT BRISTOL\nCase Number: BS26P00340\nFirst Witness Statement of Priya Nair\n\nI, Priya Nair, of 22 Queens Road, Bristol BS8 1QU, say as follows:\n1. I am the mother of Arun Nair (born 3 May 2017) and Meera Nair (born 19 November 2019). The children live with me and attend Redland Primary School.\n2. The father, Vikram Nair, and I separated in January 2026. Since then he has not seen the children regularly. I have a real concern that he may take the children to India without my agreement. He has said on 2 February 2026 that he will \"take them home to India for good\".\n3. I seek a child arrangements order that the children live with me and spend time with their father, a prohibited steps order preventing him from removing the children from the jurisdiction, and a specific issue order about which school Arun will attend from September 2026.\n4. There has been no domestic abuse.\nSigned Priya Nair Dated 1 May 2026",
+  "exp": {
+   "clientName": "Priya Nair",
+   "otherParty": "Vikram Nair",
+   "orders": [
+    "cao",
+    "pso",
+    "sio"
+   ],
+   "children": [
+    "Arun",
+    "Meera"
+   ]
+  }
+ },
+ {
+  "name": "ws_e_bullets_instruction_form.txt",
+  "text": "CLIENT INSTRUCTION FORM\nClient name: Grace Okoro\nAddress: 15 Elm Park, Croydon CR0 2LA\nDate of birth: 02/11/1990\nSafe phone: 07700 900111 - do not leave voicemail\nSafe email: grace.safe@example.com\nPreferred language: English\nReferred by: Refuge outreach worker\nLegal aid: Yes - emergency certificate application sent\nOther party: Emeka Okoro (husband)\nChildren: Chidi (6), Ada (2)\nMatter: Non-molestation order with occupation order. Urgent - he has threatened to burn the house down.\nIncidents:\n- 5 Aug 2026 strangled me until I nearly passed out\n- 10 Aug 2026 threatened to burn the house down\n- Police attended on 5 Aug, crime ref 6001234/26\nEvidence: police report, GP letter, photos",
+  "exp": {
+   "clientName": "Grace Okoro",
+   "otherParty": "Emeka Okoro",
+   "orders": [
+    "nmo",
+    "occ"
+   ],
+   "children": [
+    "Chidi",
+    "Ada"
+   ],
+   "policeHas": "6001234",
+   "safeHas": "07700 900111"
+  }
+ },
+ {
+  "name": "ws_f_messy_ocr.txt",
+  "text": "WITNESS  STATEMENT  OF  LINDA  FOSTER\nI , Linda Foster , of 9 Birch Road , Nottingham NG7 2RT , make this statement in support of my application for a non - molestation order .\n1 . The Respondent is my former husband , Peter Foster . We divorced in 2024 .\n2 . On 15 August 2026 he came to my house and banged on the door shouting that he would kill me . I called 999 .\n3 . My children Ben ( 14 ) and Sophie ( 12 ) were at home and were terrified .\n4 . I have received 40 abusive messages since 1 August 2026 .",
+  "exp": {
+   "clientName": "Linda Foster",
+   "otherParty": "Peter Foster",
+   "orders": [
+    "nmo"
+   ],
+   "children": [
+    "Ben",
+    "Sophie"
+   ],
+   "incidentHas": "kill you"
+  }
+ },
+ {
+  "name": "ord_a_fl404a_undertaking.txt",
+  "text": "FL404a\nNon-molestation Order (Family Law Act 1996 s42)\nIN THE FAMILY COURT AT MANCHESTER\nCase No. MA26F01877\nBETWEEN\nJOANNE PRICE  (Applicant)\nand\nDARREN PRICE  (Respondent)\n\nOrder made by District Judge Hargreaves on 28 July 2026 at the Manchester Civil Justice Centre.\nThe Respondent attended in person. The Applicant was represented by Ms Sarah Dunne of counsel.\nThe court recorded that the respondent gave an undertaking to the court (see Schedule).\n\nUPON hearing counsel for the applicant and the respondent in person\nIT IS ORDERED:\n1. The respondent must not use or threaten violence against the applicant.\n2. The respondent must not intimidate, harass or pester the applicant.\n3. The respondent must not telephone, text or contact the applicant by any means, except about the child through a third party.\n4. This order will last for 12 months, until 28 July 2027.\n5. There will be a review hearing on 28 January 2027 at 10:30am before a District Judge, time estimate 45 minutes.\n6. No order for costs.\n\nPENAL NOTICE\nYOU MUST OBEY THIS ORDER. If you do not, you may be sent to prison for contempt of court.",
+  "exp": {
+   "date": "2026-07-28",
+   "judge": "District Judge Hargreaves",
+   "caseNumber": "MA26F01877",
+   "nextDate": "2027-01-28",
+   "hasPenal": true,
+   "orderCount": 6,
+   "court": "Manchester"
+  }
+ },
+ {
+  "name": "ord_b_fl404_occupation.txt",
+  "text": "Occupation Order\nFL404\nIn the Family Court sitting at Leicester Justice Centre\nCase Number LE26F00553\nApplicant: Ayesha Rahman\nRespondent: Tariq Rahman\nBefore His Honour Judge Brennan on Friday 7 August 2026\nThe Applicant appeared by counsel. The Respondent did not attend.\nThe court is satisfied that the Applicant is entitled to occupy the dwelling house at 7 Cedar Close, Leicester LE2 4PQ.\nIt is ordered that:\n(1) The Respondent shall leave the dwelling house by 5pm on 8 August 2026 and shall not return to it.\n(2) The Respondent shall not come within 100 metres of the dwelling house.\n(3) The Applicant is entitled to occupy the dwelling house to the exclusion of the Respondent for six months from the date of this order.\n(4) This matter is listed for a return date hearing on 4 September 2026 at 2pm. Costs reserved.\nPower of arrest: not applicable.",
+  "exp": {
+   "date": "2026-08-07",
+   "judge": "His Honour Judge Brennan",
+   "caseNumber": "LE26F00553",
+   "nextDate": "2026-09-04",
+   "orderCount": 4
+  }
+ },
+ {
+  "name": "ord_c_c43_live_with.txt",
+  "text": "CHILD ARRANGEMENTS ORDER\nChildren Act 1989\nIN THE FAMILY COURT AT LEEDS\nCase No: LS26P00112\nIN THE MATTER OF POPPY ELLIS (born 5 April 2023)\nBETWEEN\nMARK ELLIS - Applicant father\nCHLOE HART - Respondent mother\n\nMade on 15 October 2026 by Deputy District Judge Walker at Leeds Combined Court Centre.\nBoth parties attended, unrepresented, with McKenzie Friend for the applicant.\n\nTHE COURT ORDERS BY CONSENT THAT:\n1. Poppy shall live with the Respondent mother.\n2. Poppy shall spend time with the Applicant father: (a) every Saturday from 10am to 2pm; (b) for one week during the school summer holidays.\n3. Handovers shall take place at the Leeds Contact Centre.\n4. There shall be no order as to costs.",
+  "exp": {
+   "date": "2026-10-15",
+   "judge": "Deputy District Judge Walker",
+   "caseNumber": "LS26P00112",
+   "orderCount": 4
+  }
+ },
+ {
+  "name": "ord_d_pso_sio.txt",
+  "text": "IN THE FAMILY COURT AT BRISTOL\nCase No BS26P00340\nRe: A and M Nair (children)\nORDER\nBefore District Judge Cole sitting at Bristol Civil Justice Centre on 12 June 2026\n\nUPON the Applicant's application dated 1 May 2026\nAND UPON the court hearing from both parties\nAND UPON the Respondent confirming he has no present intention of leaving the UK\n\nIT IS ORDERED THAT\n1. A prohibited steps order is made: the Respondent must not remove the children from England and Wales without the Applicant's written consent or further order of the court.\n2. A specific issue order is made: Arun shall attend Redland Academy from September 2026.\n3. The children shall live with the Applicant.\n4. The Respondent shall have contact as agreed between the parties.\n5. Costs: each party to bear own costs.\n6. The next hearing is a Dispute Resolution Appointment on 4 September 2026 at 11:00 at Bristol Civil Justice Centre.",
+  "exp": {
+   "date": "2026-06-12",
+   "judge": "District Judge Cole",
+   "caseNumber": "BS26P00340",
+   "nextDate": "2026-09-04",
+   "orderCount": 6
+  }
+ },
+ {
+  "name": "ord_e_c6_notice.txt",
+  "text": "NOTICE OF HEARING\nForm FL402\nIn the Family Court at Birmingham\nCase number: BM26F00231\nApplicant: Fatima Khan   Respondent: Imran Khan\nTake notice that this case has been listed for hearing as follows:\nType of hearing: Return date hearing\nDate: 5 October 2026   Time: 2:00pm   Time estimate: 1 hour\nVenue: Birmingham Civil and Family Justice Centre, Priory Courts, 33 Bull Street, Birmingham B4 6DS\nJudge: District Judge Okafor",
+  "exp": {
+   "hearingDate": "2026-10-05",
+   "caseNumber": "BM26F00231",
+   "isHearing": true
+  }
+ },
+ {
+  "name": "ord_f_table_style.txt",
+  "text": "IN THE FAMILY COURT                              Case No: NG26F00444\nAt Nottingham\nBetween  LINDA FOSTER  Applicant   and   PETER FOSTER  Respondent\n\nORDER\nDate of order:   24 August 2026\nJudge:           Recorder Shaw\nHearing:         Without notice application\n\nIt is ordered that:\n(a) Peter Foster is forbidden from using or threatening violence against Linda Foster, and from instructing or encouraging any other person to do so.\n(b) Peter Foster is forbidden from going to or near 9 Birch Road, Nottingham NG7 2RT.\n(c) This order lasts until 21 September 2026 unless extended.\n(d) The Respondent has the right to apply to vary or discharge the order on notice.\n(e) The next hearing is on 21 September 2026 at 10am (return date).\n\nPenal notice: if the respondent disobeys this order he may be sent to prison.",
+  "exp": {
+   "date": "2026-08-24",
+   "judge": "Recorder Shaw",
+   "caseNumber": "NG26F00444",
+   "nextDate": "2026-09-21",
+   "hasPenal": true,
+   "orderCount": 5
+  }
+ },
+ {
+  "name": "note_a_table.txt",
+  "text": "ATTENDANCE NOTE\nClient: Joanne Price          Matter: DA/2026/055\nDate: 28/07/2026              Start: 09:30    Finish: 12:45\nType: Court attendance\nPresent: Alex Caseworker; Ms Sarah Dunne (counsel); client\nNotes:\nArrived Manchester Civil Justice Centre 9:30. Spoke to client in the conference room. Respondent attended in person, unrepresented. Counsel negotiated with the respondent outside court. He agreed to give an undertaking not to contact the client. DJ Hargreaves then made a non-molestation order for 12 months. Client was relieved.\nClient instructions: accept the order and not to proceed with allegations.\nNext steps: send sealed order to client; diarise review hearing on 28 January 2027.",
+  "exp": {
+   "date": "2026-07-28",
+   "type": "Court attendance",
+   "start": "09:30",
+   "end": "12:45",
+   "counsel": true
+  }
+ },
+ {
+  "name": "note_b_email_style.txt",
+  "text": "File note\n7 Aug 2026\nSpoke to Ayesha by telephone at 3.15pm - 3.40pm. She confirmed that Tariq left the property last night after the order was served by the process server. She is relieved but anxious. I advised her to keep her copy of the order with her and to call the police if he returns. She asked whether the order can be extended. I explained that we will apply at the return date on 4 September 2026 if she still needs it. Client to send me the screenshots of the messages by Friday.",
+  "exp": {
+   "date": "2026-08-07",
+   "type": "Telephone call with client",
+   "start": "15:15",
+   "end": "15:40"
+  }
+ },
+ {
+  "name": "note_c_prose_hearing.txt",
+  "text": "Attendance on hearing - Mark Ellis - 15 October 2026\nTime: 10.00 - 13.10\nI attended Leeds Combined Court Centre with the client. Both parties were litigants in person. The Respondent had a McKenzie friend. DDJ Walker heard the parties for around 40 minutes and encouraged agreement. A consent order was made that Poppy lives with Chloe and spends time with Mark every Saturday 10 to 2 and one week in the summer holidays with handovers at the contact centre. Client happy with outcome. No costs order. Closing the file.",
+  "exp": {
+   "date": "2026-10-15",
+   "type": "Court attendance",
+   "start": "10:00",
+   "end": "13:10"
+  }
+ },
+ {
+  "name": "ws_g_implicit_orders.txt",
+  "text": "WITNESS STATEMENT OF NADIA R. HUSSAIN\nIn the Family Court at Cardiff\nCase No CF26F00718\n\nI, Nadia R. Hussain, of 31 Windsor Terrace, Cardiff CF11 6TT, a nurse, make this statement.\n\nMY RELATIONSHIP WITH THE RESPONDENT\n1. I have been with my ex, Michael Doyle, since 2019. We share a home at the address above with our daughter Elsie, born 02/06/2021.\n\nWHAT HAS HAPPENED\n2. On the 14th of August 2026 Michael locked me in the bedroom for about three hours after I told him I was thinking of leaving [Exhibit NH1]. He took my phone so I could not call anyone.\n3. On 12/09/2026 he shoved me down the stairs. I went to A&E and the hospital recorded a sprained wrist [Exhibit NH2]. The police were called and I was given the incident number 2600098123.\n4. He is much bigger than me and I am scared of him.\n\nWHAT I NEED\n5. I want the court to stop him contacting me or coming near me, and I want him out of our home immediately.\nStatement of truth: I believe that the facts stated in this witness statement are true.",
+  "exp": {
+   "clientName": "Nadia R. Hussain",
+   "otherParty": "Michael Doyle",
+   "orders": [
+    "nmo",
+    "occ"
+   ],
+   "children": [
+    "Elsie"
+   ],
+   "incidentHas": "locked you",
+   "policeHas": "2600098123",
+   "addrHas": "Windsor Terrace"
+  }
+ },
+ {
+  "name": "ws_h_my_name_is.txt",
+  "text": "MY STATEMENT\nMy name is Fiona Walsh. I live at 5 High Street, Newport NP20 1AA with my children Oliver (9) and Isla (6). I am applying for a child arrangements order and a non-molestation order against my former partner, Gareth Pugh.\nGareth hit Oliver on 3 September 2026 and I found a mark on his arm. He then screamed at me in front of the children. I am afraid of what he will do. I want the children to live with me and I want Gareth to have no unsupervised contact until things are safer.\nI have contacted Cafcass and the social worker, who is aware.",
+  "exp": {
+   "clientName": "Fiona Walsh",
+   "otherParty": "Gareth Pugh",
+   "orders": [
+    "nmo",
+    "cao"
+   ],
+   "children": [
+    "Oliver",
+    "Isla"
+   ],
+   "incidentHas": "hit oliver",
+   "addrHas": "High Street"
+  }
+ },
+ {
+  "name": "ws_i_father_cao.txt",
+  "text": "FIRST WITNESS STATEMENT OF DANIEL OKAFOR\nCase No: LN26P00221\n\nI, Daniel Okafor, of 40 Ridge Way, London N15 4RT, an accountant, will say as follows:\n1. I am the father of Leah (born 04/04/2015) and Noah (born 11/09/2018). Their mother is Sandra Reid. We separated in March 2026.\n2. Since separation Sandra has refused to let me see the children despite my requests on 2 April 2026, 10 May 2026 and 1 June 2026.\n3. I ask the court to make a child arrangements order so that the children spend regular time with me, and a specific issue order about Leah's change of secondary school.\n4. I have never been violent to Sandra or the children.",
+  "exp": {
+   "clientName": "Daniel Okafor",
+   "otherParty": "Sandra Reid",
+   "orders": [
+    "cao",
+    "sio"
+   ],
+   "children": [
+    "Leah",
+    "Noah"
+   ]
+  }
+ },
+ {
+  "name": "ws_j_pdf_headers.txt",
+  "text": "Page 1 of 3\nIN THE FAMILY COURT AT SWANSEA\nApplicant: Rhiannon Bevan\nRespondent: Steffan Bevan\nWitness Statement of Rhiannon Bevan\nExhibit RB1: photographs\nPage 2 of 3\nI, Rhiannon Bevan, of 6 Marine Drive, Swansea SA1 3AA, make this statement in support of my application for a non-molestation order under the Family Law Act 1996.\n1. I married the Respondent on 5 June 2015. We separated on 20 July 2026 but we still live in the same house.\n2. On 29 August 2026 the Respondent threatened me with a kitchen knife and said \"I will end you\". I ran to my neighbour's house and called 999. The crime reference is SW/55123/26.\nPage 3 of 3\n3. I have two children, Mia aged 10 and Jac aged 7. They saw me crying afterwards.\n4. I am asking the court to make an order without notice, as I fear retaliation.\nSigned: R Bevan",
+  "exp": {
+   "clientName": "Rhiannon Bevan",
+   "otherParty": "Steffan Bevan",
+   "orders": [
+    "nmo"
+   ],
+   "withoutNotice": true,
+   "children": [
+    "Mia",
+    "Jac"
+   ],
+   "incidentHas": "knife",
+   "policeHas": "55123"
+  }
+ },
+ {
+  "name": "ord_g_undertakings.txt",
+  "text": "IN THE FAMILY COURT AT CARDIFF CIVIL AND FAMILY JUSTICE CENTRE\nCase No: CF26F00718\nNADIA HUSSAIN                                   Applicant\nMICHAEL DOYLE                                   Respondent\n\nJudge: HHJ Davies\nDate: 10.09.2026\nHearing: Return date\n\nRECITALS\nThe Respondent has given the undertakings recorded in the Schedule and does not admit the allegations made.\n\nTHE COURT ORDERS:\n1. The Respondent shall not use or threaten violence against the Applicant.\n2. The Respondent shall not enter 31 Windsor Terrace, Cardiff.\n3. The Respondent shall have contact with Elsie as agreed in writing.\n4. The order shall last for 6 months.\n5. No order for costs.\n\nSCHEDULE - UNDERTAKINGS GIVEN BY THE RESPONDENT\nThe Respondent undertakes not to contact the Applicant other than by text message about Elsie.",
+  "exp": {
+   "date": "2026-09-10",
+   "judge": "Judge Davies",
+   "caseNumber": "CF26F00718",
+   "orderCount": 5,
+   "court": "Cardiff"
+  }
+ },
+ {
+  "name": "ord_h_third_march.txt",
+  "text": "IN THE FAMILY COURT AT WALSALL\nCase No WS26P00019\nOrder made on 3rd March 2026 before District Judge Pritchard\nUPON the application of the father dated 12 January 2026\nIT IS ORDERED BY CONSENT THAT:\n1. The children shall live with their mother.\n2. The children shall spend time with their father on alternate weekends from Friday after school until Sunday 5pm.\n3. There shall be a review hearing on 1 September 2026 at 11:30am.",
+  "exp": {
+   "date": "2026-03-03",
+   "judge": "District Judge Pritchard",
+   "caseNumber": "WS26P00019",
+   "orderCount": 3,
+   "nextDate": "2026-09-01"
+  }
+ },
+ {
+  "name": "ord_i_fl404a_form_fields.txt",
+  "text": "Family Law Act 1996\nNon-molestation Order  FL404a\nIn the Family Court   Case Number: SW26F00300\nThe Applicant: Rhiannon Bevan   The Respondent: Steffan Bevan\nDate of order: 31 August 2026\nName of Judge: District Judge Morgan\nThe respondent was served with notice of the hearing and attended.\nThe court orders that:\n1  The respondent Steffan Bevan is forbidden to use or threaten violence against the applicant Rhiannon Bevan.\n2  The respondent is forbidden to intimidate, harass or pester the applicant.\n3  This order lasts until 31 August 2027.\n4  The respondent may apply to vary or discharge the order.\nIMPORTANT NOTICE TO THE RESPONDENT\nIf you disobey this order you may be found guilty of a criminal offence and sent to prison for up to five years.",
+  "exp": {
+   "date": "2026-08-31",
+   "judge": "District Judge Morgan",
+   "caseNumber": "SW26F00300",
+   "hasPenal": true,
+   "orderCount": 4
+  }
+ },
+ {
+  "name": "ord_j_notice_fhdra.txt",
+  "text": "FAMILY COURT\nNotice of Hearing - First Hearing and Dispute Resolution Appointment\nCase Number: LN26P00221\nParties: Daniel Okafor (Applicant) and Sandra Reid (Respondent)\nYou are required to attend:\nDate: Tuesday 17 November 2026\nTime: 10:00\nPlace: Barnet Family Court, St Mary's Court, Regents Park Road, London N3 1BQ\nTime allowed: 1 hour\nBefore: District Judge Ahmed",
+  "exp": {
+   "hearingDate": "2026-11-17",
+   "caseNumber": "LN26P00221",
+   "isHearing": true
+  }
+ },
+ {
+  "name": "note_d_bullets.txt",
+  "text": "ATTENDANCE NOTE\nDate: 3.9.26\nTime: 2pm-4.30pm\nClient: Fiona Walsh\nType: meeting at office\n- Client attended with her sister.\n- Took instructions for statement: Gareth hit Oliver on 3 Sept; client wants CAO and NMO.\n- Advised on legal aid (needs evidence of abuse; Cafcass letter would help).\n- Client instructions: apply for non-molestation order urgently.\nNext steps: draft statement; apply for emergency legal aid; ask client for the school's letter.",
+  "exp": {
+   "date": "2026-09-03",
+   "type": "Meeting with client",
+   "start": "14:00",
+   "end": "16:30"
+  }
+ },
+ {
+  "name": "note_e_court_dj.txt",
+  "text": "Hearing note 10 September 2026\nCardiff Civil and Family Justice Centre. I attended with the client. HHJ Davies. Respondent attended with his solicitor Mr Lloyd. Time 10.15 to 11.40.\nRespondent offered undertakings in lieu of an order; client agreed after advice. Judge accepted undertakings and made an order about contact with Elsie to be agreed in writing. No costs.",
+  "exp": {
+   "date": "2026-09-10",
+   "type": "Court attendance",
+   "start": "10:15",
+   "end": "11:40"
+  }
+ },
+ {
+  "name": "note_f_duration.txt",
+  "text": "Telephone attendance on client, 5 Sept 2026 (12 minutes)\nSpoke to Daniel. He has received nothing from Cafcass yet. I advised him to keep a diary of requests for contact. He is happy with the application as drafted. Instructions: proceed to issue the C100.",
+  "exp": {
+   "date": "2026-09-05",
+   "type": "Telephone call with client"
+  }
+ }
+]

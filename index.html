@@ -160,6 +160,7 @@ details.sec[open]>summary::after{content:"\2212"}
 .revbar{margin:0 0 10px;padding:8px 12px;border:1px solid #c98a00;background:var(--surface-2);border-radius:8px;font-size:13px}
 .xcard{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:8px 0;background:var(--surface)}.xcard blockquote{margin:0 0 6px;padding-left:10px;border-left:3px solid var(--line);color:var(--muted);font-size:13px}.xcard p{margin:0 0 6px}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}.mcard{background:var(--surface);color:var(--ink);border-radius:12px;padding:16px;max-width:520px;width:100%;display:flex;flex-direction:column;gap:8px;max-height:90vh;overflow:auto}.mcard label{display:flex;flex-direction:column;gap:2px;font-size:12px}.mcard input,.mcard textarea{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:6px;padding:6px 8px;font:inherit}
+.needs{border:1px solid #c98a00;background:var(--surface-2);border-radius:8px;padding:10px 12px;margin:0 0 12px}.needs h3{margin:0 0 2px;font-size:14px}.docview{max-height:420px;overflow:auto;font-size:13px}mark{background:#ffe27a;color:inherit}
 .twrap{overflow-x:auto}
 table.ledger{border-collapse:collapse;width:100%;font-size:13px}
 table.ledger th,table.ledger td{border:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:middle}
@@ -170,7 +171,7 @@ table.ledger input[type=number]{min-width:56px}
 .totals .stat{display:flex;flex-direction:column;min-width:110px}.totals .sl{font-size:12px;color:var(--muted)}.totals strong{font-size:15px;font-variant-numeric:tabular-nums}
 .estbar{flex:1 1 100%;display:flex;flex-direction:column;gap:4px}
 .bar{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
-.bar .fill{height:100%;background:var(--accent)}.bar .fill.warn{background:#c98a00}.bar .fill.over{background:var(--danger)}
+select,textarea,input[type=text],input[type=number],input[type=date],input[type=password],input[type=email]{background-color:var(--surface);color:var(--ink)}select{border:1px solid var(--line);border-radius:6px;padding:4px 8px}option{background:var(--surface);color:var(--ink)}.imgprev .hint{color:#4a5560}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.skip{position:absolute;left:8px;top:-60px;background:var(--accent);color:var(--accent-ink);padding:8px 12px;border-radius:6px;z-index:100}.skip:focus{top:8px}main:focus{outline:none}select,input[type=text],input[type=number],input[type=date],input[type=password],input[type=email],input[type=file]{min-height:32px}input[type=checkbox],input[type=radio]{width:24px;height:24px}.hrow.rem.over{border-left:4px solid var(--danger)}.bar .fill{height:100%;background:var(--accent)}.bar .fill.warn{background:#c98a00}.bar .fill.over{background:var(--danger)}
 .erows{display:flex;flex-direction:column;gap:8px}
 .erow{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
 .erow label{display:flex;flex-direction:column;gap:2px;font-size:12px}
@@ -197,8 +198,7 @@ table.ledger input[type=number]{min-width:56px}
 </style>
 </head>
 <body>
-
-
+<a class="skip" href="#main">Skip to the main content</a>
 <div class="wrap">
   <header class="top">
     <div class="brand">
@@ -209,7 +209,7 @@ table.ledger input[type=number]{min-width:56px}
       <button class="btn" id="btnLock" type="button" hidden>Lock</button>
     </div>
   </header>
-
+<main id="main" tabindex="-1">
   <div class="mbar" id="mbar">
     <label for="matterSel">Matter</label>
     <select id="matterSel"></select>
@@ -236,6 +236,7 @@ table.ledger input[type=number]{min-width:56px}
   <div class="split" id="split" data-view="form">
     <section class="panel form" id="form" aria-label="Matter details"></section>
     <section class="panel out" aria-label="Letter preview">
+      <h2 class="sr">Letter preview</h2>
       <div class="toolbar">
         <button class="btn primary" id="btnDocx" type="button">Download Word</button>
         <button class="btn" id="btnCopyRich" type="button">Copy for Word</button>
@@ -254,6 +255,7 @@ table.ledger input[type=number]{min-width:56px}
     </section>
   </div>
   </div>
+</main>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -462,14 +464,14 @@ var SECTIONS=[
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function gap(label){return '<span class="gap">['+esc(label)+']</span>'}
 function has(k){return S[k]!=null&&String(S[k]).trim()!==""}
-function val(k,label){return has(k)?esc(String(S[k]).trim()):gap(label)}
+function val(k,label){if(!has(k)&&typeof GAPK!=="undefined")GAPK.push(k);return has(k)?esc(String(S[k]).trim()):gap(label)}
 function lines(k){return String(S[k]||"").split(/\n/).map(function(x){return x.trim()}).filter(Boolean)}
-function paras(k,label){var l=lines(k);return l.length?l.map(function(x){return"<p>"+esc(x)+"</p>"}).join(""):"<p>"+gap(label)+"</p>"}
+function paras(k,label){var l=lines(k);if(!l.length&&typeof GAPK!=="undefined")GAPK.push(k);return l.length?l.map(function(x){return"<p>"+esc(x)+"</p>"}).join(""):"<p>"+gap(label)+"</p>"}
 function ul(k,ordered){var l=lines(k);if(!l.length)return"";var t=ordered?"ol":"ul";return"<"+t+">"+l.map(function(x){return"<li>"+esc(x)+"</li>"}).join("")+"</"+t+">"}
 function brs(k){return lines(k).map(esc).join("<br>")}
 function parseISO(s){if(!s)return null;var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s);if(!m)return null;return new Date(+m[1],+m[2]-1,+m[3])}
 function fmtDate(s,wd){var d=parseISO(s);if(!d)return"";return d.toLocaleDateString("en-GB",{weekday:wd?"long":undefined,day:"numeric",month:"long",year:"numeric"})}
-function dateOr(k,label,wd){var f=fmtDate(S[k],wd);return f?esc(f):gap(label)}
+function dateOr(k,label,wd){var f=fmtDate(S[k],wd);if(!f&&typeof GAPK!=="undefined")GAPK.push(k);return f?esc(f):gap(label)}
 function fmtTime(t){var m=/^(\d{1,2}):(\d{2})$/.exec(t||"");if(!m)return"";var h=+m[1],mi=m[2];var ap=h>=12?"pm":"am";var h12=h%12||12;return h12+":"+mi+ap}
 function timeOr(k,label){var f=fmtTime(S[k]);return f?esc(f):gap(label)}
 function minusMin(t,n){var m=/^(\d{1,2}):(\d{2})$/.exec(t||"");if(!m)return"";var tot=(+m[1])*60+(+m[2])-n;if(tot<0)tot+=1440;return pad(Math.floor(tot/60))+":"+pad(tot%60)}
@@ -579,7 +581,7 @@ function buildOutcome(){
   var c={};c[COSTS_ORDERS[0]]="The court made no order for costs, which means that each side bears its own costs of this hearing.";c[COSTS_ORDERS[1]]="The court reserved the question of costs, which means that it can be decided at a later hearing.";c[COSTS_ORDERS[2]]="The court ordered that costs are to be dealt with in the case, which means they will be decided when the case is finally resolved.";c[COSTS_ORDERS[3]]="The court made an order about costs, which is set out above.";
   h+='<p>'+esc(c[S.costsOrder]||"")+'</p>';
   if(lines("directions").length){h+='<h3>Directions and deadlines</h3><p>The court gave the following directions. They are legally binding and the dates matter.</p>'+ul("directions",false)}
-  if(S.nextHearing){h+='<h3>Next hearing</h3><p>The case is listed again on '+esc(fmtDate(S.nextHearing,true))+(fmtTime(S.nextHearingTime)?' at '+esc(fmtTime(S.nextHearingTime)):'')+(has("nextHearingType")?' for a '+esc(S.nextHearingType.trim()):'')+'. I will write to you separately with details nearer the time.</p>'}
+  if(S.nextHearing){h+='<h3>Next hearing</h3><p>The case is listed again on '+esc(fmtDate(S.nextHearing,true))+(fmtTime(S.nextHearingTime)?' at '+esc(fmtTime(S.nextHearingTime)):'')+(has("nextHearingType")?' for '+(/^[aeiou]/i.test(S.nextHearingType.trim())?'an ':'a ')+esc(S.nextHearingType.trim()):'')+'. I will write to you separately with details nearer the time.</p>'}
   if(lines("clientActions").length){h+='<h3>What I need you to do</h3>'+ul("clientActions",true)}
   h+='<p>'+esc(S.orderStatus)+'.</p>';
   if(S.o_compliance)h+='<p>Please read the order carefully and comply with it in full and on time. If a party does not comply, the court can draw adverse conclusions, make costs orders against them and, in some cases, take enforcement action.</p>';
@@ -1025,6 +1027,7 @@ function renderTabs(){
 function renderForm(){
   var f=$("form");f.innerHTML="";
   f.appendChild(makeDocsSection());
+  var nb=document.createElement("div");nb.id="needs";nb.className="needs";nb.hidden=true;f.appendChild(nb);needSig="";
   SECTIONS.forEach(function(sec){
     if(sec.types.indexOf(cur)<0)return;
     var fields=sec.fields.filter(function(x){return(!x.only||x.only.indexOf(cur)>-1)&&(!x.not||x.not.indexOf(cur)<0)});
@@ -1066,7 +1069,7 @@ function fieldChanged(){
   requestAnimationFrame(function(){pending=false;rebuild()});
 }
 function rebuild(){
-  paper.innerHTML=BUILD[cur]()+(cur==="note"?"":stdHtml(cur))+(cur==="care"?careConfirm():"");edited[cur]=false;draft[cur]=null;stalebar.classList.remove("on");updateStatus();
+  GAPK=[];paper.innerHTML=BUILD[cur]()+(cur==="note"?"":stdHtml(cur))+(cur==="care"?careConfirm():"");edited[cur]=false;draft[cur]=null;stalebar.classList.remove("on");updateStatus();if(typeof renderNeeds==="function")renderNeeds();
 }
 function updateStatus(){
   var n=paper.querySelectorAll(".gap").length;
@@ -1139,7 +1142,7 @@ function imageField(label,key,maxW,maxH,hint){
   var w=mk("div",{class:"f"});w.appendChild(mk("label",{text:label}));
   var prev=mk("div",{class:"imgprev"});
   function paint(){prev.innerHTML="";if(FIRM[key]){prev.appendChild(mk("img",{src:FIRM[key],alt:label}));}else prev.appendChild(mk("span",{class:"hint",text:"None added."}))}
-  var up=mk("input",{type:"file",accept:"image/png,image/jpeg,image/webp",id:"up_"+key});
+  var up=mk("input",{type:"file",accept:"image/png,image/jpeg,image/webp",id:"up_"+key,"aria-label":label});
   up.addEventListener("change",async function(){
     var f=up.files[0];up.value="";if(!f)return;
     try{FIRM[key]=await imgToDataURL(f,maxW,maxH);saveFirm();paint();toast(label+" saved.")}catch(e){toast("That image could not be read.")}
@@ -1166,6 +1169,7 @@ VIEWFN.settings=function(box){
   a.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",text:"Apply these details to the current matter",onclick:function(){FIRM_KEYS.forEach(function(k){if(FIRM[k])S[k]=FIRM[k]});save();renderForm();rebuild();toast("Applied to this matter.")}})]));
   /* security */
 
+  teachSection(wrap);
   var wd=setSec("Standard wording",false);wrap.appendChild(wd.d);
   wd.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"These fixed paragraphs appear in your letters. Edit them to match your firm's approved wording. The wording supplied is a starting point written without legal review, so have a solicitor in your firm approve it before use."}));
   Object.keys(DEFW).forEach(function(k){
@@ -1247,12 +1251,7 @@ VIEWFN.settings=function(box){
   b.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Matters live only in this browser. Clearing site data, changing browser or using a private window loses them. Export a backup regularly. If encryption is on, the backup of your matters is encrypted with the same passphrase."}));
   b.g.appendChild(mk("div",{class:"row",style:"grid-column:1/-1"},[
     mk("button",{type:"button",class:"btn primary",text:"Export all matters",onclick:async function(){
-      save();await persistNow();
-      var out={app:"family-letter-desk",v:2,exported:new Date().toISOString(),firm:FIRM,library:LIB,templates:TPL,wording:typeof WOV!=="undefined"?WOV:{}};
-      if(OPTS.lock){out.encrypted=true;out.salt=OPTS.salt;out.iter=OPTS.iter;var eb=await encStore();out.iv=eb.iv;out.ct=eb.ct}
-      else{out.encrypted=false;out.store=STORE}
-      OPTS.lastBackup=new Date().toISOString();saveOpts();
-      downloadBlob("family-letter-desk-backup-"+iso(new Date())+".json",new Blob([JSON.stringify(out)],{type:"application/json"}));
+      try{await backupDownload()}catch(x){bst.textContent="Could not export. If the app is locked, unlock it first.";bst.className="dstatus err";return}
       bst.textContent=OPTS.lock?"Exported. The matters in the file are encrypted.":"Exported. This file is not encrypted and contains client details, so store it safely.";bst.className="dstatus";
     }}),
     mk("button",{type:"button",class:"btn",text:"Export this matter only",onclick:function(){
@@ -1277,7 +1276,10 @@ VIEWFN.settings=function(box){
         if(o.firm&&typeof o.firm==="object"){FIRM=Object.assign(FIRM,o.firm);saveFirm()}
         if(o.library&&Array.isArray(o.library.blocks)){LIB=o.library;saveLib()}
         if(o.templates&&Array.isArray(o.templates.items)){TPL=o.templates;saveTpl()}
+        if(o.contacts&&Array.isArray(o.contacts.items)){CONTACTS=o.contacts;saveContacts()}
         if(o.wording&&typeof o.wording==="object"&&typeof WOV!=="undefined"){WOV=o.wording;if(typeof saveWov==="function")saveWov()}
+        if(o.reader&&o.reader.vocab){Object.keys(VOC).forEach(function(k){if(Array.isArray(o.reader.vocab[k]))VOC[k]=o.reader.vocab[k].map(String)});saveVoc()}
+        if(o.reader&&o.reader.learned){Object.keys(LEARN).forEach(function(k){if(Array.isArray(o.reader.learned[k]))LEARN[k]=o.reader.learned[k]});saveLearn()}
       }
       normaliseStore(STORE);save();await persistNow();renderMatterBar();bst.textContent=n+" matter"+(n===1?"":"s")+" restored.";bst.className="dstatus";
     }catch(e){bst.textContent=o_isEnc(e)?"The passphrase is wrong, or the backup is damaged.":"That is not a backup made by this app.";bst.className="dstatus err"}
@@ -1308,7 +1310,7 @@ function mid(){return"m"+Date.now().toString(36)+Math.random().toString(36).slic
 function newMatterObj(name,base){
   var s=Object.assign({},BLANK,base||{});
   if(!base){FIRM_KEYS.forEach(function(k){if(FIRM[k])s[k]=FIRM[k]})}
-  return{id:mid(),name:name||autoNameOf(s),autoName:!name,created:Date.now(),updated:Date.now(),S:s,cur:"care",ed:{},dr:{},time:[],disb:[],estimate:[],checks:{},history:[]};
+  return{id:mid(),name:name||autoNameOf(s),autoName:!name,created:Date.now(),updated:Date.now(),S:s,cur:"care",ed:{},dr:{},time:[],disb:[],estimate:[],checks:{},history:[],docs:[],links:[]};
 }
 function save(){
   if(!CURM)return;
@@ -1361,7 +1363,7 @@ function loadStoreFromPlain(){
 }
 function normaliseStore(st){
   st.matters.forEach(function(m){
-    m.S=Object.assign({},BLANK,m.S||{});m.ed=m.ed||{};m.dr=m.dr||{};m.time=m.time||[];m.disb=m.disb||[];m.estimate=m.estimate||[];m.checks=m.checks||{};m.history=m.history||[];
+    m.S=Object.assign({},BLANK,m.S||{});m.ed=m.ed||{};m.dr=m.dr||{};m.time=m.time||[];m.disb=m.disb||[];m.estimate=m.estimate||[];m.checks=m.checks||{};m.history=m.history||[];m.docs=m.docs||[];m.links=m.links||[];
     if(ALL.indexOf(m.cur)<0)m.cur="care";
     if(m.autoName)m.name=autoNameOf(m.S);
   });
@@ -1402,7 +1404,7 @@ function afterMatterChange(){
 }
 function addMatter(m){STORE.matters.push(m);loadMatter(m.id);resetDocsState();save();afterMatterChange();persistNow()}
 /* views */
-var VIEWS=[["dashboard","Dashboard"],["letters","Letters"],["templates","Templates"],["forms","Forms"],["time","Time and costs"],["checks","Checklists"],["file","Matter file"],["settings","Settings"]];
+var VIEWS=[["dashboard","Dashboard"],["letters","Letters"],["documents","Documents"],["templates","Templates"],["forms","Forms"],["contacts","Contacts"],["time","Time and costs"],["checks","Checklists"],["file","Matter file"],["settings","Settings"]];
 var VIEWFN=VIEWFN||{};
 function renderViewNav(){
   var nav=$("views");nav.innerHTML="";
@@ -1659,6 +1661,7 @@ VIEWFN.file=function(box){
 /* ---------- time recording, costs estimate, checklists ---------- */
 var TASKS=["Telephone call with client","Meeting with client","Email to client","Letter to client","Letter to other side","Telephone call with other side","Reading documents","Drafting documents","Preparing for hearing","Attending court","Travel","Research","File review","Instructing counsel"];
 function numInput(id,val,min,step){var i=mk("input",{type:"number",id:id,min:min==null?"0":min,step:step||"1"});i.value=val==null?"":val;return i}
+function thc(h){return h===""?mk("th",{},[mk("span",{class:"sr",text:"Actions"})]):mk("th",{text:h})}
 function tcell(content){var td=mk("td");if(content!=null)td.appendChild(typeof content==="string"?document.createTextNode(content):content);return td}
 function wrapTable(table){var w=mk("div",{class:"twrap"});w.appendChild(table);return w}
 function defaultRate(){var r=num(S.hourlyRate);return isNaN(r)?(num(FIRM.hourlyRate)||0):r}
@@ -1695,7 +1698,7 @@ VIEWFN.time=function(box){
   var e=setSec("Time entries",true);wrap.appendChild(e.d);e.g.appendChild(mk("div",{style:"grid-column:1/-1"},[tot]));
   if(!CURM.time.length)e.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"No time recorded yet. Entries feed the progress update and the costs update letters."}));
   else{
-    var tb=mk("table",{class:"ledger"});var th=mk("tr");["Date","Work done","Min","Units","Rate","Amount","Chargeable",""].forEach(function(h){th.appendChild(mk("th",{text:h}))});tb.appendChild(mk("thead",null,[th]));
+    var tb=mk("table",{class:"ledger"});var th=mk("tr");["Date","Work done","Min","Units","Rate","Amount","Chargeable",""].forEach(function(h){th.appendChild(thc(h))});tb.appendChild(mk("thead",null,[th]));
     var body=mk("tbody");
     CURM.time.slice().sort(function(x,y){return String(x.date).localeCompare(String(y.date))}).forEach(function(en){
       var tr=mk("tr");
@@ -1848,11 +1851,11 @@ $("btnEmail").addEventListener("click",function(){
   var tdef=TYPES.filter(function(t){return t.id===cur})[0];
   var subj=(tdef?tdef.label:"Letter")+(S.ourRef?" - our ref "+S.ourRef:"");
   var body="Dear "+((S.salutation||S.clientName||"").trim()||"client")+",\n\nI attach my letter to you. Please let me know if you have any questions.\n\n"+(S.caseWorker||"")+"\n"+(S.firmName||"");
-  var d=document.createElement("div");d.className="modal";d.setAttribute("role","dialog");d.setAttribute("aria-label","Email helper");
-  d.innerHTML='<div class="mcard"><h3>Email helper</h3><p class="hint">This cannot attach files or send anything. Download the Word letter, then attach it in your email program. Do not put client details in an email unless your firm allows it; the short text below contains none.</p><label>To<input type="text" id="em_to"></label><label>Subject<input type="text" id="em_subj"></label><label>Text<textarea id="em_body" rows="7"></textarea></label><div class="row"><button class="btn primary" type="button" id="em_open">Open in email program</button><button class="btn" type="button" id="em_copy">Copy text</button><button class="btn" type="button" id="em_close">Close</button></div></div>';
+  var d=document.createElement("div");d.className="modal";d.setAttribute("role","dialog");d.setAttribute("aria-label","Email helper");d.setAttribute("aria-modal","true");
+  d.innerHTML='<div class="mcard"><h2 style="font-size:1.1rem;margin:0 0 6px">Email helper</h2><p class="hint">This cannot attach files or send anything. Download the Word letter, then attach it in your email program. Do not put client details in an email unless your firm allows it; the short text below contains none.</p><label>To<input type="text" id="em_to"></label><label>Subject<input type="text" id="em_subj"></label><label>Text<textarea id="em_body" rows="7"></textarea></label><div class="row"><button class="btn primary" type="button" id="em_open">Open in email program</button><button class="btn" type="button" id="em_copy">Copy text</button><button class="btn" type="button" id="em_close">Close</button></div></div>';
   document.body.appendChild(d);
   d.querySelector("#em_to").value=to;d.querySelector("#em_subj").value=subj;d.querySelector("#em_body").value=body;
-  d.querySelector("#em_close").addEventListener("click",function(){d.remove()});
+  d.querySelector("#em_close").addEventListener("click",function(){closeModal(d)});trapModal(d);
   d.querySelector("#em_copy").addEventListener("click",function(){copyText(d.querySelector("#em_subj").value+"\n\n"+d.querySelector("#em_body").value)});
   d.querySelector("#em_open").addEventListener("click",function(){
     location.href="mailto:"+encodeURIComponent(d.querySelector("#em_to").value.trim())+"?subject="+encodeURIComponent(d.querySelector("#em_subj").value)+"&body="+encodeURIComponent(d.querySelector("#em_body").value);
@@ -1860,6 +1863,17 @@ $("btnEmail").addEventListener("click",function(){
   d.querySelector("#em_to").focus();
 });
 
+var modalOpener=null;
+function trapModal(d){
+  modalOpener=document.activeElement;
+  d.addEventListener("keydown",function(e){
+    if(e.key==="Escape"){e.preventDefault();closeModal(d);return}
+    if(e.key!=="Tab")return;
+    var f=Array.prototype.slice.call(d.querySelectorAll("button,input,select,textarea,a[href]")).filter(function(x){return!x.disabled&&x.offsetParent!==null});if(!f.length)return;
+    var a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}
+  });
+}
+function closeModal(d){d.remove();if(modalOpener&&modalOpener.focus){try{modalOpener.focus()}catch(e){}}modalOpener=null}
 var CSV_COLS=["clientName","salutation","clientAddress","clientEmail","ourRef","otherParty","caseNumber","court","matterType"];
 var CSV_ALIAS={client:"clientName","client name":"clientName",name:"clientName",address:"clientAddress","client address":"clientAddress",email:"clientEmail",reference:"ourRef",ref:"ourRef","our ref":"ourRef","file ref":"ourRef","other party":"otherParty",respondent:"otherParty","case number":"caseNumber","case no":"caseNumber",court:"court","matter type":"matterType",type:"matterType",salutation:"salutation"};
 function parseCsv(t){
@@ -1920,7 +1934,7 @@ function mAttention(m){
 VIEWFN.dashboard=function(box){
   box.appendChild(mk("h2",{class:"vh",text:"Dashboard"}));
   var wrap=mk("div",{class:"vstack",style:"max-width:1100px"});box.appendChild(wrap);
-  var ms=STORE.matters;
+  var ms=dashMatters();
   var open=ms.filter(function(m){return m.status!=="closed"});
   var upc=[];open.forEach(function(m){mHearings(m).forEach(function(h){upc.push({m:m,h:h})})});upc.sort(function(a,b){return a.h.days-b.h.days});
   var unb=0;open.forEach(function(m){unb+=mLedger(m)});
@@ -1930,14 +1944,12 @@ VIEWFN.dashboard=function(box){
   stat("Open matters",String(open.length));stat("Hearings in the next 14 days",String(upc.filter(function(x){return x.h.days<=14}).length));
   stat("Time recorded on open matters (ex VAT)",money(unb));stat("Items needing attention",String(att.length));
   wrap.appendChild(cards);
-  var lastB=OPTS.lastBackup?daysFrom(OPTS.lastBackup.slice(0,10)):null;
-  if(lastB===null||lastB<-14){
-    var bw=mk("p",{class:"revbar",text:lastB===null?"You have not exported a backup from this browser. Matters are stored only here.":"Your last backup was "+(-lastB)+" days ago. Export a new one in Settings."});wrap.appendChild(bw);
-  }
+  backupBar(wrap);
   var q=mk("div",{class:"row"});
   q.appendChild(mk("button",{type:"button",class:"btn primary",text:"New matter",onclick:function(){var m=newMatterObj("",null);addMatter(m);showView("letters")}}));
   q.appendChild(mk("button",{type:"button",class:"btn",text:"Import matters from CSV",onclick:function(){showView("settings")}}));
-  wrap.appendChild(q);
+  whoControls(q);wrap.appendChild(q);
+  remindersSection(wrap,ms);
   if(att.length){
     var a=setSec("Needs attention",true);wrap.appendChild(a.d);
     att.forEach(function(x){a.g.appendChild(mk("div",{class:"hrow",style:"grid-column:1/-1"},[mk("div",{class:"hmain",text:x.m.name+": "+x.w}),mk("button",{type:"button",class:"btn",text:"Open",onclick:function(){openMatter(x.m.id)}})]))});
@@ -1947,6 +1959,7 @@ VIEWFN.dashboard=function(box){
   upc.slice(0,12).forEach(function(x){
     u.g.appendChild(mk("div",{class:"hrow",style:"grid-column:1/-1"},[mk("div",{class:"hmain",text:fmtDate(x.h.date,true)+(x.h.time?" at "+x.h.time:"")+" - "+x.h.type+" - "+x.m.name+(x.h.days===0?" (today)":" (in "+x.h.days+" days)")}),mk("button",{type:"button",class:"btn",text:"Open",onclick:function(){openMatter(x.m.id)}})]));
   });
+  laOverview(wrap,ms);
   var t=setSec("Matters",true);wrap.appendChild(t.d);
   var fs=mk("select",{id:"d_filter","aria-label":"Show"});[["open","Open matters"],["closed","Closed matters"],["all","All matters"]].forEach(function(o){fs.appendChild(mk("option",{value:o[0],text:o[1]}))});
   var sq=mk("input",{type:"text",id:"d_search",placeholder:"Search by client, reference or court","aria-label":"Search matters"});
@@ -1956,13 +1969,13 @@ VIEWFN.dashboard=function(box){
     holder.innerHTML="";var f=fs.value,qq=sq.value.trim().toLowerCase();
     var list=ms.filter(function(m){return(f==="all"||(f==="closed")===(m.status==="closed"))&&(!qq||(m.name+" "+m.S.ourRef+" "+m.S.court+" "+m.S.otherParty+" "+m.S.caseNumber).toLowerCase().indexOf(qq)>-1)});
     if(!list.length){holder.appendChild(mk("p",{class:"hint",text:"No matters to show."}));return}
-    var tb=mk("table",{class:"ledger"});var hr=mk("tr");["Matter","Type","Next hearing","Checklist","Time (ex VAT)","Status","Last changed",""].forEach(function(h){hr.appendChild(mk("th",{text:h}))});tb.appendChild(mk("thead",null,[hr]));
+    var tb=mk("table",{class:"ledger"});var hr=mk("tr");["Matter","Case worker","Type","Next hearing","Checklist","Time (ex VAT)","Status","Last changed",""].forEach(function(h){hr.appendChild(thc(h))});tb.appendChild(mk("thead",null,[hr]));
     var tbody=mk("tbody");
     list.forEach(function(m){
       var hs=mHearings(m),cp=mChecks(m);var tr=mk("tr");
       var st=mk("select",{"aria-label":"Status of "+m.name});[["open","Open"],["closed","Closed"]].forEach(function(o){st.appendChild(mk("option",{value:o[0],text:o[1]}))});st.value=m.status==="closed"?"closed":"open";
-      st.addEventListener("change",function(){m.status=st.value;if(m===CURM)save();persistNow();showView("dashboard")});
-      [tcell(m.name+(m===CURM?" (current)":"")),tcell(m.S.matterType||""),tcell(hs.length?fmtDate(hs[0].date,false):"-"),tcell(cp.total?cp.done+" of "+cp.total:"-"),tcell(money(mLedger(m))),tcell(st),tcell(new Date(m.updated||m.created).toLocaleDateString("en-GB")),
+      st.addEventListener("change",function(){m.status=st.value;if(m===CURM)save();else auditAdd(m,"Status changed to "+m.status);persistNow();showView("dashboard")});
+      [tcell(m.name+(m===CURM?" (current)":"")),tcell(ownerCell(m)),tcell(m.S.matterType||""),tcell(hs.length?fmtDate(hs[0].date,false):"-"),tcell(cp.total?cp.done+" of "+cp.total:"-"),tcell(money(mLedger(m))),tcell(st),tcell(new Date(m.updated||m.created).toLocaleDateString("en-GB")),
         tcell(mk("button",{type:"button",class:"btn",text:"Open",onclick:function(){openMatter(m.id)}}))].forEach(function(c){tr.appendChild(c)});
       tbody.appendChild(tr);
     });
@@ -2022,6 +2035,16 @@ VIEWFN.templates=function(box){
     catch(e){toast("That file could not be read.")}
   });
   pick.g.appendChild(fld("Add a template from a file",up,"Word, OpenDocument, RTF or text. Formatting is not kept, only the words."));
+  var pk=setSec("Document packs",false);wrap.appendChild(pk.d);
+  pk.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Make several documents for this matter at once and download them as one zip of Word files. Choose a ready-made pack or tick your own."}));
+  var pkSel={};
+  var pr=mk("div",{class:"row",style:"grid-column:1/-1"});
+  var pbox=mk("div",{style:"grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:4px 12px"});
+  var pitems=packItems();
+  pitems.forEach(function(it){var l=mk("label",{class:"hint",style:"display:flex;gap:6px;align-items:flex-start"});var c=mk("input",{type:"checkbox","data-key":it.key});c.addEventListener("change",function(){pkSel[it.key]=c.checked});l.appendChild(c);l.appendChild(document.createTextNode(it.label));pbox.appendChild(l)});
+  PACKS.forEach(function(pc){pr.appendChild(mk("button",{type:"button",class:"btn",text:pc.label,onclick:function(){pbox.querySelectorAll("input").forEach(function(c){c.checked=pc.items.indexOf(c.getAttribute("data-key"))>-1;pkSel[c.getAttribute("data-key")]=c.checked})}}))});
+  pk.g.appendChild(pr);pk.g.appendChild(pbox);
+  pk.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn primary",text:"Download the ticked documents",onclick:function(){downloadPack(Object.keys(pkSel).filter(function(k){return pkSel[k]}),"Document pack")}})]));
   var t=TPL.items.filter(function(x){return x.id===tplSel})[0];
   if(!t)return;
   var ed=setSec("Edit: "+t.title,true);wrap.appendChild(ed.d);
@@ -2041,7 +2064,12 @@ VIEWFN.templates=function(box){
     clearTimeout(tm);TPL.items=TPL.items.filter(function(x){return x!==t});saveTpl();tplSel=null;showView("templates")}})]));
   var out=setSec("Fill for this matter",true);wrap.appendChild(out.d);
   var rc=mk("textarea",{id:"tp_recip",rows:3});rc.value=tplRecip;rc.addEventListener("input",function(){tplRecip=rc.value;prev()});
-  if(t.to)out.g.appendChild(fld("Recipient name and address",rc));
+  if(t.to){
+    var cs=mk("select",{id:"tp_contact","aria-label":"Choose from contacts"});cs.appendChild(mk("option",{value:"",text:"Choose from contacts..."}));
+    CONTACTS.items.forEach(function(c){cs.appendChild(mk("option",{value:c.id,text:c.name+(c.org?" - "+c.org:"")}))});
+    cs.addEventListener("change",function(){var c=CONTACTS.items.filter(function(x){return x.id===cs.value})[0];if(c){tplRecip=[c.name,c.org,c.address].filter(Boolean).join("\n");rc.value=tplRecip;prev()}});
+    out.g.appendChild(fld("Recipient from contacts",cs));out.g.appendChild(fld("Recipient name and address",rc));
+  }
   var paper2=mk("div",{class:"paper",id:"tplPaper",style:"grid-column:1/-1"});out.g.appendChild(paper2);
   function prev(){paper2.innerHTML=tplHtml(t,tplRecip)}
   prev();
@@ -2134,16 +2162,21 @@ var EXAMPLE_LA=Object.assign({},EXAMPLE,{clientName:"Ms Sarah Sample",salutation
 
 /* ----- facts from witness statements and instruction forms ----- */
 function toYou(s){
-  s=String(s).replace(/\bI'm\b/g,"you are").replace(/\bI am\b/g,"you are").replace(/\bI was\b/g,"you were").replace(/\bI have\b/g,"you have").replace(/\bI had\b/g,"you had").replace(/\bI'd\b/g,"you would").replace(/\bI've\b/g,"you have").replace(/\bI'll\b/g,"you will")
+  s=String(s);if(/["\u201c]/.test(s)){return s.split(/("[^"]*"|\u201c[^\u201d]*\u201d)/).map(function(x,i){return i%2?x:(x?toYou(x):x)}).join("").replace(/^./,function(c){return c.toUpperCase()})}
+  s=s.replace(/\bI'm\b/g,"you are").replace(/\bI am\b/g,"you are").replace(/\bI was\b/g,"you were").replace(/\bI have\b/g,"you have").replace(/\bI had\b/g,"you had").replace(/\bI'd\b/g,"you would").replace(/\bI've\b/g,"you have").replace(/\bI'll\b/g,"you will")
    .replace(/\bI\b/g,"you").replace(/\b[Mm]yself\b/g,"yourself").replace(/\b[Mm]y\b/g,"your").replace(/\b[Mm]ine\b/g,"yours").replace(/\b[Mm]e\b/g,"you");
   return s.charAt(0).toUpperCase()+s.slice(1);
 }
+function cleanOcr(t){return String(t).replace(/\r/g,"").replace(/[ \t]+/g," ").replace(/ ([,.;:!?)\]])/g,"$1").replace(/([(\[]) /g,"$1").replace(/(\w) - (\w)/g,"$1-$2").replace(/^(\d{1,2}) \./gm,"$1.").replace(/(\d) ?\/ ?(\d)/g,"$1/$2")}
+function ageFrom(iso){var d=parseISO(iso);if(!d)return"";var n=new Date(),a=n.getFullYear()-d.getFullYear();if(n<new Date(n.getFullYear(),d.getMonth(),d.getDate()))a--;return a>=0&&a<25?String(a):""}
 function extractCare(items){
-  var all=items.map(function(i){return i.text}).join("\n");
+  var all=items.map(function(i){return cleanOcr(i.text)}).join("\n");
   var out={clientName:"",clientAddress:"",otherParty:"",orders:[],withoutNotice:false,relationship:"",children:[],incidents:[],urgency:"",policeRef:"",interpreter:"",safeContact:"",liveWith:"",evidence:[],legalAid:{cert:"",certNo:"",},hasText:!!all.trim()};
   var flat=all.replace(/\r/g,"").split(/\n/).filter(function(l){return!/statement of truth|i believe that the facts|signed\s*:|dated\s*:/i.test(l)}).join(" ").replace(/\s+/g," ");
   if(/non[- ]?molestation/i.test(all))out.orders.push("nmo");
   if(/occupation order|exclusion order|right to occupy|exclude [^.]{0,40} from (?:the|our|my) (?:home|property|house)/i.test(all))out.orders.push("occ");
+  if(out.orders.indexOf("nmo")<0&&/stop (?:him|her|them) (?:from )?(?:contacting|harassing|threatening|coming near|approaching|following|texting|calling)|stop (?:him|her|them) contacting|keep (?:him|her|them) away from me|not to (?:contact|harass|threaten) me/i.test(all))out.orders.push("nmo");
+  if(out.orders.indexOf("occ")<0&&/(?:want|need|ask)[^.]{0,30}(?:him|her|them) (?:out of|to leave|removed from)[^.]{0,30}(?:home|house|property)|exclud\w+ (?:him|her|them) from (?:the|our|my) (?:home|house|property)/i.test(all))out.orders.push("occ");
   if(/child arrangements?/i.test(all))out.orders.push("cao");
   if(/prohibited steps?/i.test(all))out.orders.push("pso");
   if(/specific issue/i.test(all))out.orders.push("sio");
@@ -2154,21 +2187,27 @@ function extractCare(items){
     out.relationship=/^ex[- ]?(husband|wife)|^former (husband|wife|spouse)/.test(w)?REL[1]:/^(husband|wife)$/.test(w)?REL[0]:/father of|children'?s? (father|mother)/.test(w)?REL[7]:/^(ex|former)/.test(w)?(lived?REL[3]:REL[5]):/^(partner|boyfriend|girlfriend)$/.test(w)?(lived?REL[2]:REL[4]):REL[6];
     if(/^(ex|former)/.test(w))out.relationship=lived?REL[3]:REL[5];
   }
-  var nm0=/WITNESS STATEMENT OF ([A-Za-z][A-Za-z\' \-]{3,50})/.exec(all)||/\bI,\s+([A-Z][a-z]+(?: [A-Z][a-z\-\']+){1,3}),\s+of\b/.exec(all);
+  var nm0=/(?:witness )?statement of\s*:?\s*(?:(?:mrs|mr|ms|miss|mx|dr)\b\.?\s*)?((?:[A-Za-z]\.|[A-Za-z][A-Za-z'\-]+)(?: (?:[A-Za-z]\.|[A-Za-z][A-Za-z'\-]+)){1,3})[ \t]*$/im.exec(all)||/\bI\s*,\s*((?:[A-Z]\.|[A-Z][A-Za-z'\-]+)(?: (?:[A-Z]\.|[A-Z][A-Za-z'\-]+)){1,3})\s*,\s*of\b/.exec(all)||/\b[Mm]y name is\s+((?:[A-Z]\.|[A-Z][A-Za-z'\-]+)(?: (?:[A-Z]\.|[A-Z][A-Za-z'\-]+)){1,3})/.exec(all)||/client name\s*:\s*([A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+){1,3})/i.exec(all);
+  if(nm0)out.clientName=titleCase(nm0[1].trim().replace(/\s+/g," ")).replace(/\b[A-Z]{2,}\b/g,function(w){return w.charAt(0)+w.slice(1).toLowerCase()});
   if(nm0)out.clientName=nm0[1].trim().toLowerCase().replace(/\b[a-z]/g,function(c){return c.toUpperCase()});
-  var ad0=/\bI,\s+[A-Z][^,]{3,50},\s+of\s+([^\n]{8,140}?),?\s+(?:make|do|am)\b/.exec(all);if(ad0)out.clientAddress=ad0[1].replace(/,\s*/g,"\n");
-  var op0=/Respondent is (?:my [a-z\- ]+,\s*)?([A-Z][a-z]+(?: [A-Z][a-z\-\']+){1,2})/.exec(all)||/\bmy (?:ex[- ]?partner|ex[- ]?husband|ex[- ]?wife|former partner|partner|husband|wife|boyfriend|girlfriend|ex[- ]?boyfriend|ex[- ]?girlfriend),\s+([A-Z][a-z]+(?: [A-Z][a-z\-\']+){1,2})/.exec(all);
-  if(op0)out.otherParty=op0[1];
+  var ad0=/\bI\s*,\s+[A-Z][^,]{3,50},\s+of\s+([^\n]{8,140}?),?\s+(?:make|do|am|will say|wish to say|state|say as follows)\b/.exec(all);if(ad0)out.clientAddress=ad0[1].replace(/,\s*/g,"\n");
+  if(!out.clientAddress){var ad1=/\bI (?:live|reside|currently live) (?:at|in)\s+([^.\n]{8,120}?)(?=\s+with\b|\s+and\b|\.|\n|$)/.exec(all);if(ad1)out.clientAddress=ad1[1].replace(/,\s*/g,"\n")}
+  var opc=[/^\s*RESPONDENT\s*[:\-]\s*([A-Za-z][A-Za-z'\- ]{3,40}?)\s*$/im,/\bRespondent(?: is| name)?\s*[:,]?\s+(?:my [a-z\- ]+,?\s*)?([A-Z][a-z]+(?: [A-Z][a-z\-']+){1,2})/,/\bOther party\s*:\s*([A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+){1,2})/,/\b[Mm]y (?:ex(?![a-z])|ex[- ]?partner|ex[- ]?husband|ex[- ]?wife|former (?:husband|wife|partner)|husband|wife|partner|boyfriend|girlfriend|ex[- ]?boyfriend|ex[- ]?girlfriend|fianc[a-z]+)(?: is)?,?\s+([A-Z][a-z]+(?: [A-Z][a-z\-']+){1,2})/,/\bThe (?:father|mother),\s+([A-Z][a-z]+ [A-Z][a-z\-']+)/,/\b(?:[Tt]heir|[Tt]he children'?s|[Oo]ur children'?s) (?:mother|father) is\s+([A-Z][a-z]+(?: [A-Z][a-z\-']+){1,2})/];
+  for(var oi=0;oi<opc.length&&!out.otherParty;oi++){var om=opc[oi].exec(all);if(om){var on=titleCase(om[1].trim().replace(/\s+/g," "));if(on.toLowerCase()!==(out.clientName||"").toLowerCase()&&!/^(The|My)\b/.test(on))out.otherParty=on}}
+  if(!out.relationship&&/\bI married\b|\bwe (?:are|were) married\b|\bmy (?:marriage|spouse)\b|\bcivil partner/i.test(all))out.relationship=/separated|divorc|ex[- ]/i.test(all)&&!/still (?:married|live)/i.test(all)?REL[1]:REL[0];
   var seen={},ch=[];
   function addc(n,a){if(!n||/^(The|My|His|Her|Their|Our|When|On|In|At|She|He|They|We|Aged|Age|Mr|Mrs|Ms|Miss|January|February|March|April|May|June|July|August|September|October|November|December|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/.test(n))return;if(!seen[n]){seen[n]=1;ch.push(n+(a?", aged "+a:""))}}
   var m,re1=/\b([A-Z][a-z]{2,})\s*(?:,|\()?\s*(?:aged|age)\s*(\d{1,2})\b/g;while((m=re1.exec(flat)))addc(m[1],m[2]);
   var re2=/\b([A-Z][a-z]{2,})\s*\((\d{1,2})\)/g;while((m=re2.exec(flat)))addc(m[1],m[2]);
-  var re3=/\bmy (?:son|daughter|child|stepson|stepdaughter)\s+([A-Z][a-z]{2,})(?:\s*(?:,|\()?\s*(?:aged\s*)?(\d{1,2})\b)?/g;while((m=re3.exec(flat)))addc(m[1],m[2]||"");
+  var re3=/\b(?:my|our) (?:son|daughter|child|stepson|stepdaughter)\s+([A-Z][a-z]{2,})(?:\s*(?:,|\()?\s*(?:aged\s*)?(\d{1,2})\b)?/g;while((m=re3.exec(flat)))addc(m[1],m[2]||"");
+  var re4=/\b([A-Z][a-z]{2,})(?:,)?\s+(?:who\s+is|is)\s+(\d{1,2})(?:\s+years?(?:\s+old)?)?\b/g;while((m=re4.exec(flat)))addc(m[1],m[2]);
+  var re5=/\b(\d{1,2})[- ]year[- ]old\s+(?:son|daughter|child|boy|girl)\s+([A-Z][a-z]{2,})/g;while((m=re5.exec(flat)))addc(m[2],m[1]);
+  var re6=/\b([A-Z][a-z]{2,})(?: [A-Z][a-z\-']+)?[\s,(]*(?:born|b\.|DOB:?|date of birth:?)\s*:?\s*([^)\n,;]{6,25})\)?/g;while((m=re6.exec(flat))){var dd=allDates(m[2]);addc(m[1],dd.length?ageFrom(dd[0].iso):"")}
   out.children=ch;
   var lw=/\b(?:live|lives|living|reside|resides|stay|stays)\s+(?:full[- ]time\s+)?with\s+(me|their (?:mother|father)|his (?:mother|father)|her (?:mother|father)|[a-z]{3,20}(?: [a-z]{3,20})?)\b/i.exec(flat);
   if(lw)out.liveWith="with "+(/^me$/i.test(lw[1])?"you":lw[1]);
   var sents=flat.match(/[^.!?]+[.!?]+/g)||[];
-  var kw=/\b(hit|hits|punch\w*|slap\w*|kick\w*|strangl\w*|chok\w*|push\w*|shov\w*|threat\w*|abus\w*|assault\w*|controlling|coerc\w*|harass\w*|stalk\w*|followed|following|intimidat\w*|shout\w*|scream\w*|afraid|frightened|fear\w*|injur\w*|bruis\w*|weapon|knife|locked|forced|rape\w*|violen\w*|attack\w*|smash\w*|destroy\w*|kill)\b/gi;
+  var kw=/\b(hit|hits|punch\w*|slap\w*|kick\w*|strangl\w*|chok\w*|push\w*|shov\w*|threat\w*|abus\w*|assault\w*|controlling|coerc\w*|harass\w*|stalk\w*|followed|following|intimidat\w*|shout\w*|scream\w*|afraid|frightened|fear\w*|injur\w*|bruis\w*|weapon|knife|locked|forced|rape\w*|violen\w*|attack\w*|smash\w*|destroy\w*|kill|terrif\w*|danger\w*|scared|grabb\w*|throat|stopped me|checks my|regret|threw|thrown|dragg\w*|beat|beaten|burn\w*|stab\w*|spat|slam\w*|hurt|banged|brick|worthless|abusive|turned up|called me names|took my|kidnap\w*)\b/gi;
   var dt=/\b\d{1,2}(?:st|nd|rd|th)?\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}\b|\b\d{1,2}\/\d{1,2}\/\d{2,4}\b|\b(?:in|on|during|since)\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\s+\d{4})?\b/i;
   var sc=[];
   sents.forEach(function(s,i){
@@ -2182,7 +2221,7 @@ function extractCare(items){
   if(ug){var uy=toYou(ug.trim()).slice(0,240);if(out.incidents.indexOf(uy)<0&&out.incidents.indexOf(toYou(ug.trim()))<0)out.urgency=uy}
   var pr=/\b(?:CRN|URN)[\s:]*[A-Z0-9][A-Z0-9\/\-]{3,}(?:\s[0-9\/\-]{2,}){0,3}/.exec(all);
   if(pr)out.policeRef=pr[0].replace(/\s+/g," ").trim();
-  else{var pr2=/crime (?:reference|ref|number|no)\.?\s*(?:is|:|-)?\s*([A-Za-z0-9][A-Za-z0-9\/\- ]{3,22})/.exec(all);if(pr2&&/\d/.test(pr2[1]))out.policeRef=pr2[1].trim()}
+  else{var pr2=/(?:crime|incident|log|police)\s+(?:reference|ref|number|no\.?)(?:\s+(?:number|no\.?))?\s*(?:is|was|:|-)?\s*((?:[A-Z]{2,4}[\/\s-]?)?\d[\d\/\-]{3,})/i.exec(all);if(pr2)out.policeRef=pr2[1].trim()}
   var ip=/interpreter[^.\n]{0,60}|(?:first language|speaks?|speak)\s+(?:only\s+)?(?:is\s+)?([A-Z][a-z]+)[^.\n]{0,30}/.exec(all);
   if(ip&&/interpreter|first language/i.test(ip[0]))out.interpreter=ip[0].trim().slice(0,100);
   var sf=/^[ \t]*(?:safe|best|preferred|secure)[^:\n]{0,40}:[ \t]*(.+)$/im.exec(all);
@@ -2205,7 +2244,8 @@ function applyCare(c,filled){
       if(!(nm||oc)||true)set("matterType",mt,"type of matter");
     }
   }
-  if(!S.clientName||S.clientName===""){set("clientName",c.clientName,"client name");set("clientAddress",c.clientAddress,"client address")}
+  if(!S.clientName)set("clientName",c.clientName,"client name");
+  if(!(S.clientAddress&&S.clientAddress.trim()))set("clientAddress",c.clientAddress,"client address");
   if(!S.otherParty)set("otherParty",c.otherParty,"other party");
   set("relationship",c.relationship,"relationship");set("childrenInfo",c.children,"children");set("childLiveWith",c.liveWith,"where the children live");
   set("abuseSummary",c.incidents,"what happened (from the statement)");set("urgency",c.urgency,"urgency");set("policeRef",c.policeRef,"police reference");set("interpreter",c.interpreter,"language needs");set("safeContact",c.safeContact,"safe contact");
@@ -2232,13 +2272,44 @@ function applyCare(c,filled){
    ["Children","c_ch_c100","Application form for the children order filed, with MIAM exemption evidence"],
   ].forEach(function(c){if(!c[3])c[3]=CH.slice();CHECKS.push(c)});
 })();
+
+/* ----- local AI: client circumstances and closing letter drafting ----- */
+function runAI(prompt,signal){return settings.engine==="ollama"?localOllama(prompt,signal):localOpenAI(prompt,signal)}
+function careAIPrompt(items){
+  var p="You are helping a family law solicitor in England and Wales who does legal aid work on non-molestation orders, occupation orders and children orders under section 8 of the Children Act 1989. Below are a client's witness statement and instruction form. Extract the facts for a client care letter.\n\nRules:\n- Use only what the documents say. Never guess. Use \"\" for unknown text and [] for unknown lists.\n- Write incidents as short plain sentences in the second person, addressed to the client (\"On 3 September 2026 he pushed you against a wall\"), with dates where given. At most 8, the most serious and best dated first. Keep quoted words exactly as written.\n- relationship must be exactly one of "+JSON.stringify(REL)+" or \"\".\n- orders may contain only these codes: nmo (non-molestation), occ (occupation), cao (child arrangements), pso (prohibited steps), sio (specific issue).\n- withoutNotice is true only if the documents ask for the application to be made without notice.\n- children: one item per child, \"Name, aged N\".\n- evidence: types of evidence of abuse the documents mention, such as police report, GP records, IDVA support, MARAC, previous injunction.\n\nReply with only one JSON object in this shape:\n"+'{"clientName":"","clientAddress":"","otherParty":"","relationship":"","orders":[""],"withoutNotice":false,"children":[""],"childLiveWith":"","incidents":[""],"urgency":"","policeRef":"","interpreter":"","safeContact":"","evidence":[""]}'+"\n\n";
+  items.forEach(function(it,i){p+="=== DOCUMENT "+(i+1)+": "+it.name+" ===\n"+it.text+"\n\n"});return p;
+}
+function mergeCare(rules,ai){
+  var out=Object.assign({},rules||{});if(!ai||typeof ai!=="object")return out;
+  function str(x){return typeof x==="string"?x.trim():""}
+  function arr(x){return Array.isArray(x)?x.map(str).filter(Boolean):[]}
+  ["clientName","clientAddress","otherParty","childLiveWith","urgency","policeRef","interpreter","safeContact"].forEach(function(k){var v=str(ai[k]);if(v)out[k===("childLiveWith")?"liveWith":k]=v});
+  if(REL.indexOf(str(ai.relationship))>-1)out.relationship=str(ai.relationship);
+  var oc=arr(ai.orders).filter(function(x){return["nmo","occ","cao","pso","sio"].indexOf(x)>-1});if(oc.length)out.orders=oc;
+  if(ai.withoutNotice===true)out.withoutNotice=true;
+  var ch=arr(ai.children);if(ch.length)out.children=ch;
+  var inc=arr(ai.incidents).slice(0,8);if(inc.length)out.incidents=inc;
+  var ev=arr(ai.evidence);if(ev.length)out.evidence=ev;
+  out.hasText=true;return out;
+}
+function draftAIPrompt(items,clientName){
+  var p="You are helping a family law solicitor in England and Wales write the closing letter to a client. Below are court orders and attendance notes from the matter. "+(clientName?"The client is "+clientName+". ":"")+"Write three parts of the letter in plain English for a client who is not a lawyer. Address the client as \"you\" and name the other party.\n\nRules:\n- Use only what the documents say. Do not invent facts, dates or reasons. If unsure, leave it out.\n- Past tense, short sentences, no legal jargon. Dates like 3 September 2026.\n- represent: one paragraph per hearing, in date order. Say the date, the court, who represented the client (the solicitor or counsel), what the client asked the court for, whether the other party attended, and what the court decided. Do not include internal comments about the client's feelings.\n- outcome: one paragraph per hearing, saying what the court ordered, in plain English.\n- meaning: short paragraphs explaining what the orders mean for the client: what each side must or must not do, for how long, what happens if an order is broken, and any next hearing.\n\nReply with only one JSON object in this shape:\n"+'{"represent":[""],"outcome":[""],"meaning":[""]}'+"\n\n";
+  items.forEach(function(it,i){p+="=== DOCUMENT "+(i+1)+": "+it.name+" ===\n"+it.text+"\n\n"});return p;
+}
 /* ----- plain English explanation of orders, for the closing letter ----- */
 function explainOrders(texts){
   var t=texts.join(" \n ").toLowerCase(),o=[];
   if(/non[- ]?molestation/.test(t))o.push("The non-molestation order stops the other party from using or threatening violence against you, and from intimidating, harassing or pestering you, as the order sets out. Breaking it is a criminal offence. If it is broken, call the police and tell me.");
-  var d=/\b(?:until|for a period of|for)\s+(?:a period of\s+)?(\d+|one|two|three|four|five|six|twelve)\s+(days?|weeks?|months?|years?)\b/.exec(t);
-  if(d&&/non[- ]?molestation|occupation|prohibited|injunction/.test(t))o.push("The order applies for "+d[1]+" "+d[2]+".");
-  else if(/until further order|further order/.test(t)&&/non[- ]?molestation|occupation/.test(t))o.push("The order lasts until a court changes or ends it.");
+  var protect=/non[- ]?molestation|occupation|use or threaten|harass|pester|intimidat|forbidden|must not (?:contact|go within|enter)|injunction/;
+  var durDone=false;
+  texts.forEach(function(x){
+    var lx=String(x).toLowerCase();if(durDone||!protect.test(t)||/spend time|live with|child arrangements|contact centre|supervised/.test(lx))return;
+    var d=/\b(?:until|for a period of|for)\s+(?:a period of\s+)?(\d+|one|two|three|four|five|six|twelve)\s+(days?|weeks?|months?|years?)\b/.exec(lx);
+    var fu=/remain in force until ([^.;]{3,60}?)(?: when| and |\.|;|,|$)/i.exec(String(x));
+    if(d){o.push("The order applies for "+d[1]+" "+d[2]+".");durDone=true}
+    else if(fu){o.push("The order stays in force until "+fu[1].trim()+(/review/.test(lx)?", when the court will review it":"")+".");durDone=true}
+    else if(/until further order/.test(lx)){o.push("The order lasts until a court changes or ends it.");durDone=true}
+  });
   if(/occupation order|exclu\w+[^.]{0,40}(?:home|property)|shall not (?:enter|return)|allow the applicant to (?:enter|return)/.test(t))o.push("The occupation order decides who may live in, or enter, the home. Please read it carefully and follow it exactly.");
   if(/undertaking/.test(t))o.push("An undertaking is a formal promise made to the court. If it is broken, the court can treat that as contempt of court. Please keep a copy, and tell me if the other party breaks one.");
   if(/penal notice/.test(t))o.push("The order carries a penal notice, which is a warning that breaking it can be punished by the court.");
@@ -2252,18 +2323,29 @@ function representationFrom(hs,ns,P){
   hs.forEach(function(h){
     if(!isDate(h.date))return;
     var n=ns.filter(function(x){return x.date===h.date})[0],nt=n?(String(n.present||"")+" "+String(n.summary||"")):"";
-    var counsel=/counsel|barrister/i.test(nt),absent=/client (?:did not attend|was absent|absent|not present)|did not attend/i.test(nt);
-    var s="On "+fmtDate(h.date,false)+(h.type?", the court held the "+(/^[A-Z][a-z]/.test(h.type)?h.type.charAt(0).toLowerCase()+h.type.slice(1):h.type):", there was a hearing")+(h.court?" at "+h.court:"")+(h.judge?" before "+h.judge:"")+". ";
+    var counsel=/counsel|barrister/i.test(nt),absent=/client (?:did not attend|was absent|absent|not present)|did not attend/i.test(nt.replace(/respondent[^.]*did not attend/ig,""));
+    var ty=h.type?(/^[A-Z][a-z]/.test(h.type)?h.type.charAt(0).toLowerCase()+h.type.slice(1):h.type):"";
+    var s="On "+fmtDate(h.date,false)+(ty?", the court held the "+ty:", there was a hearing")+(h.court?" at "+h.court:"")+(h.judge?" before "+h.judge:"")+". ";
     s+=absent?(counsel?"You did not attend, and counsel instructed by us attended on your behalf. ":"You did not attend, and I attended on your behalf. "):(counsel?"Counsel instructed by us represented you at court. ":"I represented you at court. ");
-    if(n&&n.instructions){var ins=P(String(n.instructions)).replace(/\s+$/,"").replace(/\.?$/,".");s+="Your instructions were "+(/^to /i.test(ins)?"":"as follows: ")+ins.charAt(0).toLowerCase()+ins.slice(1)+" "}
-    var nsum="";if(n&&n.summary){nsum=String(n.summary);var sm=/summary\s*:\s*([\s\S]+)/i.exec(nsum);nsum=(sm?sm[1]:nsum).replace(/^\s*(?:type|hearing|present|date|client instructions|instructions)\s*:.*$/gim,"").replace(/\s+/g," ").trim()}
-    if(nsum&&!/^The court held/.test(nsum))s+="In summary: "+nsum.replace(/\.?$/,".")+" ";
-    else if(h.summary&&!/^The court held/.test(String(h.summary)))s+=P(String(h.summary));
+    if(/without notice|ex[- ]?parte/i.test(nt))s+="We made the application without notice to the other party. ";
+    else if(/(?:respondent|other party|he|she)[^.]{0,40}attended with (?:a |their )?(?:solicitor|counsel|barrister)/i.test(nt))s+="The other party attended with legal representation. ";
+    else if(/(?:respondent|other party)[^.]{0,30}(?:not present|did not attend|absent)/i.test(nt))s+="The other party did not attend. ";
+    var ins=n&&n.instructions?String(n.instructions).trim().split(/(?<=[.!?])\s/)[0]:"";
+    if(/^(?:to|that|for the court)\b/i.test(ins))s+="You instructed us "+(/^to\b/i.test(ins)?"":"")+toYou(ins).replace(/^./,function(c){return c.toLowerCase()}).replace(/\.?$/,".")+" ";
+    var decide=[];
+    if(n&&n.summary){
+      var sm=String(n.summary),m2=/summary\s*:\s*([\s\S]+)/i.exec(sm);sm=(m2?m2[1]:sm).replace(/^\s*(?:type|hearing|present|date|client instructions|instructions)\s*:.*$/gim,"");
+      (sm.replace(/\s+/g," ").match(/[^.!?]+[.!?]+/g)||[]).forEach(function(x){
+        x=x.trim();if(/\b(made|granted|ordered|refused|adjourned|dismissed|directed|listed|satisfied|approved)\b/i.test(x)&&!/client (?:was|seemed|appeared)|distress|upset|cried|tearful|chase|diary/i.test(x)&&!/respondent|not present|other party/i.test(x)&&decide.length<2)decide.push(x.replace(/\bDJ\b/g,"District Judge").replace(/\bHHJ\b/g,"Judge").replace(/\bclient\b/gi,"you"));
+      });
+    }
+    if(decide.length)s+=decide.join(" ")+" ";
+    else if(h.summary&&!/^The court held/.test(String(h.summary)))s+=P(String(h.summary))+" ";
+    if(h.orders&&h.orders.length)s+="The orders made are set out below. ";
     out.push(s.trim());
   });
   return out;
 }
-
 /* ----- order advice for the client care letter ----- */
 function careAdvice(){
   var h="",n=0;
@@ -2356,6 +2438,249 @@ function buildCareLA(){
 
 $("btnExampleMatter").insertAdjacentHTML("afterend",'<button class="btn" id="btnExampleLA" type="button">Add legal aid example</button>');
 $("btnExampleLA").addEventListener("click",function(){var m=newMatterObj("Example legal aid matter",Object.assign({},EXAMPLE_LA));m.cur="care";addMatter(m);toast("Legal aid example added.")});
+
+/* ---------- matter documents, retrieval, contacts, packs, details needed ---------- */
+/* matter documents store */
+function kindOf(name,text){
+  var fk=forcedKind({text:text});if(fk)return fk==="Notice of hearing"?"Court order":fk;
+  var t=(name+" "+String(text||"").slice(0,1500)).toLowerCase();
+  if(/witness statement|statement of truth|make this statement/.test(t))return"Witness statement";
+  if(/instruction form|client information|intake|client questionnaire/.test(t))return"Instruction form";
+  if(/attendance note|file note|telephone attendance/.test(t))return"Attendance note";
+  if(/\border\b.*(made|before)|it is ordered|penal notice|notice of hearing|directions/.test(t))return"Court order";
+  if(/dear |yours sincerely|yours faithfully/.test(t))return"Letter";
+  return"Other";
+}
+var DOC_KINDS=["Witness statement","Instruction form","Court order","Attendance note","Letter","Other"];
+function storeDocs(items){
+  if(!CURM)return 0;CURM.docs=CURM.docs||[];var n=0;
+  items.forEach(function(it){
+    if(it.name==="Pasted text"||!it.text)return;
+    if(CURM.docs.some(function(d){return d.name===it.name&&d.text.length===it.text.length}))return;
+    CURM.docs.push({id:mid(),name:it.name,kind:kindOf(it.name,it.text),added:Date.now(),text:it.text});n++;
+  });
+  if(n){save();persistNow();var sz=0;CURM.docs.forEach(function(d){sz+=d.text.length});if(sz>1500000)toast("The stored documents are getting large. Remove ones you no longer need.")}
+  return n;
+}
+function snippetsOf(text,terms,max){
+  var low=text.toLowerCase(),out=[],used=-999;
+  for(var i=0;i<terms.length&&out.length<max;i++){
+    var from=0,pos;
+    while(out.length<max&&(pos=low.indexOf(terms[i],from))>-1){
+      from=pos+terms[i].length;
+      if(pos<used+160)continue;
+      used=pos;var a=Math.max(0,pos-70),b=Math.min(text.length,pos+terms[i].length+110);
+      out.push((a>0?"...":"")+text.slice(a,b).replace(/\s+/g," ")+(b<text.length?"...":""));
+    }
+  }
+  return out;
+}
+function highlightHtml(text,terms){
+  var h=esc(text);
+  terms.forEach(function(t){if(t.length<2)return;var re=new RegExp(esc(t).replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi");h=h.replace(re,function(m){return"<mark>"+m+"</mark>"})});
+  return h;
+}
+function searchDocs(q,all){
+  var terms=q.toLowerCase().split(/\s+/).filter(function(t){return t.length>1}),res=[];
+  if(!terms.length)return res;
+  (all?STORE.matters:[CURM]).forEach(function(m){
+    (m.docs||[]).forEach(function(d){
+      var low=d.text.toLowerCase(),sc=0,ok=true;
+      terms.forEach(function(t){var c=low.split(t).length-1;if(!c)ok=false;sc+=c});
+      if(ok)res.push({m:m,d:d,score:sc,snips:snippetsOf(d.text,terms,3)});
+    });
+  });
+  res.sort(function(a,b){return b.score-a.score});return res;
+}
+async function fillFromStored(ids,type){
+  var docs=(CURM.docs||[]).filter(function(d){return ids.indexOf(d.id)>-1});
+  if(!docs.length){toast("Choose at least one document.");return}
+  var items=docs.map(function(d){return{name:d.name,text:d.text}});
+  toast("Reading the documents...");
+  try{
+    var data=await runEngine(buildPrompt(items,[]),{},items);
+    if(!data||typeof data!=="object"||Array.isArray(data))throw{code:"invalid_json"};
+    data.__issues=[];try{data.care=extractCare(items)}catch(e){}
+    lastExtract=data;
+    if(type&&type!==cur)switchTo(type);
+    showView("letters");
+    var res=applyExtract(data,false);showResult(res,data);
+    toast("Filled the "+typeLabel(cur).toLowerCase()+" from "+docs.length+" stored document"+(docs.length===1?"":"s")+".");
+  }catch(e){toast(ERR[e&&e.code]||"Something went wrong reading the documents.")}
+}
+function factsFrom(items){
+  var d=extractRules(items),c=extractCare(items),rows=[];
+  function src(v){var l=String(v||"").toLowerCase().slice(0,30);if(l.length<4)return"";return items.filter(function(i){return i.text.toLowerCase().indexOf(l)>-1}).map(function(i){return i.name}).join(", ")}
+  function add(l,v){if(v&&String(v).trim())rows.push([l,String(v).trim(),src(v)])}
+  var cl=(d.parties||[]).map(function(p){return p.name+" ("+p.role+")"}).join("; ");
+  add("Parties",cl);add("Client (from statement)",c.clientName);add("Other party",c.otherParty||d.otherParty);add("Relationship",c.relationship);
+  add("Court",d.court);add("Case number",d.caseNumber);add("Matter",d.matterType);
+  add("Children",c.children.join("; "));add("Where the children live",c.liveWith);
+  add("Orders sought",c.orders.join(", ")+(c.withoutNotice?" (without notice)":""));
+  add("Police reference",c.policeRef);add("Safe contact",c.safeContact);add("Language needs",c.interpreter);add("Evidence mentioned",c.evidence.join("; "));
+  (d.hearings||[]).forEach(function(h){add("Hearing "+(h.date||""),(h.type||"")+(h.judge?" before "+h.judge:"")+(h.orders&&h.orders.length?". Orders: "+h.orders.join("; "):""))});
+  (c.incidents||[]).forEach(function(x,i){add("Incident "+(i+1),x)});
+  return rows;
+}
+VIEWFN.documents=function(box){
+  CURM.docs=CURM.docs||[];
+  box.appendChild(mk("h2",{class:"vh",text:"Documents: "+CURM.name}));
+  var wrap=mk("div",{class:"vstack",style:"max-width:1000px"});box.appendChild(wrap);
+  wrap.appendChild(mk("p",{class:"hint",text:"Documents you upload are read once and their text is kept with this matter, so you can search them and fill letters from them later without uploading again. Only the text is kept, not the original file. Documents read in the letters screen are kept here too."}));
+  var up=setSec("Add documents",true);wrap.appendChild(up.d);
+  var fi=mk("input",{type:"file",id:"docUp",multiple:true,accept:".pdf,.docx,.odt,.rtf,.txt,.md,.csv,image/*"});
+  var st=mk("p",{class:"dstatus",role:"status",style:"grid-column:1/-1"});
+  fi.addEventListener("change",async function(){
+    var fl=Array.prototype.slice.call(fi.files||[]),added=0,issues=[];
+    for(var i=0;i<fl.length;i++){
+      st.textContent="Reading "+fl[i].name+" ("+(i+1)+" of "+fl.length+")...";
+      try{var r=await readFile(fl[i],function(m){st.textContent=m});if(r.text&&r.text.trim())added+=storeDocs([{name:fl[i].name,text:r.text.trim().slice(0,150000)}]);else issues.push(fl[i].name+" has no readable text.")}
+      catch(e){issues.push(fl[i].name+" could not be read.")}
+    }
+    toast(added+" document"+(added===1?"":"s")+" added."+(issues.length?" "+issues.join(" "):""));showView("documents");
+  });
+  up.g.appendChild(fld("Files",fi,"Court orders, witness statements, instruction forms, attendance notes, letters. Scans are read with OCR."));up.g.appendChild(st);
+  /* search */
+  var sr=setSec("Search",true);wrap.appendChild(sr.d);
+  var q=mk("input",{type:"text",id:"ds_q",placeholder:"Words to find, such as police, school, 12 months","aria-label":"Search documents"});
+  var all=mk("input",{type:"checkbox",id:"ds_all"});
+  var out=mk("div",{style:"grid-column:1/-1",id:"ds_out"});
+  var view=mk("div",{class:"paper docview",style:"grid-column:1/-1;display:none;white-space:pre-wrap"});
+  function show(d,terms){view.style.display="block";view.innerHTML="<strong>"+esc(d.name)+"</strong><br><br>"+highlightHtml(d.text,terms);view.scrollIntoView({behavior:"smooth",block:"nearest"})}
+  function run(){
+    out.innerHTML="";var qq=q.value.trim();if(!qq)return;var terms=qq.toLowerCase().split(/\s+/).filter(function(t){return t.length>1});
+    var rs=searchDocs(qq,all.checked);
+    if(!rs.length){out.appendChild(mk("p",{class:"hint",text:"Nothing found. Every word must appear in the same document."}));return}
+    rs.forEach(function(r){
+      var card=mk("div",{class:"xcard"});
+      card.appendChild(mk("strong",{text:r.d.name}));card.appendChild(mk("span",{class:"hint",text:"  "+r.d.kind+(all.checked?" - "+r.m.name:"")+" - "+r.score+" match"+(r.score===1?"":"es")}));
+      r.snips.forEach(function(s){var p=mk("p",{style:"margin:4px 0;font-size:13px"});p.innerHTML=highlightHtml(s,terms);card.appendChild(p)});
+      var row=mk("div",{class:"row"});row.appendChild(mk("button",{type:"button",class:"btn",text:"Open document",onclick:function(){
+        if(r.m!==CURM){switchMatter(r.m.id).then(function(){showView("documents")});return}
+        show(r.d,terms)}}));card.appendChild(row);out.appendChild(card);
+    });
+  }
+  q.addEventListener("input",run);all.addEventListener("change",run);
+  sr.g.appendChild(fld("Search",q));sr.g.appendChild(fld("Search every matter, not only this one",all,null,true));sr.g.appendChild(out);sr.g.appendChild(view);
+  /* list */
+  var ls=setSec("Documents in this matter ("+CURM.docs.length+")",true);wrap.appendChild(ls.d);
+  var sel={};
+  if(!CURM.docs.length)ls.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"No documents yet."}));
+  CURM.docs.forEach(function(d){
+    var row=mk("div",{class:"hrow",style:"grid-column:1/-1"});
+    var cb=mk("input",{type:"checkbox","aria-label":"Select "+d.name});cb.checked=true;sel[d.id]=true;cb.addEventListener("change",function(){sel[d.id]=cb.checked});
+    var ks=mk("select",{"aria-label":"Type of "+d.name});DOC_KINDS.forEach(function(k){ks.appendChild(mk("option",{value:k,text:k}))});ks.value=d.kind;ks.addEventListener("change",function(){d.kind=ks.value;save()});
+    row.appendChild(cb);row.appendChild(mk("div",{class:"hmain"},[mk("strong",{text:d.name}),mk("span",{class:"hint",text:" added "+new Date(d.added).toLocaleDateString("en-GB")+", "+d.text.length.toLocaleString("en-GB")+" characters "}),ks]));
+    var bw=mk("div",{class:"row"});bw.appendChild(mk("button",{type:"button",class:"btn",text:"View",onclick:function(){show(d,q.value.trim().toLowerCase().split(/\s+/))}}));
+    var armed=false,tm;var del=mk("button",{type:"button",class:"btn warn",text:"Remove"});del.addEventListener("click",function(){
+      if(!armed){armed=true;del.textContent="Click again";tm=setTimeout(function(){armed=false;del.textContent="Remove"},3000);return}
+      clearTimeout(tm);CURM.docs=CURM.docs.filter(function(x){return x!==d});save();persistNow();showView("documents")});
+    bw.appendChild(del);row.appendChild(bw);ls.g.appendChild(row);
+  });
+  /* fill */
+  if(CURM.docs.length){
+    var fl=setSec("Use these documents",true);wrap.appendChild(fl.d);
+    var tsel=mk("select",{id:"ds_type","aria-label":"Letter to fill"});ALL.forEach(function(t){tsel.appendChild(mk("option",{value:t,text:typeLabel(t)}))});tsel.value=cur;
+    fl.g.appendChild(fld("Fill this document from the ticked documents",tsel,"The built-in reader or your local AI reads the ticked documents and fills the details for that letter. Check the result."));
+    fl.g.appendChild(mk("div",{class:"row"},[
+      mk("button",{type:"button",class:"btn primary",text:"Fill the letter",onclick:function(){fillFromStored(Object.keys(sel).filter(function(k){return sel[k]}),tsel.value)}}),
+      mk("button",{type:"button",class:"btn",text:"Show what the documents say",onclick:function(){
+        var items=CURM.docs.filter(function(d){return sel[d.id]}).map(function(d){return{name:d.name,text:d.text}});
+        var rows=factsFrom(items);fo.innerHTML="";
+        if(!rows.length){fo.appendChild(mk("p",{class:"hint",text:"Nothing recognisable was found."}));return}
+        var tb=mk("table",{class:"ledger"});var tr=mk("tr");["Item","What the documents say","Found in"].forEach(function(h){tr.appendChild(thc(h))});tb.appendChild(mk("thead",null,[tr]));
+        var bd=mk("tbody");rows.forEach(function(r){var x=mk("tr");r.forEach(function(c){x.appendChild(tcell(c))});bd.appendChild(x)});tb.appendChild(bd);fo.appendChild(wrapTable(tb));
+        fo.appendChild(mk("p",{class:"hint",text:"Found by pattern matching, not understanding. Check each against the document."}));
+      }})]));
+    var fo=mk("div",{style:"grid-column:1/-1"});fl.g.appendChild(fo);
+  }
+  /* people on matter */
+  var pp=setSec("People on this matter",false);wrap.appendChild(pp.d);
+  CURM.links=CURM.links||[];
+  if(!CONTACTS.items.length)pp.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"No contacts yet. Add them in the Contacts screen, then link them here."}));
+  CONTACTS.items.forEach(function(c){
+    var cb=mk("input",{type:"checkbox",id:"lk_"+c.id});cb.checked=CURM.links.indexOf(c.id)>-1;
+    cb.addEventListener("change",function(){CURM.links=CURM.links.filter(function(x){return x!==c.id});if(cb.checked)CURM.links.push(c.id);save()});
+    pp.g.appendChild(fld(c.name+(c.role?" ("+c.role+")":""),cb,null,true));
+  });
+};
+/* contacts */
+var CTKEY="fld-contacts-v1",CONTACTS={items:[]};
+try{var cr=localStorage.getItem(CTKEY);if(cr){var co=JSON.parse(cr);if(co&&Array.isArray(co.items))CONTACTS=co}}catch(e){}
+function saveContacts(){try{localStorage.setItem(CTKEY,JSON.stringify(CONTACTS))}catch(e){}}
+var CT_ROLES=["Other party","Other party's solicitor","Counsel","Court","Expert","Mediator","Bank or other organisation","Other"];
+var ctSel=null;
+function contactText(c){return[c.name,c.org,c.address,c.email&&("Email: "+c.email),c.phone&&("Tel: "+c.phone)].filter(Boolean).join("\n")}
+VIEWFN.contacts=function(box){
+  box.appendChild(mk("h2",{class:"vh",text:"Contacts"}));
+  var wrap=mk("div",{class:"vstack",style:"max-width:900px"});box.appendChild(wrap);
+  wrap.appendChild(mk("p",{class:"hint",text:"Names and addresses you write to often, such as solicitors for the other side, counsel, courts and banks. They are kept in this browser, are not matter-specific, and can be dropped into templates as the recipient."}));
+  var ls=setSec("Contacts ("+CONTACTS.items.length+")",true);wrap.appendChild(ls.d);
+  var q=mk("input",{type:"text",id:"ct_q",placeholder:"Search contacts","aria-label":"Search contacts"});var hold=mk("div",{style:"grid-column:1/-1;display:flex;flex-direction:column;gap:6px"});
+  ls.g.appendChild(fld("Search",q));ls.g.appendChild(hold);
+  function paint(){
+    hold.innerHTML="";var qq=q.value.trim().toLowerCase();
+    CONTACTS.items.filter(function(c){return!qq||contactText(c).toLowerCase().indexOf(qq)>-1||(c.role||"").toLowerCase().indexOf(qq)>-1}).forEach(function(c){
+      hold.appendChild(mk("div",{class:"hrow"},[mk("div",{class:"hmain"},[mk("strong",{text:c.name}),mk("span",{class:"hint",text:" "+[c.role,c.org].filter(Boolean).join(", ")})]),
+        mk("button",{type:"button",class:"btn",text:"Edit",onclick:function(){ctSel=c.id;showView("contacts")}}),
+        mk("button",{type:"button",class:"btn",text:"Copy",onclick:function(){copyText(contactText(c))}})]));
+    });
+  }
+  q.addEventListener("input",paint);paint();
+  ls.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",text:"New contact",onclick:function(){var c={id:newId(),name:"New contact",role:CT_ROLES[1],org:"",address:"",email:"",phone:"",notes:""};CONTACTS.items.push(c);saveContacts();ctSel=c.id;showView("contacts")}})]));
+  var c=CONTACTS.items.filter(function(x){return x.id===ctSel})[0];if(!c)return;
+  var ed=setSec("Edit contact",true);wrap.appendChild(ed.d);
+  function bind(label,key,area,half){var i=area?mk("textarea",{rows:3}):mk("input",{type:"text"});i.value=c[key]||"";i.addEventListener("input",function(){c[key]=i.value;saveContacts()});ed.g.appendChild(fld(label,i,null,half))}
+  bind("Name","name",false,true);bind("Organisation or firm","org",false,true);
+  var rs=mk("select",{id:"ct_role"});CT_ROLES.forEach(function(r){rs.appendChild(mk("option",{value:r,text:r}))});rs.value=c.role||CT_ROLES[1];rs.addEventListener("change",function(){c.role=rs.value;saveContacts()});ed.g.appendChild(fld("Role",rs,null,true));
+  bind("Address","address",true);bind("Email","email",false,true);bind("Telephone","phone",false,true);bind("Notes","notes",true);
+  var armed=false,tm;ed.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn warn",text:"Delete contact",onclick:function(ev){
+    var b=ev.target;if(!armed){armed=true;b.textContent="Click again to delete";tm=setTimeout(function(){armed=false;b.textContent="Delete contact"},3000);return}
+    clearTimeout(tm);CONTACTS.items=CONTACTS.items.filter(function(x){return x!==c});saveContacts();ctSel=null;showView("contacts")}})]));
+};
+/* details still needed */
+var GAPK=[];
+function fieldDef(k){var f=null;SECTIONS.forEach(function(s){if(f||s.types.indexOf(cur)<0)return;s.fields.forEach(function(x){if(x.k===k&&(!x.not||x.not.indexOf(cur)<0)&&(!x.only||x.only.indexOf(cur)>-1))f=x})});return f}
+var needSig="";
+function renderNeeds(force){
+  var box=document.getElementById("needs");if(!box)return;
+  if(!force&&box.contains(document.activeElement))return;
+  var keys=[];GAPK.forEach(function(k){if(keys.indexOf(k)<0&&fieldDef(k))keys.push(k)});
+  var sig=cur+"|"+keys.join(",");if(!force&&sig===needSig&&box.childNodes.length)return;needSig=sig;
+  box.innerHTML="";if(!keys.length){box.hidden=true;return}
+  box.hidden=false;
+  box.appendChild(mk("h3",{text:"Details still needed ("+keys.length+")"}));
+  box.appendChild(mk("p",{class:"hint",text:"Fill these in and the letter updates. The same fields are in the sections below."}));
+  var g=mk("div",{class:"fields"});box.appendChild(g);
+  keys.slice(0,10).forEach(function(k){
+    var el=makeField(fieldDef(k));
+    el.querySelectorAll("[id]").forEach(function(n){n.id="n_"+n.id});el.querySelectorAll("label[for]").forEach(function(n){n.htmlFor="n_"+n.htmlFor});
+    var inp=el.querySelector("input,select,textarea");
+    inp.addEventListener("change",function(){var m=document.getElementById("f_"+k);if(m){if(m.type==="checkbox")m.checked=!!S[k];else m.value=S[k]||""}});
+    g.appendChild(el);
+  });
+  if(keys.length>10)box.appendChild(mk("p",{class:"hint",text:keys.length-10+" more in the sections below."}));
+}
+document.addEventListener("focusout",function(e){var b=document.getElementById("needs");if(b&&b.contains(e.target))setTimeout(function(){if(!b.contains(document.activeElement))renderNeeds()},0)});
+/* document packs */
+var PACKS=[
+ {label:"Opening pack",items:["type:care","tpl:t-ack","tpl:t-auth"]},
+ {label:"Hearing pack",items:["type:notice","type:appointment"]},
+ {label:"Closing pack",items:["type:outcome","type:closing"]}];
+function packItems(){
+  var out=[];ALL.filter(function(t){return t!=="note"}).forEach(function(t){out.push({key:"type:"+t,label:typeLabel(t),html:function(){return BUILD[t]()+stdHtml(t)+(t==="care"?careConfirm():"")}})});
+  TPL.items.forEach(function(t){out.push({key:"tpl:"+t.id,label:"Template: "+t.title,html:function(){return tplHtml(t,"")}})});
+  return out;
+}
+async function downloadPack(keys,name){
+  await lib("jszip");var z=new JSZip(),all=packItems(),n=0;
+  for(var i=0;i<keys.length;i++){
+    var it=all.filter(function(x){return x.key===keys[i]})[0];if(!it)continue;
+    var el=tempEl(it.html());var blob=await buildDocx(el,it.label);z.file(fileSafe(it.label+" - "+(S.clientName||"client"))+".docx",blob);n++;
+  }
+  if(!n){toast("Choose at least one document.");return}
+  var zb=await z.generateAsync({type:"blob"});downloadBlob(fileSafe(name+" - "+(S.clientName||"client"))+".zip",zb);toast(n+" document"+(n===1?"":"s")+" downloaded in one file.");
+}
 
 /* ---------- standard information library ---------- */
 var LKEY="family-letter-desk-library-v1";
@@ -2526,8 +2851,9 @@ function makeStdSection(){
 /* ---------- summaries of uploaded documents ---------- */
 var lastSummary=null;
 async function gatherDocs(){
-  var items=[],issues=[],total=0;
+  var items=[],issues=[],total=0;readCancel=false;
   for(var i=0;i<files.length;i++){
+    if(readCancel)return{items:[],issues:["Stopped."],stopped:true};
     var f=files[i];
     try{
       var r=await readFile(f,function(m){setDStatus(m,false)});
@@ -2537,9 +2863,10 @@ async function gatherDocs(){
         if(total+t.length>200000){issues.push(f.name+" was left out because the documents are too long.");continue}
         total+=t.length;items.push({name:f.name,text:t});
       }else issues.push(f.name+" has no readable text.");
-    }catch(e){issues.push(f.name+" could not be read ("+(e&&e.message==="type"?"unsupported file type":e&&e.message==="doc"?"old .doc files are not supported, so save it as .docx and upload that":"the file may be damaged or protected")+").")}
+    }catch(e){if(readCancel||(e&&e.message==="cancelled"))return{items:[],issues:["Stopped."],stopped:true};issues.push(f.name+" could not be read ("+(e&&e.message==="type"?"unsupported file type":e&&e.message==="doc"?"old .doc files are not supported, so save it as .docx and upload that":"the file may be damaged or protected")+").")}
   }
   if(pasteText.trim())items.push({name:"Pasted text",text:pasteText.trim().slice(0,60000)});
+  try{storeDocs(items)}catch(e){}
   return{items:items,issues:issues};
 }
 function sentencesOf(t){
@@ -2557,32 +2884,69 @@ function summariseRules(items){
   var P=function(x){return role?plain(x,role,parties):plain(x,"",[])};
   var today=iso(new Date());
   var docs=items.map(function(it){
-    var ex=extractRules([it]);
+    var ex=extractRules([it]),t=it.text,head=t.slice(0,800);
     var d={name:it.name,type:"Document",date:"",summary:"",points:[],deadlines:[],next:null};
-    if(ex.hearings.length){
-      var h=ex.hearings[0];
-      d.type=(ex.courtOrders[0]&&ex.courtOrders[0].title)||"Court order";d.date=h.date||"";
-      d.summary=(h.summary||"")+(h.costs?" Costs: "+h.costs.toLowerCase()+".":"");
-      d.points=(h.orders||[]).map(P);d.deadlines=(h.directions||[]).map(P);
-      if(ex.nextHearing&&ex.nextHearing.date){d.next=ex.nextHearing;d.summary+=" The case was listed again on "+fmtDate(ex.nextHearing.date,false)+(ex.nextHearing.time?" at "+fmtTime(ex.nextHearing.time):"")+(ex.nextHearing.type?" for a "+ex.nextHearing.type.replace(/\s*\(.*\)$/,""):"")+"."}
-    }else if(ex.attendanceNotes.length){
+    var isNote=/attendance note|file note|telephone attendance|note of (?:call|meeting|attendance|hearing)|hearing note|court note|attendance (?:on|at) (?:court|hearing)/i.test(it.name+" "+head)||/^\s*attendance (?:on|at)\b/im.test(head)||vocHas("noteHeads",head);
+    var isStmt=!isNote&&/witness statement|statement of truth|make this statement|instruction form|client information form|^\s*(?:my )?statement(?: of [A-Z])?|state as follows|say as follows|believe (?:that )?the facts (?:stated )?in this/im.test(head+t.slice(-400));
+    var isNotice=!isNote&&!isStmt&&/NOTICE OF (?:HEARING|DIRECTIONS|PROCEEDINGS)|LISTING NOTICE/i.test(head);
+    if(!isNote&&vocHas("stmtHeads",head))isStmt=true;
+    var skipH=false,fks=forcedKind(it);if(fks){isNote=fks==="Attendance note";isStmt=fks==="Witness statement"||fks==="Instruction form";isNotice=fks==="Notice of hearing";skipH=fks==="Letter"||fks==="Other"}
+    var tidyTitle=function(x){x=String(x||"").trim();return(!x||x.length>60||/^\d|\b(?:shall|must)\b|^order made/i.test(x))?"Court order":x};
+    var dowDeadlines=function(arr){return arr.filter(function(x){return/\b(?:by|until|before|within|no later than|on or before)\b/i.test(x)&&allDates(x).length})};
+    if(isNote&&ex.attendanceNotes.length){
       var n=ex.attendanceNotes[0];d.type="Attendance note"+(n.type?": "+n.type.toLowerCase():"");d.date=n.date||"";
-      var mins=NaN;if(n.start&&n.end){var a=n.start.split(":"),b=n.end.split(":");mins=(+b[0])*60+(+b[1])-((+a[0])*60+(+a[1]))}
-      d.summary=[n.present?"With "+n.present+".":"",!isNaN(mins)&&mins>0?"Lasted "+mins+" minutes.":"",n.instructions?"Instructions: "+n.instructions:""].filter(Boolean).join(" ");
-      d.points=keySentences(n.summary,5);
+      var mins=NaN;if(n.start&&n.end){var a1=n.start.split(":"),b1=n.end.split(":");mins=(+b1[0])*60+(+b1[1])-((+a1[0])*60+(+a1[1]))}
+      d.summary=[n.present?"With "+n.present+".":"",!isNaN(mins)&&mins>0?"Lasted "+mins+" minutes.":(n.minutes?"Lasted "+n.minutes+" minutes.":""),n.instructions?"Instructions: "+n.instructions:""].filter(Boolean).join(" ");
+      d.points=keySentences(n.summary||t,5).map(function(x){return x.replace(/^(?:Type:.{0,60}?\s)?Notes:\s*/,"")});
       d.deadlines=(n.actions||[]);
+    }else if(isStmt){
+      var c={};try{c=extractCare([it])||{}}catch(e){}
+      var instr=/instruction form|client information form/i.test(head);
+      d.type=instr?"Instruction form":"Witness statement";
+      var dm=/\b(?:date|dated|signed)\s*:?\s*(.{0,40})/ig,mm,dt="";
+      while((mm=dm.exec(t))){var q=allDates(mm[1]);if(q.length&&!/^\s*of\s+birth/i.test(mm[1])&&!/birth|dob|born/i.test(t.slice(Math.max(0,mm.index-12),mm.index+6))){dt=q[0].iso;break}}
+      if(!dt&&!instr&&/truth|signed|dated/i.test(t.slice(-500))){var tl2=allDates(t.slice(-500));if(tl2.length)dt=tl2[tl2.length-1].iso}
+      d.date=dt;
+      var OL={nmo:"a non-molestation order",occ:"an occupation order",cao:"a child arrangements order",pso:"a prohibited steps order",sio:"a specific issue order"};var ords=(c.orders||[]).map(function(o){return OL[o]||String(o)});
+      var bits=[];
+      if(c.clientName)bits.push((instr?"Instructions from ":"Statement of ")+c.clientName+".");
+      if(ords.length)bits.push("Applying for "+ords.join(", ").replace(/, ([^,]*)$/," and $1")+(c.withoutNotice?" without notice":"")+(c.otherParty?" against "+c.otherParty:"")+".");
+      else if(c.otherParty)bits.push("The other party is "+c.otherParty+".");
+      if(c.relationship)bits.push("Relationship: "+c.relationship+".");
+      d.summary=bits.join(" ");
+      if(c.children&&c.children.length)d.points.push("Children: "+c.children.join("; ")+".");
+      (c.incidents||[]).slice(0,5).forEach(function(x){d.points.push(x)});
+      if(c.policeRef)d.points.push("Police reference: "+c.policeRef+".");
+      if(!d.points.length||!d.summary)keySentences(t,4).forEach(function(x){d.points.push(x)});
+    }else if(isNotice&&ex.hearings.length&&!skipH){
+      var h2=ex.hearings[0];d.type="Notice of hearing";d.date=h2.date||"";
+      var ty2=(h2.type||"hearing").replace(/\s*\(.*\)$/,"");
+      d.summary="The court "+(h2.date&&h2.date<today?"listed":"has listed")+" a "+ty2.replace(/^an? /,"")+(h2.date?" on "+fmtDate(h2.date,false):"")+(h2.time?" at "+fmtTime(h2.time):"")+(h2.judge?" before "+h2.judge:"")+".";
+      d.summary=d.summary.replace(/listed a ([aeiou])/i,"listed an $1");
+      d.next={date:h2.date||"",time:h2.time||"",type:ty2};
+      d.points=keySentences(t,3);
+      if(h2.date)d.deadlines=["Attend the "+ty2.toLowerCase()+" on "+fmtDate(h2.date,false)+(h2.time?" at "+fmtTime(h2.time):"")];
+    }else if(ex.hearings.length&&!skipH){
+      var h=ex.hearings[0];
+      d.type=tidyTitle(ex.courtOrders[0]&&ex.courtOrders[0].title);d.date=h.date||"";
+      d.summary=(h.summary||"")+(h.costs?" Costs: "+h.costs.toLowerCase()+".":"");
+      d.summary=d.summary.replace(/held a ([aeiou])/i,"held an $1");
+      d.points=(h.orders||[]).map(P);d.deadlines=(h.directions||[]).map(P);
+      dowDeadlines(d.points).forEach(function(x){if(d.deadlines.indexOf(x)<0)d.deadlines.push(x)});
+      if(ex.nextHearing&&ex.nextHearing.date){d.next=ex.nextHearing;d.summary+=" The case was listed again on "+fmtDate(ex.nextHearing.date,false)+(ex.nextHearing.time?" at "+fmtTime(ex.nextHearing.time):"")+(ex.nextHearing.type?" for "+(/^[aeiou]/i.test(ex.nextHearing.type)?"an ":"a ")+ex.nextHearing.type.replace(/\s*\(.*\)$/,""):"")+"."}
     }else{
-      var ds=allDates(it.text.slice(0,1500));d.date=ds.length?ds[0].iso:"";
-      d.points=keySentences(it.text,5);
-      if(/^\s*dear\b/i.test(it.text))d.type="Letter";
+      var ds=allDates(t.slice(0,1500));d.date=ds.length?ds[0].iso:"";
+      d.points=keySentences(t,5);
+      if(/^\s*dear\b/i.test(t))d.type="Letter";
     }
     return d;
   });
+  docs.forEach(function(d){d.points=d.points.filter(function(x){return!isBlocked("point",x)})});
   docs.sort(function(a,b){return String(a.date||"9999").localeCompare(String(b.date||"9999"))});
   var tl=[];
   docs.forEach(function(d){
-    if(d.date){
-      var ev=/order|notice/i.test(d.type)&&d.summary?d.summary.split(". ")[0].replace(/\.$/,""):(d.points[0]||d.summary||"");
+    if(d.date&&d.type!=="Notice of hearing"){
+      var ev=/order|notice|statement|instruction/i.test(d.type)&&d.summary?d.summary.split(". ")[0].replace(/\.$/,""):(d.points[0]||d.summary||"");
       if(ev.length>150)ev=ev.slice(0,147).replace(/\s+\S*$/,"")+"...";
       tl.push({date:d.date,event:d.type+(ev?": "+ev:"")});
     }
@@ -2592,9 +2956,10 @@ function summariseRules(items){
   var up=[];
   docs.forEach(function(d){d.deadlines.forEach(function(x){var ds=allDates(x).map(function(y){return y.iso}).filter(function(y){return y>=today});if(ds.length)up.push({date:ds[0],text:x})})});
   up.sort(function(a,b){return a.date.localeCompare(b.date)});
-  var nOrd=docs.filter(function(d){return/order|notice/i.test(d.type)}).length,nNote=docs.filter(function(d){return/^Attendance/.test(d.type)}).length,nOth=docs.length-nOrd-nNote;
+  up=up.filter(function(x,i){return up.findIndex(function(y){return y.date===x.date&&/hearing/i.test(y.text)===/hearing/i.test(x.text)})===i});
+  var nOrd=docs.filter(function(d){return/order|notice/i.test(d.type)}).length,nNote=docs.filter(function(d){return/^Attendance/.test(d.type)}).length,nStm=docs.filter(function(d){return/statement|instruction form/i.test(d.type)}).length,nOth=docs.length-nOrd-nNote-nStm;
   var dated=docs.filter(function(d){return d.date}).map(function(d){return d.date});
-  var ov=docs.length+" document"+(docs.length===1?"":"s")+" read"+(nOrd||nNote?" ("+[nOrd?nOrd+" court order"+(nOrd===1?"":"s"):"",nNote?nNote+" attendance note"+(nNote===1?"":"s"):"",nOth?nOth+" other":""].filter(Boolean).join(", ")+")":"")+(dated.length?", dated between "+fmtDate(dated[0],false)+" and "+fmtDate(dated[dated.length-1],false):"")+".";
+  var ov=docs.length+" document"+(docs.length===1?"":"s")+" read"+(nOrd||nNote||nStm?" ("+[nOrd?nOrd+" court order"+(nOrd===1?"":"s"):"",nNote?nNote+" attendance note"+(nNote===1?"":"s"):"",nStm?nStm+" statement"+(nStm===1?"":"s")+" or instruction form"+(nStm===1?"":"s"):"",nOth?nOth+" other":""].filter(Boolean).join(", ")+")":"")+(dated.length?", dated between "+fmtDate(dated[0],false)+" and "+fmtDate(dated[dated.length-1],false):"")+".";
   var futureNext=tl.filter(function(e){return e.date>=today&&/^Hearing listed/.test(e.event)})[0];
   if(futureNext)ov+=" The next hearing is on "+fmtDate(futureNext.date,false)+".";
   if(up.length)ov+=" There "+(up.length===1?"is 1 upcoming deadline":"are "+up.length+" upcoming deadlines")+", the first on "+fmtDate(up[0].date,false)+".";
@@ -2643,8 +3008,16 @@ function renderSummary(){
   m.documents.forEach(function(d){
     var det=document.createElement("details");var sm=el("summary",d.name+" ("+d.type+(d.date?", "+fmtDate(d.date,false):"")+")");sm.style.cursor="pointer";det.appendChild(sm);
     if(d.summary)det.appendChild(el("p",d.summary));
-    if(d.points.length){var u=el("ul");d.points.forEach(function(x){u.appendChild(el("li",x))});det.appendChild(u)}
+    if(d.points.length){var u=el("ul");d.points.forEach(function(x){var li=el("li",x);var hb=document.createElement("button");hb.type="button";hb.className="btn hidept";hb.textContent="Hide";hb.setAttribute("aria-label","Hide this point and remember");hb.addEventListener("click",function(){addBlock("point",x);d.points=d.points.filter(function(y){return y!==x});renderSummary();toast("Hidden. The reader will leave this out next time.")});li.appendChild(document.createTextNode(" "));li.appendChild(hb);u.appendChild(li)});det.appendChild(u)}
     if(d.deadlines.length){det.appendChild(el("p","Deadlines and actions","lbl"));var u2=el("ul");d.deadlines.forEach(function(x){u2.appendChild(el("li",x))});det.appendChild(u2)}
+    if(lastDocItems.some(function(x){return x.name===d.name})){
+      var kr=el("p",null);kr.appendChild(document.createTextNode("Wrong type? This is a: "));
+      var ks=document.createElement("select");ks.className="kindsel";ks.setAttribute("aria-label","Document type for "+d.name);
+      var cur=/instruction/i.test(d.type)?"Instruction form":/statement/i.test(d.type)?"Witness statement":/^Attendance/.test(d.type)?"Attendance note":/Notice of hearing/.test(d.type)?"Notice of hearing":/^Letter/.test(d.type)?"Letter":/order/i.test(d.type)?"Court order":"Other";
+      KIND_CHOICES.forEach(function(k){var o=document.createElement("option");o.value=k;o.textContent=k;ks.appendChild(o)});ks.value=cur;
+      ks.addEventListener("change",function(){if(!learnKind(d.name,ks.value))return;if(settings.engine==="rules"){lastSummary=summariseRules(lastDocItems);renderSummary()}toast("Saved. Documents that start like this will be read as a "+ks.value.toLowerCase()+".")});
+      kr.appendChild(ks);det.appendChild(kr);
+    }
     box.appendChild(det);
   });
   list("Please check",m.notes||[]);
@@ -2671,11 +3044,12 @@ async function summariseDocs(){
   busy=true;updateDocsUI();setDStatus("Reading your files...",false);
   try{
     var g=await gatherDocs();
+    if(g.stopped){setDStatus("Stopped.",false);return}
     if(!g.items.length){setDStatus(g.issues.length?g.issues.join(" "):"Add at least one document or paste some text first.",true);return}
     setDStatus("Summarising "+g.items.length+" document"+(g.items.length===1?"":"s")+(settings.engine==="rules"?"...":". This can take a minute..."),false);
     ctl=new AbortController();
     var m;
-    if(settings.engine==="rules")m=summariseRules(g.items);
+    if(settings.engine==="rules")(lastDocItems=g.items,m=summariseRules(g.items));
     else{
       var raw=settings.engine==="ollama"?await localOllama(sumPrompt(g.items),ctl.signal):await localOpenAI(sumPrompt(g.items),ctl.signal);
       m=cleanSummary(raw);
@@ -2724,6 +3098,7 @@ async function explainDocs(){
   busy=true;updateDocsUI();setDStatus("Reading your files...",false);
   try{
     var g=await gatherDocs();
+    if(g.stopped){setDStatus("Stopped.",false);return}
     if(!g.items.length){setDStatus(g.issues.length?g.issues.join(" "):"Add at least one document or paste some text first.",true);return}
     setDStatus("Explaining. This can take a minute...",false);ctl=new AbortController();
     var pr=explainPrompt(g.items);
@@ -2806,17 +3181,18 @@ async function localOpenAI(prompt,signal){
   return G.fix(parseLoose(j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content));
 }
 async function runEngine(prompt,opts,items){
+  lastDocItems=items||[];
   if(settings.engine==="rules")return extractRules(items);
   if(settings.engine==="ollama")return localOllama(prompt,opts.signal);
   return localOpenAI(prompt,opts.signal);
 }
 
 /* ----- built-in reader: no AI, pattern matching only ----- */
-var MONTHN={january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12};
+var MONTHN={jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,sept:9,oct:10,nov:11,dec:12,january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12};
 function allDates(s){
-  var re=/\b(\d{1,2})(?:st|nd|rd|th)?\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})\b|\b(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})\b/gi,m,out=[];
+  var re=/\b(\d{1,2})(?:st|nd|rd|th)?(?:\s+of)?\s+(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept|Sep|Oct|Nov|Dec)\.?,?\s+(\d{4})\b|\b(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})\b|\b(\d{1,2})[\/.\-](\d{1,2})[\/.\-](2\d)\b/gi,m,out=[];
   while((m=re.exec(s))){
-    var d=m[1]?m[3]+"-"+pad(MONTHN[m[2].toLowerCase()])+"-"+pad(+m[1]):m[6]+"-"+pad(+m[5])+"-"+pad(+m[4]);
+    var d=m[1]?m[3]+"-"+pad(MONTHN[m[2].toLowerCase()])+"-"+pad(+m[1]):m[6]?m[6]+"-"+pad(+m[5])+"-"+pad(+m[4]):"20"+m[9]+"-"+pad(+m[8])+"-"+pad(+m[7]);
     if(isDate(d))out.push({iso:d,index:m.index});
   }
   return out;
@@ -2847,7 +3223,7 @@ function normLines(t){
   }
   return o;
 }
-var NUMRE=/^(\d{1,2}[.)]|\([a-z]\)|\(\d+\)|\([ivx]+\))\s+\S/;
+var NUMRE=/^(\d{1,2}[.)]|\d{1,2}(?=\s+[A-Z][a-z]+\s)(?!\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\\b)|\([a-z]\)|\(\d+\)|\([ivx]+\))\s+\S/;
 function orderParas(lines){
   var start=0;
   for(var i=0;i<lines.length;i++){if(/\b(?:IT IS (?:HEREBY )?ORDERED|THE COURT ORDERS|ORDERED (?:THAT|BY CONSENT)|THE COURT DIRECTS|DIRECTIONS?\s*:|IT IS DIRECTED)\b/i.test(lines[i])){start=i+1;break}}
@@ -2856,14 +3232,14 @@ function orderParas(lines){
     var l=lines[k];
     if(!l){continue}
     if(/^(Dated|Signed|Date of order|Seal of the court|Notes?\s*:|Penal notice|WARNING|IMPORTANT|The court office|You may apply|Any (?:party|person)|Sent to)\b/i.test(l)&&paras.length)break;
-    if(NUMRE.test(l)){cur2={t:l.replace(/^(\d{1,2}[.)]|\([a-z]\)|\(\d+\)|\([ivx]+\))\s+/,"")};paras.push(cur2)}
+    if(NUMRE.test(l)){cur2={t:l.replace(/^(\d{1,2}[.)]|\d{1,2}(?=\s)|\([a-z]\)|\(\d+\)|\([ivx]+\))\s+/,"")};paras.push(cur2)}
     else if(cur2&&!(l.length<70&&l===l.toUpperCase()&&/[A-Z]{4}/.test(l)))cur2.t+=" "+l;
     else if(!cur2&&start>0&&l.length>20&&!/^(UPON|AND UPON|BY CONSENT|BETWEEN)/i.test(l)&&paras.length<1){cur2={t:l};paras.push(cur2)}
   }
   return paras.map(function(x){return x.t.replace(/\s+/g," ").trim().slice(0,420)}).filter(function(x){return x.length>3}).slice(0,25);
 }
 function titleCase(n){return n===n.toUpperCase()&&/[A-Z]{3}/.test(n)?n.toLowerCase().replace(/\b[a-z]/g,function(c){return c.toUpperCase()}):n}
-var LEGAL=[[/\bIT IS (?:HEREBY )?ORDERED(?: THAT)?:?\s*/gi,""],[/\bshall\b/gi,"must"],[/\bforthwith\b/gi,"immediately"],[/\bpursuant to\b/gi,"under"],[/\binter alia\b/gi,"among other things"],[/\bthe said\b/gi,"the"],[/\bin default of\b/gi,"if there is no agreement on"],[/\bhereinafter\b/gi,"from now on"],[/\bwith liberty to apply\b/gi,"and either side may ask the court to change this order"],[/\bliberty to apply\b/gi,"either side may ask the court to change this order"],[/\b(application|case|matter|hearing|appeal|final hearing)\s+be\s+(listed|adjourned|relisted|stayed)\b/gi,"$1 is $2"],[/\bno order as to costs\b/gi,"there is no order for costs"],[/\bCETV\b/g,"Cash Equivalent Transfer Value"]];
+var LEGAL=[[/\bthere shall be\b/gi,"there will be"],[/\bthere be\b/gi,"there is"],[/\b(?:is|are) forbidden to\b/gi,"must not"],[/\bforbidden to\b/gi,"must not"],[/\bis prohibited from\b/gi,"must not"],[/\bIT IS (?:HEREBY )?ORDERED(?: THAT)?:?\s*/gi,""],[/\bshall\b/gi,"must"],[/\bforthwith\b/gi,"immediately"],[/\bpursuant to\b/gi,"under"],[/\binter alia\b/gi,"among other things"],[/\bthe said\b/gi,"the"],[/\bin default of\b/gi,"if there is no agreement on"],[/\bhereinafter\b/gi,"from now on"],[/\bwith liberty to apply\b/gi,"and either side may ask the court to change this order"],[/\bliberty to apply\b/gi,"either side may ask the court to change this order"],[/\b(application|case|matter|hearing|appeal|final hearing)\s+be\s+(listed|adjourned|relisted|stayed)\b/gi,"$1 is $2"],[/\bno order as to costs\b/gi,"there is no order for costs"],[/\bCETV\b/g,"Cash Equivalent Transfer Value"]];
 function plain(text,role,parties){
   var t=String(text||"");
   LEGAL.forEach(function(r){t=t.replace(r[0],r[1])});
@@ -2878,10 +3254,13 @@ function plain(text,role,parties){
     if(me&&me.name){t=t.replace(new RegExp(esc2(me.name)+"(?:['\u2019]s)","gi"),"your");t=t.replace(new RegExp(esc2(me.name),"gi"),"you")}
     if(other&&other.name){t=t.replace(new RegExp(esc2(other.name),"gi"),otherName)}
     var myRole=role,otherRole=role==="Applicant"?"Respondent":"Applicant";
+    t=t.replace(/\b(?:the\s+)?(Applicant|Respondent)\s+(?:mother|father|parent)\b/gi,function(m,r){return r.toLowerCase()===myRole.toLowerCase()?"you":otherName});
     rr(myRole,"you","your");rr(otherRole,otherName,otherName+"'s");
+    t=t.replace(/\b(you|your)\s*\(\s*(?:you|your)\s*\)/gi,"$1").replace(/([A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)*)\s*\(\s*\1\s*\)/g,"$1").replace(/\bthe other party\s*\(\s*the other party\s*\)/gi,"the other party");
     t=t.replace(/\byou has\b/gi,"you have").replace(/\byou is\b/gi,"you are").replace(/\byou was\b/gi,"you were").replace(/\byou does\b/gi,"you do").replace(/\byou's\b/gi,"your");
   }
   t=t.replace(/\s+/g," ").trim();
+  t=t.replace(/\bthere (?:will be|must be|shall be) there is\b/gi,"there is");
   t=t.replace(/(^|[.!?]\s+)(you|your|there is)\b/g,function(m,a,b){return a+b.charAt(0).toUpperCase()+b.slice(1)});
   t=t.replace(/^[a-z]/,function(c){return c.toUpperCase()});
   return t;
@@ -2890,8 +3269,11 @@ function extractRules(items){
   var out={client:{name:"",salutation:"",address:""},otherParty:"",matterType:"",court:"",caseNumber:"",ourRef:"",hearings:[],nextHearing:null,courtOrders:[],finalOrders:[],concludedDate:"",outcomeSummary:"",clientTasks:[],instructionsSummary:"",attendanceNotes:[],notes:[]};
   var all=items.map(function(i){return i.text}).join("\n");
   var cn=/\b[A-Z]{2}\d{2}[A-Z]\d{5}\b/.exec(all);if(cn)out.caseNumber=cn[0];
-  var ct=/Central Family Court|Family Court (?:at|sitting at) [A-Z][a-z]+(?: [A-Z][a-z]+){0,2}|\b[A-Z][a-z]+(?: [A-Z][a-z]+)? Family Court/.exec(all);if(ct)out.court=ct[0];
-  else{var cu=/IN THE FAMILY COURT AT ([A-Za-z]+(?: [A-Za-z]+){0,2})/i.exec(all);if(cu)out.court="Family Court at "+cu[1].toLowerCase().replace(/\b[a-z]/g,function(c){return c.toUpperCase()})}
+  var ct=/Central Family Court/.exec(all);if(ct)out.court=ct[0];
+  var cm=!ct&&/family court\s+(?:sitting\s+)?at\s+([A-Za-z][A-Za-z ,&'\-]{3,70}?)(?=\s+on\b|\s+before\b|\s*[\n.;]|\s+case\b|$)/i.exec(all);
+  if(cm){var cmn=titleCase(cm[1].trim().replace(/\s+/g," "));out.court=/(Centre|Court)$/i.test(cmn)?cmn:"Family Court at "+cmn}
+  else if(!ct){var ct2=/\b[A-Z][a-z]+(?: [A-Z][a-z]+)? Family Court/.exec(all);if(ct2)out.court=ct2[0]}
+  if(!out.court){var cu=/IN THE FAMILY COURT AT ([A-Za-z]+(?: [A-Za-z]+){0,2})/i.exec(all);if(cu)out.court="Family Court at "+cu[1].toLowerCase().replace(/\b[a-z]/g,function(c){return c.toUpperCase()})}
   var fin=/financial remedy|form a\b|form e\b|matrimonial causes|ancillary relief/i.test(all),div=/divorce|conditional order|decree|dissolution/i.test(all),kid=/child arrangements|children act|specific issue|prohibited steps|cafcass/i.test(all),inj=/non-molestation|occupation order|family law act 1996/i.test(all);
   out.matterType=fin&&div?"Divorce and financial remedy":fin?"Financial remedy":div?"Divorce":kid?"Children arrangements":inj?"Domestic abuse injunction":"";
   var parties=[];
@@ -2906,39 +3288,54 @@ function extractRules(items){
       }
     }
   });
+  var vcourt=vocFind("courts",all);if(vcourt)out.court=vcourt;
   out.parties=parties;
   if(parties.length)out.notes.push("Parties found: "+parties.map(function(p){return p.role+" "+p.name}).join("; ")+". Choose which one is your client under the document panel.");
+  function judgeIn(x){var vj=vocFind("judges",x);if(vj)return vj;var j=/(?:Deputy )?District Judge [A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?|(?:His|Her) Honour Judge [A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?|Circuit Judge [A-Z][A-Za-z'\-]+|Recorder [A-Z][A-Za-z'\-]+|Mrs? Justice [A-Z][A-Za-z'\-]+|\b(?:DJ|DDJ|HHJ) [A-Z][a-z]+/.exec(x);if(!j)return"";return j[0].replace(/^DDJ /,"Deputy District Judge ").replace(/^DJ /,"District Judge ").replace(/^HHJ /,"Judge ")}
   var judge=/(?:Deputy )?District Judge [A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?|(?:His|Her) Honour Judge [A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?|Circuit Judge [A-Z][A-Za-z'\-]+|Recorder [A-Z][A-Za-z'\-]+|Mrs? Justice [A-Z][A-Za-z'\-]+/.exec(all);
-  var judgeName=judge?judge[0]:"";
+  var judgeName=vocFind("judges",all)||(judge?judge[0]:"");
   items.forEach(function(it){
     var t=it.text,head=t.slice(0,600),lines=normLines(t);
-    var isNote=/attendance note|file note|telephone attendance|note of (?:call|meeting)/i.test(it.name+" "+head);
-    var isOrder=!isNote&&/\bORDER\b/.test(head+"\n"+t.slice(0,2000))&&/IT IS ORDERED|THE COURT ORDERS|UPON |AND UPON|BY CONSENT/i.test(t)||(!isNote&&/NOTICE OF (?:HEARING|DIRECTIONS)|NOTICE OF PROCEEDINGS|LISTING NOTICE/i.test(head));
+    var isNote=/attendance note|file note|telephone attendance|note of (?:call|meeting|attendance|hearing)|hearing note|court note|attendance (?:on|at) (?:court|hearing)/i.test(it.name+" "+head)||/^\s*attendance (?:on|at)\b/im.test(head)||vocHas("noteHeads",head);
+    var isStmt=!isNote&&/witness statement|statement of truth|make this statement|instruction form|client information form|^\s*(?:my )?statement(?: of [A-Z])?|state as follows|say as follows|believe (?:that )?the facts (?:stated )?in this/im.test(t.slice(0,800)+t.slice(-400));
+    var orderish=/IT IS ORDERED|THE COURT ORDERS|UPON |AND UPON|BY CONSENT/.test(t)||/\bFL40\d[a-z]?\b|\bC43\b|PENAL NOTICE|non-?molestation order|occupation order|child arrangements order|prohibited steps order|specific issue order|the court orders/i.test(t.slice(0,2500));
+    var isOrder=!isNote&&!isStmt&&((/\bORDER\b/i.test(head+"\n"+t.slice(0,2000))&&orderish)||/NOTICE OF (?:HEARING|DIRECTIONS)|NOTICE OF PROCEEDINGS|LISTING NOTICE/i.test(head));
+    if(!isNote&&vocHas("stmtHeads",head))isStmt=true;
+    var fkx=forcedKind(it);if(fkx){isNote=fkx==="Attendance note";isStmt=fkx==="Witness statement"||fkx==="Instruction form";isOrder=fkx==="Court order"||fkx==="Notice of hearing"}else if(!isNote&&!isStmt&&vocHas("orderHeads",head))isOrder=true;
+    var jn=(judgeIn(t)||judgeName);
     if(isNote){
       var n={date:"",start:"",end:"",type:"",present:"",summary:"",instructions:"",advice:"",actions:[]};
       var ds=allDates(head);if(ds.length)n.date=ds[0].iso;
       var tm=/(\d{1,2})[:.](\d{2})\s*(am|pm)?\s*(?:to|-|\u2013|until)\s*(\d{1,2})[:.](\d{2})\s*(am|pm)?/i.exec(t);
+      if(!tm){var t3=/\b(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm)\s*(?:to|-|\u2013|until)\s*(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm)/i.exec(t);if(t3)tm=[t3[0],t3[1],t3[2]||"00",t3[3],t3[4],t3[5]||"00",t3[6]]}
+      if(!tm){var sf=/\b(?:start|started|from|begin)\s*[:\-]?\s*(\d{1,2})[:.](\d{2})\s*(am|pm)?[^\n]{0,40}?\b(?:finish|finished|end|ended|to)\s*[:\-]?\s*(\d{1,2})[:.](\d{2})\s*(am|pm)?/i.exec(t);if(sf)tm=sf}
       if(tm){n.start=hhmm(tm[1],tm[2],tm[3]||tm[6]);n.end=hhmm(tm[4],tm[5],tm[6])}
-      n.type=/attended (?:the )?(?:hearing|court)|court attendance/i.test(t)?"Court attendance":/video|teams|zoom/i.test(t)?"Video call with client":/telephone|phoned|called|\bcall\b|spoke to/i.test(t)?"Telephone call with client":/meeting|\bmet\b|attended (?:the )?office/i.test(t)?"Meeting with client":"";
+      n.type=/justice centre|combined court|family court|\bHHJ\b|\bDDJ\b|\bDJ [A-Z]|recorder/i.test(t)&&/attended|attendance/i.test(t)?"Court attendance":/attended (?:the )?(?:hearing|court)|attended [^.\n]{0,80}(?:court|justice centre|hearing centre)|court attendance|before (?:DJ|District Judge|HHJ|Judge)|\bDJ [A-Z]/i.test(t)?"Court attendance":/video|teams|zoom/i.test(t)?"Video call with client":/telephone|phoned|called|\bcall\b|spoke to/i.test(t)?"Telephone call with client":/meeting|\bmet\b|attended (?:the )?office/i.test(t)?"Meeting with client":"";
       var pr=/(?:present|attendees|spoke to|attended by)\s*[:\-]\s*([^\n]{2,80})/i.exec(t);if(pr)n.present=pr[1].trim();
+      else{var pa=/\bAttended\b[^.\n]{5,200}\./.exec(t);if(pa)n.present=pa[0].replace(/\s+/g," ").trim().slice(0,200)}
       var ins=/instruct(?:ions|ed)[^\n:]*:\s*([^\n]{10,300})/i.exec(t);if(ins)n.instructions=ins[1].trim();
       var ai=-1;for(var i=0;i<lines.length;i++){if(/^(action points?|actions?|next steps|to do)\s*:?$/i.test(lines[i])){ai=i;break}}
       var mainLines=(ai>-1?lines.slice(0,ai):lines).filter(function(l){return !(l.length<60&&/^(attendance note|file note|date|time|present|attendees|client|matter|our ref|case worker|fee earner)\b/i.test(l))});
       var body=mainLines.join("\n").split(/\n{2,}/).map(function(p){return p.replace(/\s+/g," ").trim()}).filter(function(p){return p.length>25});
       n.summary=body.join("\n").slice(0,1500);
       if(ai>-1){for(var j=ai+1;j<lines.length&&lines[j];j++)n.actions.push(lines[j].replace(/^[-*\u2022\d.)\s]+/,""))}
+      var ni=/(?:next steps|actions?|to do)\s*:\s*([^\n]{10,500})/i.exec(t);if(ni&&!n.actions.length)ni[1].split(/;|\.\s+|,\s+(?=[a-z]+ )/).forEach(function(a){a=a.trim().replace(/\.$/,"");if(a.length>5)n.actions.push(a)});
+      n.hearingType=hearingTypeOf(t);var jj=judgeIn(t);if(jj)n.judge=jj;
       out.attendanceNotes.push(n);
     }else if(isOrder){
-      var ds2=allDates(t);
-      var lab=/(?:dated|date of order|made on|date)\s*[:\-]?\s*([^\n]{0,40})/i.exec(t);
-      var d1=lab?allDates(lab[1]):[];
-      var odate=d1.length?d1[0].iso:(ds2.length?ds2[0].iso:"");
+      var tNB=t.split(/\n/).filter(function(l){return!/birth|\bDOB\b/i.test(l)}).join("\n");
+      var D="(\\d{1,2}(?:st|nd|rd|th)?(?:\\s+of)?\\s+[A-Za-z]{3,9}\\.?,?\\s+\\d{4}|\\d{1,2}[\\/.\\-]\\d{1,2}[\\/.\\-]\\d{4})";
+      var ds2=allDates(tNB.split(/\n/).filter(function(l){return!/application|\bborn\b/i.test(l)}).join("\n"));
+      var d1=[],mm0;
+      var pats=[new RegExp("\\bBefore\\b[^\\n]{0,160}?\\bon\\s+(?:[A-Za-z]+day\\s+)?"+D,"i"),new RegExp("(?:date of order|date made)\\s*[:\\-]?\\s*(?:[A-Za-z]+day\\s+)?"+D,"i"),new RegExp("\\b(?:order )?made\\b[^\\n]{0,100}?\\bon\\s+(?:[A-Za-z]+day\\s+)?"+D,"i"),new RegExp("(?:^|\\n)\\s*Date\\s*[:\\-]\\s*"+D,"i"),new RegExp("(?:^|\\n)\\s*Dated\\s*[:\\-]?\\s*"+D,"i")];
+      for(var pi=0;pi<pats.length&&!d1.length;pi++){mm0=pats[pi].exec(tNB);if(mm0)d1=allDates(mm0[1])}      var odate=d1.length?d1[0].iso:(ds2.length?ds2[0].iso:"");
       var title=lines.slice(0,25).filter(function(l){return l&&l.length<100&&/\b(order|notice of hearing|directions)\b/i.test(l)})[0]||it.name;
       title=title.replace(/\s+/g," ").trim();
       var paras=orderParas(lines);
       var dirs=paras.filter(function(p){return /\bby\s+\d{1,2}([.:]\d{2})?\s*(am|pm)|within \d+ (days|weeks)|no later than|\bby \d{1,2}(st|nd|rd|th)? [A-Z][a-z]+/i.test(p)});
       var costs=/no order (?:as to|for) costs/i.test(t)?COSTS_ORDERS[0]:/costs reserved/i.test(t)?COSTS_ORDERS[1]:/costs in the (?:case|application)/i.test(t)?COSTS_ORDERS[2]:"";
-      var h={date:odate,time:"",type:hearingTypeOf(title)||hearingTypeOf(t.slice(0,1500)),judge:judgeName,court:"",venue:"",timeEstimate:"",summary:"",orders:paras,directions:dirs,costs:costs};
+      var h={date:odate,time:"",type:hearingTypeOf(title)||hearingTypeOf(t.slice(0,1500)),judge:jn,court:out.court,venue:"",timeEstimate:"",summary:"",orders:paras,directions:dirs,costs:costs};
+      var pn=/(?:penal notice|if you[^.]{0,40}disobey this order)[^\n]{0,300}/i.exec(t);if(pn)h.extra=[pn[0].replace(/\s+/g," ").trim()];
       var hm=/(?:hearing|listed|before)[^\n]{0,80}?(\d{1,2}[:.]\d{2}\s*(?:am|pm)?|\d{1,2}\s*(?:am|pm))/i.exec(t);if(hm)h.time=firstTime(hm[1]);
       if(/NOTICE OF (?:HEARING|DIRECTIONS)|LISTING NOTICE/i.test(title+" "+head)){
         var hl=lines.filter(function(l){return /hearing|listed|date and time/i.test(l)&&allDates(l).length});
@@ -2947,7 +3344,7 @@ function extractRules(items){
         var ven=/(?:venue|address|at)\s*[:\-]\s*([^\n]{10,160})/i.exec(t);if(ven)h.venue=ven[1].trim();
       }
       out.hearings.push(h);
-      var nl=lines.filter(function(l){return /(next hearing|listed for|adjourned to|further hearing|reconvene|relisted)/i.test(l)&&allDates(l).length});
+      var nl=lines.filter(function(l){return /(next hearing|listed for|adjourned to|further hearing|reconvene|relisted|review hearing|return date|hearing (?:is|will be) (?:listed )?(?:on|for)|hearing on)/i.test(l)&&allDates(l).length});
       if(nl.length){var nd=allDates(nl[0])[0].iso;if(!odate||nd>odate)out.nextHearing={date:nd,time:firstTime(nl[0]),type:hearingTypeOf(nl[0])}}
       out.courtOrders.push({title:title,date:odate});
       if(/final order|decree absolute|consent order|child arrangements order|conditional order|financial remedy order|pension sharing/i.test(title)){out.finalOrders.push(title);if(odate&&odate>out.concludedDate)out.concludedDate=odate}
@@ -2955,9 +3352,16 @@ function extractRules(items){
       if(/witness statement|statement of truth|instruction form|client information|make this statement/i.test(it.text))out.notes.push(it.name+" was read for the client's circumstances, not for court orders.");else out.notes.push(it.name+" was not recognised as a court order or an attendance note, so it was not used.");
     }
   });
+  out.attendanceNotes.forEach(function(n){
+    if(n.type==="Court attendance"&&isDate(n.date)&&!out.hearings.some(function(h){return h.date===n.date})){
+      out.hearings.push({date:n.date,time:"",type:n.hearingType||"",judge:n.judge||"",court:out.court,venue:"",timeEstimate:"",summary:"",orders:[],directions:[],costs:"",fromNote:true});
+    }
+  });
+  out.hearings.sort(function(a,b){return String(a.date).localeCompare(String(b.date))});
   out.hearings.forEach(function(h){
     var bits=[];
-    if(h.type||h.date){bits.push("The court held "+(h.type?"a "+h.type.replace(/\s*\(.*\)$/,""):"a hearing")+(isDate(h.date)?" on "+fmtDate(h.date,false):"")+(h.judge?" before "+h.judge:"")+".")}
+    if(h.type||h.date){bits.push("The court held "+(h.type?(/^[aeiou]/i.test(h.type)?"an ":"a ")+h.type.replace(/\s*\(.*\)$/,""):"a hearing")+(isDate(h.date)?" on "+fmtDate(h.date,false):"")+(h.judge?" before "+h.judge:"")+".")}
+    if(h.fromNote){h.summary="";return}
     if(h.orders&&h.orders.length)bits.push("The court made "+(h.orders.length===1?"one order":h.orders.length+" orders")+", which are set out below.");
     h.summary=bits.join(" ");
   });
@@ -3017,20 +3421,84 @@ async function docxText(f){
   var t=document.createElement("textarea");t.innerHTML=xml;return t.value;
 }
 var ocrWorker=null,ocrProgress=null;
-async function ocrCanvas(cv){
+/* image clean-up used for poor scans and photos: upscale, flatten lighting, remove speckle, straighten */
+function ocrPrepare(cv){
+  var tw=2400,k=Math.min(2.6,tw/Math.max(1,cv.width));if(cv.width>3400)k=3000/cv.width;
+  var w=Math.round(cv.width*k),h=Math.round(cv.height*k);
+  var c1=document.createElement("canvas");c1.width=w;c1.height=h;var x1=c1.getContext("2d");x1.imageSmoothingEnabled=true;x1.imageSmoothingQuality="high";x1.fillStyle="#fff";x1.fillRect(0,0,w,h);x1.drawImage(cv,0,0,w,h);
+  var id=x1.getImageData(0,0,w,h),d=id.data,n=w*h,g=new Float32Array(n),i,x,y;
+  for(i=0;i<n;i++)g[i]=0.299*d[i*4]+0.587*d[i*4+1]+0.114*d[i*4+2];
+  /* box blur radius 1 via integral to calm noise, then Bradley adaptive threshold */
+  var W=w+1,I=new Float64Array(W*(h+1));
+  for(y=0;y<h;y++){var row=0;for(x=0;x<w;x++){row+=g[y*w+x];I[(y+1)*W+x+1]=I[y*W+x+1]+row}}
+  function mean(x0,y0,x1,y1){x0=Math.max(0,x0);y0=Math.max(0,y0);x1=Math.min(w,x1);y1=Math.min(h,y1);return(I[y1*W+x1]-I[y0*W+x1]-I[y1*W+x0]+I[y0*W+x0])/((x1-x0)*(y1-y0))}
+  var win=Math.max(15,Math.round(w/18)),bin=new Uint8Array(n);
+  for(y=0;y<h;y++)for(x=0;x<w;x++){var loc=mean(x-win,y-win,x+win+1,y+win+1),sm=mean(x-1,y-1,x+2,y+2);bin[y*w+x]=sm<loc*0.86?1:0}
+  /* remove isolated specks */
+  var cl=new Uint8Array(bin);
+  for(y=1;y<h-1;y++)for(x=1;x<w-1;x++){if(bin[y*w+x]){var s=bin[(y-1)*w+x-1]+bin[(y-1)*w+x]+bin[(y-1)*w+x+1]+bin[y*w+x-1]+bin[y*w+x+1]+bin[(y+1)*w+x-1]+bin[(y+1)*w+x]+bin[(y+1)*w+x+1];if(s<=1)cl[y*w+x]=0}}
+  /* skew: projection profile on a reduced copy */
+  var ds=Math.max(1,Math.round(w/700)),pw=Math.floor(w/ds),ph=Math.floor(h/ds),pts=[];
+  for(y=0;y<ph;y++)for(x=0;x<pw;x++){var on=0;for(var yy=0;yy<ds&&!on;yy++)for(var xx=0;xx<ds;xx++)if(cl[(y*ds+yy)*w+x*ds+xx]){on=1;break}if(on)pts.push(x,y)}
+  var best=0,bestV=-1,ang;
+  for(ang=-6;ang<=6.01;ang+=0.5){
+    var th=ang*Math.PI/180,sn=Math.sin(th),cs=Math.cos(th),bins=new Float64Array(ph*2+pw+10),off=pw+5,m=0;
+    for(i=0;i<pts.length;i+=2){var yr=Math.round(pts[i+1]*cs-pts[i]*sn)+off;if(yr>=0&&yr<bins.length)bins[yr]++}
+    var mu=0;for(i=0;i<bins.length;i++)mu+=bins[i];mu/=bins.length;var v=0;for(i=0;i<bins.length;i++)v+=(bins[i]-mu)*(bins[i]-mu);
+    if(v>bestV){bestV=v;best=ang}
+  }
+  var out=document.createElement("canvas");out.width=w;out.height=h;var xo=out.getContext("2d");
+  var o=xo.createImageData(w,h),od=o.data;for(i=0;i<n;i++){var vv=cl[i]?0:255;od[i*4]=od[i*4+1]=od[i*4+2]=vv;od[i*4+3]=255}
+  xo.putImageData(o,0,0);
+  if(Math.abs(best)>=0.5){
+    var c3=document.createElement("canvas");c3.width=w;c3.height=h;var x3=c3.getContext("2d");x3.fillStyle="#fff";x3.fillRect(0,0,w,h);
+    x3.translate(w/2,h/2);x3.rotate(-best*Math.PI/180);x3.drawImage(out,-w/2,-h/2);return c3;
+  }
+  return out;
+}
+var ocrMinConf=100,ocrLowRes=false,ocrPhase="",readCancel=false,ocrKill=null;
+function setDProg(f){var pg=document.getElementById("docProg");if(!pg)return;if(f==null){pg.hidden=true;return}pg.hidden=false;pg.value=Math.round(Math.min(1,Math.max(0,f))*100)}
+function etaText(fr,t0){if(fr<0.08)return"";var sec=(Date.now()-t0)/fr*(1-fr)/1000;return sec<8?" Nearly done.":" About "+(sec<90?Math.round(sec/5)*5+" seconds":Math.round(sec/60)+" minutes")+" left."}
+function checkCancel(){if(readCancel)throw new Error("cancelled")}
+async function ocrBest(cv){
+  if(cv.width<1500)ocrLowRes=true;
+  var t1=await ocrRun(cv);
+  if(t1.conf>=78||t1.text.replace(/\s/g,"").length<20&&t1.conf>=60){ocrMinConf=Math.min(ocrMinConf,t1.conf);return t1.text}
+  ocrPhase=" Improving a poor-quality page, which takes longer.";
+  var t2;try{t2=await ocrRun(ocrPrepare(cv))}finally{ocrPhase=""}
+  var b=t2.conf>t1.conf?t2:t1;ocrMinConf=Math.min(ocrMinConf,b.conf);return b.text;
+}
+function ocrWarn(){var w="";if(ocrLowRes)w+=" The image is low resolution.";if(ocrMinConf<70)w+=" Recognition was poor (confidence "+Math.round(ocrMinConf)+"%), so names, dates and numbers may be wrong.";if(w)w+=" A flat, well-lit scan or photo at 200 to 300 dpi reads much better.";ocrMinConf=100;ocrLowRes=false;return w}
+async function ocrCanvas(cv){return ocrBest(cv)}
+async function ocrRun(cv){
   await lib("ocr");
   if(!ocrWorker){
     var base=new URL("vendor/tesseract/",location.href).href;
     ocrWorker=await window.Tesseract.createWorker("eng",1,{workerPath:base+"worker.min.js",corePath:base,langPath:base,workerBlobURL:false,gzip:true,
       logger:function(m){if(m&&m.status==="recognizing text"&&ocrProgress)ocrProgress(m.progress)}});
   }
-  var r=await ocrWorker.recognize(cv);
-  return(r&&r.data&&r.data.text)||"";
+  var r;try{r=await Promise.race([ocrWorker.recognize(cv),new Promise(function(_,rej){ocrKill=function(){rej(new Error("cancelled"))}})])}finally{ocrKill=null}
+  return{text:(r&&r.data&&r.data.text)||"",conf:(r&&r.data&&+r.data.confidence)||0};
 }
 function bitmapCanvas(bm,scale){
   var maxSide=3200,k=Math.min(1,maxSide/Math.max(bm.width,bm.height));
   var cv=document.createElement("canvas");cv.width=Math.round(bm.width*k);cv.height=Math.round(bm.height*k);
   var cx=cv.getContext("2d");cx.fillStyle="#fff";cx.fillRect(0,0,cv.width,cv.height);cx.drawImage(bm,0,0,cv.width,cv.height);return cv;
+}
+function dedupeFurniture(parts){
+  if(parts.length<2)return parts;
+  var norm=function(l){return l.toLowerCase().replace(/\d+/g,"#").replace(/[^a-z#]+/g," ").trim()};
+  var pn=/^\s*(?:page\s*)?\d+\s*(?:of|\/)?\s*\d*\s*$/i;
+  var pages=parts.map(function(t){return String(t||"").split("\n")});
+  var edge=function(ls,i){var idx=[],k;for(k=0;k<ls.length&&idx.length<3;k++)if(ls[k].trim())idx.push(k);var tail=[];for(k=ls.length-1;k>=0&&tail.length<3;k--)if(ls[k].trim())tail.push(k);return idx.concat(tail)};
+  var seen={};
+  pages.forEach(function(ls){var done={};edge(ls).forEach(function(i){var k=norm(ls[i]);if(k.length>=6&&!done[k]){done[k]=1;seen[k]=(seen[k]||0)+1}})});
+  var kept={};
+  return pages.map(function(ls){
+    var e=edge(ls),drop={};
+    e.forEach(function(i){var l=ls[i];if(pn.test(l)){drop[i]=1;return}var k=norm(l);if(k.length>=6&&seen[k]>=2){if(kept[k])drop[i]=1;else kept[k]=1}});
+    return ls.filter(function(l,i){return!drop[i]}).join("\n");
+  });
 }
 async function pdfRead(f,note){
   await lib("pdf");
@@ -3042,7 +3510,7 @@ async function pdfRead(f,note){
     parts.push(tx);if(tx.replace(/\s/g,"").length<40)sparse.push(i);
   }
   if(sparse.length){
-    var maxOcr=Math.min(sparse.length,25),used=0;
+    var maxOcr=Math.min(sparse.length,25),used=0,t0=Date.now();
     for(var k=0;k<maxOcr;k++){
       var pn=sparse[k];
       note("Reading scanned page "+pn+" of "+doc.numPages+" in "+f.name+"...");
@@ -3050,21 +3518,26 @@ async function pdfRead(f,note){
       cv.width=vp.width;cv.height=vp.height;
       var cx=cv.getContext("2d");cx.fillStyle="#fff";cx.fillRect(0,0,cv.width,cv.height);
       await p2.render({canvasContext:cx,viewport:vp}).promise;
-      ocrProgress=function(pr){note("Reading scanned page "+pn+" of "+doc.numPages+" in "+f.name+" ("+Math.round(pr*100)+"%)...")};
+      checkCancel();var t0=t0||Date.now();
+      ocrProgress=(function(kk){return function(pr){var fr=(kk+pr)/maxOcr;setDProg(fr);note("Reading scanned page "+pn+" of "+doc.numPages+" in "+f.name+" (scanned page "+(kk+1)+" of "+maxOcr+", "+Math.round(fr*100)+"%)."+ocrPhase+etaText(fr,t0))}})(k);
       var t=await ocrCanvas(cv);ocrProgress=null;
       parts[pn-1]=t;used++;
     }
+    setDProg(null);
+    parts=dedupeFurniture(parts);
     var left=sparse.length-maxOcr;
-    return{text:parts.join("\n\n").replace(/[ \t]+/g," ").trim(),issue:f.name+": "+used+" scanned page"+(used===1?" was":"s were")+" read by text recognition, which can misread words and figures. Check them against the original."+(left>0?" "+left+" more scanned page"+(left===1?" was":"s were")+" skipped.":"")};
+    return{text:parts.join("\n\n").replace(/[ \t]+/g," ").trim(),issue:f.name+": "+used+" scanned page"+(used===1?" was":"s were")+" read by text recognition, which can misread words and figures. Check them against the original."+ocrWarn()+(left>0?" "+left+" more scanned page"+(left===1?" was":"s were")+" skipped.":"")};
   }
+  parts=dedupeFurniture(parts);
   return{text:parts.join("\n\n").replace(/[ \t]+/g," ").trim()};
 }
 async function imageRead(f,note){
   note("Reading "+f.name+" with text recognition...");
   var bm=await createImageBitmap(f);
-  ocrProgress=function(pr){note("Reading "+f.name+" ("+Math.round(pr*100)+"%)...")};
-  var t=await ocrCanvas(bitmapCanvas(bm));ocrProgress=null;
-  return{text:t,issue:f.name+" was read by text recognition, which can misread words and figures. Check it against the original."};
+  var t0=Date.now();checkCancel();
+  ocrProgress=function(pr){setDProg(pr);note("Reading "+f.name+" ("+Math.round(pr*100)+"%)."+ocrPhase+etaText(pr,t0))};
+  var t=await ocrCanvas(bitmapCanvas(bm));ocrProgress=null;setDProg(null);
+  return{text:t,issue:f.name+" was read by text recognition, which can misread words and figures. Check it against the original."+ocrWarn()};
 }
 async function odtText(f){
   await lib("jszip");
@@ -3075,8 +3548,39 @@ async function odtText(f){
   var t=document.createElement("textarea");t.innerHTML=xml;return t.value;
 }
 function rtfText(s){
-  return s.replace(/\\par[d]?/g,"\n").replace(/\\tab/g,"\t").replace(/\\'([0-9a-f]{2})/gi,function(m,h){return String.fromCharCode(parseInt(h,16))})
-    .replace(/\\u(-?\d+)\??/g,function(m,n){return String.fromCharCode(n<0?+n+65536:+n)}).replace(/\{\\\*[^{}]*\}/g,"").replace(/\\[a-z]+-?\d* ?/gi,"").replace(/[{}]/g,"").replace(/\n{3,}/g,"\n\n");
+  var SKIP={fonttbl:1,colortbl:1,stylesheet:1,info:1,pict:1,header:1,footer:1,headerl:1,headerr:1,headerf:1,footerl:1,footerr:1,footerf:1,listtable:1,listoverridetable:1,rsidtbl:1,generator:1,latentstyles:1,themedata:1,datastore:1,colorschememapping:1,xmlnstbl:1,fldinst:1,object:1,filetbl:1,revtbl:1,pgptbl:1,expandedcolortbl:1,mmathPr:1,wgrffmtfilter:1,fchars:1,lchars:1,bkmkstart:1,bkmkend:1,"private":1};
+  var out=[],i=0,n=s.length,stack=[],skip=0,uc=1,pendingSkip=0;
+  while(i<n){
+    var ch=s[i];
+    if(ch==="{"){stack.push({skip:skip,uc:uc});i++;
+      var m=/^\\(\*?)\\?([a-zA-Z]+)/.exec(s.slice(i,i+40));
+      if(s[i]==="\\"&&s[i+1]==="*")skip=skip||1;
+      else if(m&&SKIP[m[2]])skip=1;
+      continue}
+    if(ch==="}"){var t=stack.pop();if(t){skip=t.skip;uc=t.uc}i++;continue}
+    if(ch==="\\"){
+      var nx=s[i+1];
+      if(nx==="'"){var hx=s.substr(i+2,2);if(!skip)out.push(String.fromCharCode(parseInt(hx,16)||63));i+=4;continue}
+      if(nx==="\\"||nx==="{"||nx==="}"){if(!skip)out.push(nx);i+=2;continue}
+      if(nx==="~"){if(!skip)out.push(" ");i+=2;continue}
+      if(nx==="_"){if(!skip)out.push("-");i+=2;continue}
+      if(nx==="\n"||nx==="\r"){if(!skip)out.push("\n");i+=2;continue}
+      var mm=/^\\([a-zA-Z]+)(-?\d+)? ?/.exec(s.slice(i,i+40));
+      if(!mm){i+=2;continue}
+      var w=mm[1],num=mm[2];i+=mm[0].length;
+      if(skip)continue;
+      if(w==="par"||w==="line"||w==="sect"||w==="page"||w==="row")out.push("\n");
+      else if(w==="tab"||w==="cell")out.push("\t");
+      else if(w==="u"){var c=+num;if(c<0)c+=65536;out.push(String.fromCharCode(c));i+=uc}
+      else if(w==="uc")uc=+num;
+      else if(w==="endash")out.push("–");else if(w==="emdash")out.push("—");
+      else if(w==="lquote")out.push("‘");else if(w==="rquote")out.push("’");else if(w==="ldblquote")out.push("“");else if(w==="rdblquote")out.push("”");
+      continue;
+    }
+    if(ch==="\n"||ch==="\r"){i++;continue}
+    if(!skip)out.push(ch);i++;
+  }
+  return out.join("").replace(/[ \t]+\n/g,"\n").replace(/\n{3,}/g,"\n\n");
 }
 async function readFile(f,note){
   var ext=((/\.([a-z0-9]+)$/i.exec(f.name)||[])[1]||"").toLowerCase();
@@ -3114,9 +3618,9 @@ function updateDocsUI(){
   var b=document.getElementById("btnRead");if(!b)return;
   b.disabled=busy;var bs=document.getElementById("btnSum");if(bs)bs.disabled=busy;var bx=document.getElementById("btnExplain");if(bx)bx.disabled=busy;
   var st=document.getElementById("docStatus");
-  var stop=document.getElementById("btnStopRead");if(stop)stop.hidden=!busy;
+  var stop=document.getElementById("btnStopRead");if(stop)stop.hidden=!busy;if(!busy)setDProg(null);
   var ap=document.getElementById("btnApply");if(ap)ap.hidden=!lastExtract||busy;
-  var res=document.getElementById("docResult");if(res){res.hidden=!lastResult;res.innerHTML=lastResult}
+  var res=document.getElementById("docResult");if(res){res.hidden=!lastResult;res.innerHTML=lastResult;try{renderTeach(res)}catch(e){}}
 }
 function renderPicker(){
   var w=document.getElementById("pickWrap"),sel=document.getElementById("f_client");if(!w||!sel)return;
@@ -3144,7 +3648,7 @@ function makeDocsSection(){
    '<div class="f"><label for="f_paste">Or paste text from a document</label><textarea id="f_paste" rows="4"></textarea></div>'+
    '<div class="f chk"><input type="checkbox" id="f_clean"><label for="f_clean">Start from a clean matter (keeps your firm details)</label></div>'+
    '<div class="f" id="pickWrap" hidden><label for="f_client">Which party is your client?</label><select id="f_client"></select><span class="hint">This changes "the Applicant" and "the Respondent" in the orders to "you" and the other party\'s name.</span></div><div class="row"><button class="btn primary" type="button" id="btnRead">Read documents and fill details</button><button class="btn" type="button" id="btnSum">Summarise documents</button><button class="btn" type="button" id="btnExplain">Explain in plain English</button><button class="btn" type="button" id="btnStopRead" hidden>Stop</button><button class="btn" type="button" id="btnApply" hidden>Fill this document again from the last read</button></div>'+
-   '<div class="dstatus" id="docStatus" role="status"></div><div class="res" id="docResult" hidden></div><div class="res" id="sumOut" hidden></div><div class="res" id="explainOut" hidden></div>'+
+   '<div class="dstatus" id="docStatus" role="status"></div><progress id="docProg" max="100" value="0" hidden aria-label="Reading progress" style="width:100%"></progress><div class="res" id="docResult" hidden></div><div class="res" id="sumOut" hidden></div><div class="res" id="explainOut" hidden></div>'+
    '<p class="note" id="privNote"></p></div>';
   var paste=d.querySelector("#f_paste");paste.value=pasteText;
   paste.addEventListener("input",function(){pasteText=paste.value});
@@ -3165,7 +3669,7 @@ function makeDocsSection(){
   paintCfg();
   d.querySelector("#btnRead").addEventListener("click",readDocs);
   d.querySelector("#btnSum").addEventListener("click",summariseDocs);d.querySelector("#btnExplain").addEventListener("click",explainDocs);
-  d.querySelector("#btnStopRead").addEventListener("click",function(){if(ctl)ctl.abort()});
+  d.querySelector("#btnStopRead").addEventListener("click",function(){readCancel=true;if(ctl)ctl.abort();if(ocrKill)ocrKill();if(ocrWorker){try{ocrWorker.terminate()}catch(e){}ocrWorker=null}setDStatus("Stopping...",false)});
   d.querySelector("#btnApply").addEventListener("click",function(){
     if(!lastExtract)return;
     var r=applyExtract(lastExtract,false);showResult(r,lastExtract);toast("Filled from the last read.");
@@ -3197,9 +3701,10 @@ var ERR={
 async function readDocs(){
   if(busy||!engineReady())return;
   var items=[],images=[],imgNames=[],issues=[],total=0;
-  busy=true;updateDocsUI();setDStatus("Reading your files...",false);
+  busy=true;readCancel=false;updateDocsUI();setDStatus("Reading your files...",false);
   try{
     for(var i=0;i<files.length;i++){
+      if(readCancel){setDStatus("Stopped.",false);return}
       var f=files[i];
       try{
         var r=await readFile(f,function(m){setDStatus(m,false)});
@@ -3213,9 +3718,10 @@ async function readDocs(){
           if(!imgInfo){issues.push(f.name+" has no readable text and images cannot be read in this view.");continue}
           r.images.forEach(function(b){if(images.length<imgInfo.maxCount){images.push(b);imgNames.push(f.name)}});
         }else if(!(r.text&&r.text.trim())){issues.push(f.name+" has no readable text.")}
-      }catch(e){issues.push(f.name+" could not be read ("+(e&&e.message==="type"?"unsupported file type":e&&e.message==="doc"?"old .doc files are not supported, so save it as .docx and upload that":"the file may be damaged or protected")+").")}
+      }catch(e){if(readCancel||(e&&e.message==="cancelled")){setDStatus("Stopped.",false);return}issues.push(f.name+" could not be read ("+(e&&e.message==="type"?"unsupported file type":e&&e.message==="doc"?"old .doc files are not supported, so save it as .docx and upload that":"the file may be damaged or protected")+").")}
     }
     if(pasteText.trim()){var pt=pasteText.trim().slice(0,60000);items.push({name:"Pasted text",text:pt})}
+    try{storeDocs(items)}catch(e){}
     if(!items.length&&!images.length){setDStatus(issues.length?issues.join(" "):"Add at least one document or paste some text first.",true);return}
     setDStatus("Reading "+(items.length+(imgNames.length?new Set(imgNames).size:0))+" document"+((items.length+imgNames.length)===1?"":"s")+". This can take a minute...",false);
     ctl=new AbortController();
@@ -3225,6 +3731,17 @@ async function readDocs(){
     if(!data||typeof data!=="object"||Array.isArray(data))throw{code:"invalid_json"};
     data.__issues=issues;
     try{data.care=extractCare(items)}catch(e){}
+    if(settings.engine!=="rules"){
+      try{setDStatus("Reading the client's circumstances...",false);data.care=mergeCare(data.care,await runAI(careAIPrompt(items),ctl.signal))}
+      catch(e){if(e&&(e.name==="AbortError"||e.code==="cancelled"))throw e;data.__issues.push("The AI could not read the client's circumstances, so the built-in reader was used for them.")}
+      if(cur==="closing"&&items.length){
+        try{setDStatus("Drafting the representation and outcome...",false);var dr=await runAI(draftAIPrompt(items,(data.care&&data.care.clientName)||S.clientName||""),ctl.signal);
+          if(dr&&typeof dr==="object")data.draft={represent:(Array.isArray(dr.represent)?dr.represent:[]).map(function(x){return String(x||"").trim()}).filter(Boolean),outcome:(Array.isArray(dr.outcome)?dr.outcome:[]).map(function(x){return String(x||"").trim()}).filter(Boolean),meaning:(Array.isArray(dr.meaning)?dr.meaning:[]).map(function(x){return String(x||"").trim()}).filter(Boolean)};
+          if(data.draft)data.__issues.push("The representation, outcome and meaning were drafted by a local AI model. Check each sentence against the orders and notes.")}
+        catch(e){if(e&&(e.name==="AbortError"||e.code==="cancelled"))throw e;data.__issues.push("The AI could not draft the closing letter parts, so the built-in reader was used.")}
+      }
+    }
+    try{if(!data.clientRole&&data.care&&data.care.clientName&&Array.isArray(data.parties)){var cl0=data.care.clientName.toLowerCase();data.parties.forEach(function(pp){if(pp.name&&pp.name.toLowerCase()===cl0)data.clientRole=pp.role})}}catch(e){}
     lastExtract=data;
     var res=applyExtract(data,cleanStart);
     showResult(res,data);
@@ -3243,7 +3760,7 @@ function isDate(s){return typeof s==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(s)&&!i
 function isTime(s){return typeof s==="string"&&/^([01]\d|2[0-3]):[0-5]\d$/.test(s)}
 function inList(list,v){return typeof v==="string"&&list.indexOf(v)>-1}
 function joinLines(a){return Array.isArray(a)?a.map(function(x){return String(x==null?"":x).trim()}).filter(Boolean).join("\n"):(typeof a==="string"?a.trim():"")}
-function applyExtract(d,clean){
+function applyExtract0(d,clean){
   var filled=[];
   if(clean){
     var keep={firmName:S.firmName,firmAddress:S.firmAddress,firmContact:S.firmContact,caseWorker:S.caseWorker,caseWorkerTitle:S.caseWorkerTitle,supervisor:S.supervisor,supervisorRate:S.supervisorRate,sraNumber:S.sraNumber,complaintsContact:S.complaintsContact,hourlyRate:S.hourlyRate};
@@ -3324,13 +3841,534 @@ function applyExtract(d,clean){
   if(cur==="closing"){
     var pastH=hs.filter(function(h){return isDate(h.date)&&h.date<todayISO});
     var rep=representationFrom(pastH,ns,P);if(rep.length)set("c_represent",rep.join("\n"),"how we represented you");
-    var ordTexts=[];pastH.forEach(function(h){(h.orders||[]).forEach(function(o){ordTexts.push(String(o))})});(d.finalOrders||[]).forEach(function(o){ordTexts.push(String(o))});ordTexts.push(S.matterType||"");ns.forEach(function(n){ordTexts.push(String(n.summary||""))});(d.courtOrders||[]).forEach(function(o){ordTexts.push(String(o&&o.title||""))});
+    var ordTexts=[];pastH.forEach(function(h){(h.orders||[]).forEach(function(o){ordTexts.push(String(o))})});(d.finalOrders||[]).forEach(function(o){ordTexts.push(String(o))});pastH.forEach(function(h){(h.extra||[]).forEach(function(x){ordTexts.push(String(x))})});ns.forEach(function(n){ordTexts.push(String(n.summary||""))});(d.courtOrders||[]).forEach(function(o){ordTexts.push(String(o&&o.title||""))});
     if((!d.outcomeSummary||settings.engine==="rules")&&pastH.length){var oc=[];pastH.forEach(function(h){var os=(h.orders||[]).map(P).filter(Boolean).map(function(x,i){return"("+(i+1)+") "+String(x).trim().replace(/[.;\s]+$/,"")});if(os.length)oc.push("On "+fmtDate(h.date,false)+", the court ordered: "+os.join("; ")+".")});if(oc.length)set("c_outcome",oc.join("\n"),"outcome")}
     var ex=explainOrders(ordTexts);if(ex.length)set("c_meaning",ex.join("\n"),"what the orders mean");
+    if(d.draft){if(d.draft.represent.length)set("c_represent",d.draft.represent.join("\n"),"how we represented you");if(d.draft.outcome.length)set("c_outcome",d.draft.outcome.join("\n"),"outcome");if(d.draft.meaning.length)set("c_meaning",d.draft.meaning.join("\n"),"what the orders mean")}
   }
   save();renderForm();rebuild();
   return filled;
 }
+
+/* ---------- teach the reader: firm vocabulary and learned corrections ---------- */
+var VOC={courts:[],judges:[],noteHeads:[],orderHeads:[],stmtHeads:[]},LEARN={labels:[],blocks:[],kinds:[]},lastDocItems=[];
+try{var _v=JSON.parse(localStorage.getItem("fld-vocab-v1")||"{}")||{};Object.keys(VOC).forEach(function(k){if(Array.isArray(_v[k]))VOC[k]=_v[k].map(String).filter(Boolean)})}catch(e){}
+try{var _l=JSON.parse(localStorage.getItem("fld-learn-v1")||"{}")||{};Object.keys(LEARN).forEach(function(k){if(Array.isArray(_l[k]))LEARN[k]=_l[k].filter(function(x){return x&&typeof x==="object"})})}catch(e){}
+function saveVoc(){try{localStorage.setItem("fld-vocab-v1",JSON.stringify(VOC))}catch(e){}}
+function saveLearn(){try{localStorage.setItem("fld-learn-v1",JSON.stringify(LEARN))}catch(e){}}
+function vocFind(k,text){var l=VOC[k]||[],low=String(text||"").toLowerCase();for(var i=0;i<l.length;i++)if(l[i]&&low.indexOf(l[i].toLowerCase())>-1)return l[i];return""}
+function vocHas(k,text){return!!vocFind(k,text)}
+function escRe(x){return String(x).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}
+function sigOf(t){var m=/\S[^\n]*/.exec(String(t||""));return m?m[0].toUpperCase().replace(/\s+/g," ").trim().slice(0,60):""}
+var KIND_CHOICES=["Witness statement","Instruction form","Attendance note","Court order","Notice of hearing","Letter","Other"];
+function forcedKind(it){var sg=sigOf(it&&it.text);if(!sg)return"";for(var i=0;i<LEARN.kinds.length;i++)if(LEARN.kinds[i].sig===sg)return LEARN.kinds[i].kind;return""}
+var LEARNF={clientName:"client name",otherParty:"other party",court:"court",caseNumber:"case number",ourRef:"our reference",judgeName:"judge",clientAddress:"client address"};
+function isBlocked(field,val){var v=String(val||"").trim().toLowerCase();return LEARN.blocks.some(function(b){return b.field===field&&String(b.value||"").trim().toLowerCase()===v})}
+function addBlock(field,val){val=String(val||"").trim();if(!val||isBlocked(field,val))return;LEARN.blocks.push({field:field,value:val});saveLearn()}
+function learnLabel(field,val){
+  var learned=false;val=String(val||"").split("\n")[0].trim();if(val.length<2)return false;
+  lastDocItems.forEach(function(it){
+    var ls=String(it.text||"").split("\n"),re=new RegExp(escRe(val),"i");
+    for(var i=0;i<ls.length;i++){
+      var m=re.exec(ls[i]);if(!m)continue;
+      var pre=ls[i].slice(0,m.index).trim();
+      var rule=null;
+      if(/^[A-Za-z][A-Za-z '’\/&\-]{1,40}[:\-–—]$/.test(pre))rule={field:field,label:pre.replace(/[:\-–—]\s*$/,"").trim(),mode:"inline"};
+      else if(!pre&&i>0){var pv=ls[i-1].trim().replace(/[:\-–—]\s*$/,"");if(pv&&pv.length<=30&&!/\d/.test(pv)&&/^[A-Za-z][A-Za-z '’\/&\-]+$/.test(pv))rule={field:field,label:pv,mode:"below"}}
+      if(rule&&!LEARN.labels.some(function(r){return r.field===rule.field&&r.label.toLowerCase()===rule.label.toLowerCase()&&r.mode===rule.mode})){LEARN.labels.push(rule);saveLearn();learned=true}
+      else if(rule)learned=true;
+      break;
+    }
+  });
+  return learned;
+}
+function applyLearned(filled){
+  var items=lastDocItems||[],changed=false;
+  Object.keys(LEARNF).forEach(function(f){if(S[f]&&isBlocked(f,String(S[f]).split("\n")[0])){S[f]="";changed=true}});
+  LEARN.labels.forEach(function(r){
+    if(!LEARNF[r.field])return;
+    for(var i=0;i<items.length;i++){
+      var re=r.mode==="below"?new RegExp("^[ \\t]*"+escRe(r.label)+"[ \\t]*[:\\-–—]?[ \\t]*\\n[ \\t]*([^\\n]{2,80})$","im"):new RegExp("^[ \\t]*"+escRe(r.label)+"[ \\t]*[:\\-–—][ \\t]*([^\\n]{2,80})$","im");
+      var m=re.exec(items[i].text||"");if(!m)continue;
+      var v=m[1].trim().replace(/[.;,]+$/,"");if(!v||isBlocked(r.field,v))continue;
+      if(r.field==="clientAddress")v=v.replace(/,\s*/g,"\n");
+      S[r.field]=v;changed=true;if(filled.indexOf(LEARNF[r.field])<0)filled.push(LEARNF[r.field]);break;
+    }
+  });
+  if(changed){save();renderForm();rebuild()}
+  return filled;
+}
+function renderTeach(res){
+  if(!res||res.hidden||!lastResult)return;
+  var d=document.createElement("details");d.className="blk";
+  d.appendChild(mk("summary",{text:"Something wrong? Correct it and teach the reader"}));
+  var sel=mk("select",{id:"teachField","aria-label":"Field to correct"});
+  Object.keys(LEARNF).forEach(function(k){sel.appendChild(mk("option",{value:k,text:LEARNF[k].replace(/^./,function(c){return c.toUpperCase()})}))});
+  var inp=mk("input",{type:"text",id:"teachValue","aria-label":"Correct value",placeholder:"The correct value, as written in the document"});
+  var show=function(){inp.value=String(S[sel.value]||"").split("\n")[0]};sel.addEventListener("change",show);show();
+  var msg=mk("p",{class:"hint",text:"The reader remembers the label in front of the value (for example “Respondent name:”) and uses it next time. A wrong value is never filled into that field again. Nothing leaves this browser."});
+  var btn=mk("button",{type:"button",class:"btn",id:"teachBtn",text:"Correct and remember",onclick:function(){
+    var f=sel.value,v=inp.value.trim();if(!v){toast("Type the correct value first.");return}
+    var old=String(S[f]||"").split("\n")[0].trim();
+    S[f]=f==="clientAddress"?v.replace(/,\s*/g,"\n"):v;
+    if(old&&old.toLowerCase()!==v.toLowerCase())addBlock(f,old);
+    var ok=learnLabel(f,v);save();renderForm();rebuild();
+    toast(ok?"Corrected. The reader will remember where this came from.":"Corrected here. I could not find a label to remember in the documents.");
+  }});
+  d.appendChild(mk("div",{class:"vstack"},[mk("label",{text:"Field"}),sel,mk("label",{text:"Correct value"}),inp,btn,msg]));
+  res.appendChild(d);
+}
+function learnKind(name,kind){
+  var it=lastDocItems.filter(function(x){return x.name===name})[0];if(!it)return false;
+  var sg=sigOf(it.text);if(!sg)return false;
+  LEARN.kinds=LEARN.kinds.filter(function(k){return k.sig!==sg});LEARN.kinds.push({sig:sg,kind:kind});saveLearn();return true;
+}
+function teachSection(wrap){
+  var a=setSec("Teach the reader",false);wrap.appendChild(a.d);
+  a.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Help the built-in reader recognise your firm’s documents. Add one item per line. These lists stay in this browser."}));
+  [["courts","Court names you use","For example: Manchester Civil Justice Centre"],["judges","Judges you often appear before","Write the title as you want it printed, for example: District Judge Hargreaves"],["noteHeads","Headings that mark one of your attendance notes","For example: Attendance record"],["stmtHeads","Headings that mark a statement or instruction form","For example: Client intake sheet"],["orderHeads","Headings that mark a court order","For example: Sealed order"]].forEach(function(r){
+    var ta=mk("textarea",{rows:3,id:"voc_"+r[0],"aria-label":r[1]});ta.value=VOC[r[0]].join("\n");
+    ta.addEventListener("input",function(){VOC[r[0]]=ta.value.split("\n").map(function(x){return x.trim()}).filter(Boolean);saveVoc()});
+    a.g.appendChild(fld(r[1],ta,r[2]));
+  });
+  var box=mk("div",{id:"learnList",style:"grid-column:1/-1"});a.g.appendChild(box);
+  function draw(){
+    box.innerHTML="";
+    box.appendChild(mk("p",{class:"lbl",text:"What the reader has learned"}));
+    var n=LEARN.labels.length+LEARN.blocks.length+LEARN.kinds.length;
+    if(!n)box.appendChild(mk("p",{class:"hint",text:"Nothing yet. Corrections you make after reading documents appear here."}));
+    var ul=mk("ul");
+    function item(t,fn){var li=mk("li");li.appendChild(mk("span",{text:t+" "}));li.appendChild(mk("button",{type:"button",class:"btn",text:"Forget",onclick:function(){fn();saveLearn();draw()}}));return li}
+    LEARN.labels.forEach(function(r,i){ul.appendChild(item("Fill “"+(LEARNF[r.field]||r.field)+"” from the line labelled “"+r.label+"”",function(){LEARN.labels.splice(i,1)}))});
+    LEARN.blocks.forEach(function(r,i){ul.appendChild(item("Never use “"+String(r.value).slice(0,60)+"” for "+(r.field==="point"?"a summary point":(LEARNF[r.field]||r.field)),function(){LEARN.blocks.splice(i,1)}))});
+    LEARN.kinds.forEach(function(r,i){ul.appendChild(item("Documents starting “"+r.sig.slice(0,40)+"” are a "+r.kind.toLowerCase(),function(){LEARN.kinds.splice(i,1)}))});
+    box.appendChild(ul);
+    var row=mk("div",{class:"row"});
+    row.appendChild(mk("button",{type:"button",class:"btn",id:"learnExport",text:"Export rules",onclick:function(){downloadBlob("reader-rules.json",new Blob([JSON.stringify({vocab:VOC,learned:LEARN},null,1)],{type:"application/json"}))}}));
+    var fi=mk("input",{type:"file",accept:"application/json,.json",id:"learnImport",style:"display:none"});
+    fi.addEventListener("change",function(){var f=fi.files[0];if(!f)return;f.text().then(function(t){try{var o=JSON.parse(t);Object.keys(VOC).forEach(function(k){if(o.vocab&&Array.isArray(o.vocab[k]))VOC[k]=o.vocab[k].map(String).filter(Boolean)});Object.keys(LEARN).forEach(function(k){if(o.learned&&Array.isArray(o.learned[k]))LEARN[k]=o.learned[k].filter(function(x){return x&&typeof x==="object"})});saveVoc();saveLearn();toast("Rules imported.");showView("settings")}catch(e){toast("That file is not a rules file.")}})});
+    row.appendChild(fi);row.appendChild(mk("button",{type:"button",class:"btn",text:"Import rules",onclick:function(){fi.click()}}));
+    row.appendChild(mk("button",{type:"button",class:"btn",id:"learnClear",text:"Forget everything learned",onclick:function(){if(!n||!confirm("Forget all learned corrections? Your vocabulary lists stay."))return;LEARN={labels:[],blocks:[],kinds:[]};saveLearn();draw()}}));
+    box.appendChild(row);
+  }
+  draw();
+}
+
+/* ---------- case workers, activity log ---------- */
+var UKEY="fld-users-v1",USERS={list:[],current:""};
+try{var _u=JSON.parse(localStorage.getItem(UKEY)||"{}")||{};if(Array.isArray(_u.list))USERS.list=_u.list.filter(function(x){return x&&x.id&&x.name});USERS.current=_u.current||""}catch(e){}
+function saveUsers(){try{localStorage.setItem(UKEY,JSON.stringify(USERS))}catch(e){}}
+function userById(id){return USERS.list.filter(function(u){return u.id===id})[0]||null}
+function uname(){var u=userById(USERS.current);return u?u.name:(FIRM.caseWorker||"")}
+function setCurrentUser(id){
+  USERS.current=id;saveUsers();var u=userById(id);
+  if(u){FIRM.caseWorker=u.name;if(u.title)FIRM.caseWorkerTitle=u.title;if(u.rate)FIRM.hourlyRate=String(u.rate);saveFirm()}
+}
+function auditAdd(m,text){
+  if(!m)return;m.audit=m.audit||[];var last=m.audit[m.audit.length-1],u=uname();
+  if(/^Edited: /.test(text)&&last&&/^Edited: /.test(last.a)&&last.u===u&&Date.now()-last.t<120000){
+    var ks=last.a.slice(8).split(", ");text.slice(8).split(", ").forEach(function(k){if(ks.indexOf(k)<0)ks.push(k)});last.a="Edited: "+ks.join(", ");last.t=Date.now();return;
+  }
+  m.audit.push({t:Date.now(),u:u,a:text});if(m.audit.length>500)m.audit.splice(0,m.audit.length-500);
+}
+function mergeAudit(a,b){
+  var seen={},out=[];(a||[]).concat(b||[]).forEach(function(e){var k=e.t+"|"+e.u+"|"+e.a;if(!seen[k]){seen[k]=1;out.push(e)}});
+  out.sort(function(x,y){return x.t-y.t});return out.slice(-500);
+}
+var SNAP={};
+function snapOf(m){return{S:Object.assign({},m.S),h:(m.history||[]).map(function(x){return x.id}),d:(m.docs||[]).map(function(x){return x.id}),t:(m.time||[]).length,st:m.status||"open",ow:m.owner||""}}
+function auditDiff(){
+  var m=CURM;if(!m)return;var sn=SNAP[m.id];
+  if(!sn){SNAP[m.id]=snapOf(m);return}
+  var keys=[];Object.keys(S).forEach(function(k){if(JSON.stringify(S[k])!==JSON.stringify(sn.S[k]))keys.push(k)});
+  if(keys.length)auditAdd(m,"Edited: "+keys.slice(0,12).join(", "));
+  (m.history||[]).forEach(function(x){if(sn.h.indexOf(x.id)<0)auditAdd(m,"Saved to matter file: "+x.label)});
+  sn.h.forEach(function(id){if(!(m.history||[]).some(function(x){return x.id===id}))auditAdd(m,"Removed a saved letter from the matter file")});
+  (m.docs||[]).forEach(function(x){if(sn.d.indexOf(x.id)<0)auditAdd(m,"Document added: "+x.name)});
+  if((m.time||[]).length>sn.t)auditAdd(m,"Time entry added");
+  if((m.status||"open")!==sn.st)auditAdd(m,"Status changed to "+(m.status||"open"));
+  if((m.owner||"")!==sn.ow){var u=userById(m.owner);auditAdd(m,"Assigned to "+(u?u.name:"nobody"))}
+  SNAP[m.id]=snapOf(m);
+}
+var _save0=save;save=function(){try{auditDiff()}catch(e){}return _save0.apply(this,arguments)};
+var _nmo0=newMatterObj;newMatterObj=function(n,b){var m=_nmo0(n,b);m.owner=USERS.current||"";m.audit=[{t:Date.now(),u:uname(),a:"Matter created"}];m.la={};m.reminders=[];m.dismissed={};return m};
+var _ns0=normaliseStore;normaliseStore=function(st){st=_ns0(st);st.matters.forEach(function(m){m.audit=m.audit||[];m.la=m.la||{};m.reminders=m.reminders||[];m.dismissed=m.dismissed||{};m.owner=m.owner||""});return st};
+var _dd0=downloadDocx;downloadDocx=function(){try{auditAdd(CURM,"Downloaded Word file: "+(arguments[1]||"letter"))}catch(e){}return _dd0.apply(this,arguments)};
+function dashMatters(){
+  var w=OPTS.dashWho||"auto",me=USERS.current;if(w==="auto")w=(USERS.list.length>1&&me)?"mine":"all";
+  return STORE.matters.filter(function(m){if(w==="all")return true;if(w==="mine")return!m.owner||m.owner===me;return m.owner===w});
+}
+function whoControls(q){
+  if(!USERS.list.length)return;
+  var meSel=mk("select",{id:"d_me","aria-label":"Working as"});USERS.list.forEach(function(u){meSel.appendChild(mk("option",{value:u.id,text:u.name}))});meSel.value=USERS.current||USERS.list[0].id;
+  meSel.addEventListener("change",function(){setCurrentUser(meSel.value);showView("dashboard")});
+  var w=mk("select",{id:"d_who","aria-label":"Whose matters to show"});
+  [["auto","Mine if there are several case workers"],["mine","My matters"],["all","Everyone's matters"]].concat(USERS.list.map(function(u){return[u.id,u.name+"'s matters"]})).forEach(function(o){w.appendChild(mk("option",{value:o[0],text:o[1]}))});
+  w.value=OPTS.dashWho||"auto";w.addEventListener("change",function(){OPTS.dashWho=w.value;saveOpts();showView("dashboard")});
+  q.appendChild(mk("label",{class:"hint",for:"d_me",text:"Working as"}));q.appendChild(meSel);
+  q.appendChild(mk("label",{class:"hint",for:"d_who",text:"Show"}));q.appendChild(w);
+}
+function ownerCell(m){
+  if(!USERS.list.length)return"-";
+  var s=mk("select",{"aria-label":"Case worker for "+m.name});s.appendChild(mk("option",{value:"",text:"Unassigned"}));USERS.list.forEach(function(u){s.appendChild(mk("option",{value:u.id,text:u.name}))});s.value=m.owner||"";
+  s.addEventListener("change",function(){m.owner=s.value;var u=userById(s.value);if(m===CURM)save();else auditAdd(m,"Assigned to "+(u?u.name:"nobody"));persistNow();toast("Assigned.")});
+  return s;
+}
+var _vf0=VIEWFN.file;
+VIEWFN.file=function(box){
+  _vf0(box);var wrap=box.querySelector(".vstack");if(!wrap)return;
+  var a=setSec("Activity log",false);wrap.appendChild(a.d);
+  var au=(CURM.audit||[]).slice().reverse();
+  a.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"A record of what was done on this matter and by whom: edits (field names only, never the contents), letters saved, documents added, time recorded, downloads and changes of status or case worker. It is kept in this browser with the matter, so it is an aide for the file, not a tamper-proof audit trail."}));
+  if(!au.length)a.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1",text:"Nothing recorded yet."}));
+  else{
+    var tb=mk("table",{class:"ledger"});var hr=mk("tr");["When","Who","What"].forEach(function(h){hr.appendChild(thc(h))});tb.appendChild(mk("thead",null,[hr]));var body=mk("tbody");
+    au.slice(0,150).forEach(function(e){var tr=mk("tr");tr.appendChild(tcell(new Date(e.t).toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})));tr.appendChild(tcell(e.u||"-"));tr.appendChild(tcell(e.a));body.appendChild(tr)});
+    tb.appendChild(body);a.g.appendChild(mk("div",{style:"grid-column:1/-1"},[wrapTable(tb)]));
+    a.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",id:"auditCsv",text:"Download the log (CSV)",onclick:function(){
+      var rows=[["When","Who","What"]].concat((CURM.audit||[]).map(function(e){return[new Date(e.t).toISOString(),e.u||"",e.a]}));
+      var csv="﻿"+rows.map(function(r){return r.map(function(c){return'"'+String(c).replace(/"/g,'""')+'"'}).join(",")}).join("\r\n");
+      downloadBlob("activity-log-"+fileSafe(CURM.name)+".csv",new Blob([csv],{type:"text/csv"}));
+    }})]));
+  }
+};
+
+/* ---------- reminder rules (adjustable) ---------- */
+var REM_DEFS=[
+  {k:"notice",label:"Notice of hearing letter",hint:"Remind me this many days before the hearing to have saved the notice of hearing letter.",days:14,unit:"days before the hearing"},
+  {k:"outcome",label:"Outcome letter",hint:"Remind me this many days after a hearing if no outcome letter has been saved.",days:2,unit:"days after the hearing"},
+  {k:"closing",label:"Closing letter",hint:"Remind me this many days after an outcome letter if there is no closing letter, to ask whether the matter is finished.",days:14,unit:"days after the outcome letter"},
+  {k:"progress",label:"Progress update",hint:"Remind me when a client has had no letter for this many days.",days:56,unit:"days without a letter"},
+  {k:"progressLA",label:"Progress update on legal aid matters",hint:"Use a different interval for legal aid matters. Leave at 0 to use the progress update interval above.",days:0,unit:"days (0 = same as above)",noToggle:true},
+  {k:"limitWarn",label:"Legal aid costs limit: first warning",hint:"Warn when costs reach this percentage of the limit.",days:75,unit:"% of the limit"},
+  {k:"limitHigh",label:"Legal aid costs limit: second warning",hint:"Warn more strongly at this percentage of the limit.",days:90,unit:"% of the limit"},
+  {k:"scope",label:"Legal aid scope review",hint:"Remind me to review the scope of the certificate after this many days.",days:60,unit:"days since the last review"},
+  {k:"extwait",label:"Costs limit extension with no decision",hint:"Remind me when an extension request has had no decision recorded for this many days.",days:21,unit:"days after the request"},
+  {k:"la",label:"Legal aid warnings on the dashboard",hint:"Show legal aid warnings (limit, emergency certificate, contribution, scope) in Needs attention and Reminders.",days:0,unit:"",toggleOnly:true}
+];
+function remRule(k){var d=REM_DEFS.filter(function(x){return x.k===k})[0]||{days:0},r=(OPTS.remRules||{})[k]||{},legacy=(k==="progress"&&OPTS.progressDays)?OPTS.progressDays:0;
+  var days=r.days!=null&&r.days!==""?+r.days:(legacy||d.days);return{on:r.on!==false,days:isFinite(days)?days:d.days}}
+/* ---------- legal aid tracker ---------- */
+function isLA(m){return!!(m&&m.S&&(m.S.careFunding===FUNDING[1]||String(m.S.laCertNo||"").trim()))}
+function laNum(x){var n=num(x);return isNaN(n)?0:n}
+function addDaysISO(s,n){var d=parseISO(s);if(!d)return"";d.setDate(d.getDate()+n);return iso(d)}
+function laInfo(m){
+  var la=m.la||{},lim=laNum(m.S.laCostsLimit),ext=laNum(la.extLimit),eff=Math.max(lim,ext),used=mLedger(m),dis=0;
+  (m.disb||[]).forEach(function(d){dis+=(+d.amount||0)});
+  return{la:la,limit:lim,eff:eff,used:used,pct:eff>0?used/eff*100:null,disb:dis,dlim:laNum(la.disbLimit)};
+}
+function laAlerts(m){
+  if(!isLA(m)||m.status==="closed")return[];
+  var i=laInfo(m),la=i.la,out=[],td=iso(new Date()),granted=m.S.laStatus===LA_STATUS[0]||m.S.laStatus===LA_STATUS[1];
+  if(i.eff>0){
+    var lw=remRule("limitWarn").days,lh=remRule("limitHigh").days;
+    if(i.pct>=100)out.push({level:"high",key:"limit100",text:"Costs have reached the legal aid costs limit ("+money(i.used)+" of "+money(i.eff)+"). Check what you can still do under the certificate before doing more work"+(la.extRequested?". Extension requested on "+fmtDate(la.extRequested,false):". Apply to extend the limit if more work is needed")+"."});
+    else if(i.pct>=lh&&remRule("limitHigh").on)out.push({level:"warn",key:"limit90",text:"Costs are at "+Math.round(i.pct)+"% of the legal aid costs limit ("+money(i.used)+" of "+money(i.eff)+")."+(la.extRequested?" Extension requested on "+fmtDate(la.extRequested,false)+".":" Apply to extend the limit if more work is needed.")});
+    else if(i.pct>=lw&&remRule("limitWarn").on)out.push({level:"warn",key:"limit75",text:"Costs are at "+Math.round(i.pct)+"% of the legal aid costs limit. Think about whether an extension will be needed."});
+  }else if(granted)out.push({level:"info",key:"nolimit",text:"No costs limit recorded for this certificate."});
+  if(i.dlim>0&&i.disb>=i.dlim*0.9)out.push({level:"warn",key:"dlimit",text:"Disbursements ("+money(i.disb)+") are close to or over the disbursement limit of "+money(i.dlim)+"."});
+  if(la.emergExpiry){var n=daysFrom(la.emergExpiry);
+    if(n!==null&&n<0)out.push({level:"high",key:"emerg",date:la.emergExpiry,due:la.emergExpiry,text:"The emergency certificate expiry date ("+fmtDate(la.emergExpiry,false)+") has passed. Check the position on the substantive certificate."});
+    else if(n!==null&&n<=14)out.push({level:"warn",key:"emerg",date:la.emergExpiry,due:addDaysISO(la.emergExpiry,-7),text:"The emergency certificate expires on "+fmtDate(la.emergExpiry,false)+" ("+n+" day"+(n===1?"":"s")+")."});}
+  if(la.contribDue&&!la.contribPaid){var c=daysFrom(la.contribDue),amt=la.contribAmount?" of "+money(laNum(la.contribAmount)):"";
+    if(c!==null&&c<0)out.push({level:"high",key:"contrib",date:la.contribDue,due:la.contribDue,text:"The client's contribution"+amt+" was due on "+fmtDate(la.contribDue,false)+" and is not recorded as paid."});
+    else if(c!==null&&c<=7)out.push({level:"warn",key:"contrib",date:la.contribDue,due:la.contribDue,text:"The client's contribution"+amt+" is due on "+fmtDate(la.contribDue,false)+"."});}
+  if(granted){
+    var rv=la.scopeReviewed||"",age=rv?-daysFrom(rv):Math.floor((Date.now()-(m.created||Date.now()))/864e5);
+    var sd=remRule("scope").days;
+    if(remRule("scope").on&&age>(rv?sd:14))out.push({level:"warn",key:"scope",date:rv,due:rv?addDaysISO(rv,sd):addDaysISO(iso(new Date(m.created||Date.now())),14),text:rv?"The scope of the certificate was last reviewed "+age+" days ago. Check the work you are doing is still within scope.":"The scope of the certificate has not been reviewed on this file. Check the work you are doing is within scope."});
+  }
+  if(String(la.outside||"").trim())out.push({level:"warn",key:"outside",text:"Work outside the scope is noted on this matter: "+String(la.outside).trim().slice(0,120)});
+  if(la.extRequested&&!la.extLimit){var e=-daysFrom(la.extRequested);var ew=remRule("extwait").days;if(remRule("extwait").on&&e>ew)out.push({level:"warn",key:"extwait",date:la.extRequested,due:addDaysISO(la.extRequested,ew),text:"A costs limit extension was requested "+e+" days ago and no decision is recorded."})}
+  return out;
+}
+function laBind(kind,key,id,type,onchg){
+  var el=type==="textarea"?mk("textarea",{id:id,rows:3}):mk("input",{type:type||"text",id:id}),src=function(){if(kind==="S")return S;CURM.la=CURM.la||{};return CURM.la};
+  if(type==="checkbox")el.checked=!!src()[key];else el.value=src()[key]==null?"":src()[key];
+  el.addEventListener(type==="checkbox"||type==="date"?"change":"input",function(){src()[key]=type==="checkbox"?el.checked:el.value;save();persistSoon();if(onchg)onchg()});
+  return el;
+}
+function laSection(){
+  var a=setSec("Legal aid tracker",true);
+  var sum=mk("div",{style:"grid-column:1/-1",id:"laSummary",role:"status"});
+  function paint(){
+    sum.innerHTML="";var i=laInfo(CURM);
+    if(i.eff>0){var pct=Math.round(i.pct);
+      sum.appendChild(mk("div",{class:"estbar"},[mk("span",{class:"sl",text:"Costs "+money(i.used)+" (ex VAT) of the "+money(i.eff)+" limit: "+pct+"% used"}),mk("div",{class:"bar","aria-hidden":"true"},[mk("div",{class:"fill"+(pct>=100?" over":pct>=75?" warn":""),style:"width:"+Math.min(100,pct)+"%"})])]));
+    }else sum.appendChild(mk("p",{class:"hint",style:"margin:0",text:"Enter the costs limit below to track it against the time recorded. Time recorded so far: "+money(i.used)+" (ex VAT)."}));
+    var al=laAlerts(CURM);
+    if(al.length){var ul=mk("ul",{style:"margin:8px 0 0 18px"});al.forEach(function(x){ul.appendChild(mk("li",{text:x.text}))});sum.appendChild(ul)}
+    else sum.appendChild(mk("p",{class:"hint",style:"margin:8px 0 0",text:"Nothing needs attention on the legal aid side."}));
+  }
+  a.g.appendChild(sum);
+  a.g.appendChild(fld("Certificate number",laBind("S","laCertNo","la_cert"),null,true));
+  a.g.appendChild(fld("Funding status",(function(){var s=mk("select",{id:"la_status"});LA_STATUS.forEach(function(x){s.appendChild(mk("option",{value:x,text:x}))});s.value=S.laStatus||LA_STATUS[0];s.addEventListener("change",function(){S.laStatus=s.value;save();paint()});return s})(),null,true));
+  a.g.appendChild(fld("Costs limit (GBP, ex VAT)",laBind("S","laCostsLimit","la_limit","text",paint),"As shown on the certificate.",true));
+  a.g.appendChild(fld("Higher limit after an extension (GBP)",laBind("la","extLimit","la_extlimit","text",paint),"Leave blank until an extension is granted.",true));
+  a.g.appendChild(fld("Extension requested on",laBind("la","extRequested","la_extreq","date",paint),null,true));
+  a.g.appendChild(fld("Disbursement limit (GBP)",laBind("la","disbLimit","la_dlimit","text",paint),null,true));
+  a.g.appendChild(fld("Emergency certificate expires",laBind("la","emergExpiry","la_emerg","date",paint),null,true));
+  a.g.appendChild(fld("Client contribution (GBP)",laBind("la","contribAmount","la_camt","text",paint),null,true));
+  a.g.appendChild(fld("Contribution due on",laBind("la","contribDue","la_cdue","date",paint),null,true));
+  a.g.appendChild(fld("Contribution paid",laBind("la","contribPaid","la_cpaid","checkbox",paint),null,true));
+  a.g.appendChild(fld("What the certificate covers (scope)",laBind("S","laScope","la_scope","textarea",paint),"This text is used in the client care letter."));
+  a.g.appendChild(fld("Scope last reviewed",laBind("la","scopeReviewed","la_scoperev","date",paint),null,true));
+  a.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",id:"la_scopenow",text:"Scope reviewed today",onclick:function(){CURM.la=CURM.la||{};CURM.la.scopeReviewed=iso(new Date());document.getElementById("la_scoperev").value=CURM.la.scopeReviewed;auditAdd(CURM,"Scope of certificate reviewed");save();persistSoon();paint()}})]));
+  a.g.appendChild(fld("Work done or needed outside the scope",laBind("la","outside","la_outside","textarea",paint),"Note anything that needs an amendment to the certificate."));
+  a.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"These are reminders for you, based on what you enter and on the time recorded. They do not replace the certificate, the LAA\u2019s rules or its current guidance."}));
+  paint();return a.d;
+}
+var _vt0=VIEWFN.time;
+VIEWFN.time=function(box){_vt0(box);if(!isLA(CURM))return;var wrap=box.querySelector(".vstack");if(wrap)wrap.insertBefore(laSection(),wrap.children[0])};
+var _att0=mAttention;
+mAttention=function(m){return _att0(m).concat((remRule("la").on?laAlerts(m):[]).filter(function(a){return a.level!=="info"}).map(function(a){return a.text}))};
+function laOverview(wrap,ms){
+  var list=ms.filter(function(m){return isLA(m)&&m.status!=="closed"});if(!list.length)return;
+  var a=setSec("Legal aid matters",true);wrap.appendChild(a.d);
+  var tb=mk("table",{class:"ledger"}),hr=mk("tr");["Matter","Certificate","Costs used","Limit","Used","Needs attention",""].forEach(function(h){hr.appendChild(thc(h))});tb.appendChild(mk("thead",null,[hr]));var body=mk("tbody");
+  list.forEach(function(m){var i=laInfo(m),al=laAlerts(m).filter(function(x){return x.level!=="info"});
+    var tr=mk("tr");[tcell(m.name),tcell(m.S.laStatus||"-"),tcell(money(i.used)),tcell(i.eff?money(i.eff):"-"),tcell(i.pct==null?"-":Math.round(i.pct)+"%"),tcell(al.length?String(al.length):"-"),tcell(mk("button",{type:"button",class:"btn",text:"Open",onclick:async function(){if(CURM.id!==m.id)await switchMatter(m.id);showView("time")}}))].forEach(function(c){tr.appendChild(c)});body.appendChild(tr)});
+  tb.appendChild(body);a.g.appendChild(mk("div",{style:"grid-column:1/-1"},[wrapTable(tb)]));
+}
+
+/* ---------- reminders ---------- */
+var CLIENT_LETTERS=["care","advice","progress","appointment","notice","outcome","offer","costs","closing"];
+function histDate(e){return e.sent||iso(new Date(e.saved))}
+function remindersFor(m){
+  var out=[],td=iso(new Date()),H=m.history||[];
+  function add(key,date,text,kind){var dm=(m.dismissed||{})[key];if(dm&&(dm==="forever"||dm>td))return;out.push({key:key,m:m,date:date,text:text,kind:kind})}
+  if(m.status!=="closed"){
+    var named=!!String(m.S.clientName||"").trim();
+    var rn=remRule("notice");
+    if(rn.on&&!H.some(function(e){return e.type==="notice"}))mHearings(m).forEach(function(h){if(h.days<=rn.days+14)add("notice:"+h.date,addDaysISO(h.date,-rn.days),"Notice of hearing letter not yet saved to the file: "+h.type+" on "+fmtDate(h.date,false),"letter")});
+    var hd=m.S.hearingDate,hn=hd?daysFrom(hd):null;
+    var ro=remRule("outcome");
+    if(ro.on&&hn!==null&&hn<0&&hn>-90&&!H.some(function(e){return e.type==="outcome"&&iso(new Date(e.saved))>=hd}))add("outcome:"+hd,addDaysISO(hd,ro.days),"Outcome letter not yet saved for the hearing on "+fmtDate(hd,false),"letter");
+    var oc=H.filter(function(e){return e.type==="outcome"}).map(histDate).sort().pop();
+    var rc=remRule("closing");
+    if(rc.on&&oc&&!H.some(function(e){return e.type==="closing"})&&(-daysFrom(oc))>=rc.days)add("closing:"+oc,addDaysISO(oc,rc.days),"Is the matter finished? An outcome letter was saved on "+fmtDate(oc,false)+" and there is no closing letter. If it is finished, send the closing letter and close the file.","letter");
+    if(named){
+      var last=H.filter(function(e){return CLIENT_LETTERS.indexOf(e.type)>-1}).map(histDate).sort().pop()||iso(new Date(m.created||Date.now()));
+      var rp=remRule("progress"),rl=remRule("progressLA"),gap=(isLA(m)&&rl.days>0)?rl.days:rp.days;
+      if(rp.on&&(-daysFrom(last))>=gap)add("progress:"+last,addDaysISO(last,gap),"No letter to the client since "+fmtDate(last,false)+". Send a progress update.","letter");
+    }
+    if(remRule("la").on)laAlerts(m).forEach(function(a){if(a.level==="info")return;if(a.due||a.level==="high")add("la:"+a.key+":"+(a.date||""),a.due||td,a.text,"la")});
+  }
+  (m.reminders||[]).forEach(function(r){if(!r.done)out.push({key:"c:"+r.id,m:m,date:r.date,text:r.text,kind:"custom",custom:r})});
+  return out;
+}
+function allReminders(ms){var o=[];ms.forEach(function(m){o=o.concat(remindersFor(m))});o.sort(function(a,b){return String(a.date).localeCompare(String(b.date))});return o}
+function reminderCount(){if(!STORE)return 0;var lim=addDaysISO(iso(new Date()),7);return allReminders(dashMatters()).filter(function(r){return r.date<=lim}).length}
+function remindersSection(wrap,ms){
+  var td=iso(new Date()),lim=addDaysISO(td,14),all=allReminders(ms),show=all.filter(function(r){return r.date<=lim});
+  var a=setSec("Reminders ("+show.length+")",true);a.d.id="remSec";wrap.appendChild(a.d);
+  if(!show.length)a.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Nothing is due in the next two weeks."}));
+  var cur=null;
+  show.forEach(function(r){
+    var grp=r.date<td?"Overdue":r.date<=addDaysISO(td,7)?"Due this week":"Due in the next two weeks";
+    if(grp!==cur){cur=grp;a.g.appendChild(mk("p",{class:"lbl",style:"grid-column:1/-1;margin:6px 0 0",text:grp}))}
+    var row=mk("div",{class:"hrow rem"+(r.date<td?" over":""),style:"grid-column:1/-1"});
+    row.appendChild(mk("div",{class:"hmain",text:fmtDate(r.date,false)+" - "+r.m.name+": "+r.text}));
+    row.appendChild(mk("button",{type:"button",class:"btn",text:"Open",onclick:function(){openMatter(r.m.id)}}));
+    if(r.kind==="custom")row.appendChild(mk("button",{type:"button",class:"btn",text:"Done","aria-label":"Mark done: "+r.text,onclick:function(){r.custom.done=true;persistNow();showView("dashboard")}}));
+    else{
+      row.appendChild(mk("button",{type:"button",class:"btn",text:"Snooze 7 days","aria-label":"Snooze: "+r.text,onclick:function(){r.m.dismissed[r.key]=addDaysISO(td,7);persistNow();showView("dashboard")}}));
+      row.appendChild(mk("button",{type:"button",class:"btn",text:"Dismiss","aria-label":"Dismiss: "+r.text,onclick:function(){r.m.dismissed[r.key]="forever";persistNow();showView("dashboard")}}));
+    }
+    a.g.appendChild(row);
+  });
+  var openMs=ms.filter(function(m){return m.status!=="closed"});
+  var ms2=mk("select",{id:"rem_m","aria-label":"Matter for the new reminder"});openMs.forEach(function(m){ms2.appendChild(mk("option",{value:m.id,text:m.name}))});if(CURM&&openMs.some(function(m){return m.id===CURM.id}))ms2.value=CURM.id;
+  var dt=mk("input",{type:"date",id:"rem_d","aria-label":"Reminder date"});dt.value=addDaysISO(td,1);
+  var tx=mk("input",{type:"text",id:"rem_t","aria-label":"What to remember",placeholder:"For example: chase the other side for their statement"});
+  a.g.appendChild(mk("p",{class:"lbl",style:"grid-column:1/-1;margin:10px 0 0",text:"Add a reminder"}));
+  a.g.appendChild(fld("Matter",ms2,null,true));a.g.appendChild(fld("Date",dt,null,true));a.g.appendChild(fld("Reminder",tx));
+  var ics=mk("input",{type:"checkbox",id:"rem_names"});
+  a.g.appendChild(mk("div",{class:"row"},[
+    mk("button",{type:"button",class:"btn primary",id:"rem_add",text:"Add reminder",onclick:function(){
+      var m=openMs.filter(function(x){return x.id===ms2.value})[0];if(!m||!tx.value.trim()||!dt.value){toast("Choose a matter, a date and what to remember.");return}
+      m.reminders=m.reminders||[];m.reminders.push({id:mid(),date:dt.value,text:tx.value.trim(),done:false});auditAdd(m,"Reminder added: "+tx.value.trim().slice(0,60));persistNow();showView("dashboard");toast("Reminder added.");
+    }}),
+    mk("button",{type:"button",class:"btn",id:"rem_ics",text:"Download calendar file (.ics)",onclick:function(){
+      var ev=[];all.forEach(function(r){ev.push({d:r.date,s:(ics.checked?r.m.name+": ":"Matter "+(r.m.S.ourRef||"")+": ")+r.text,u:"rem-"+r.m.id+"-"+r.key})});
+      ms.forEach(function(m){if(m.status==="closed")return;mHearings(m).forEach(function(h){ev.push({d:h.date,s:"Hearing: "+h.type+(ics.checked?" - "+m.name:" - matter "+(m.S.ourRef||"")),u:"hear-"+m.id+"-"+h.date})})});
+      downloadBlob("reminders-"+td+".ics",new Blob([icsText(ev)],{type:"text/calendar"}));
+    }})]));
+  a.g.appendChild(fld("Put client names in the calendar file",ics,"Off by default, because calendar apps often sync to other devices. With it off, entries use the reference number only.",true));
+}
+function icsText(ev){
+  var esc2=function(t){return String(t).replace(/\\/g,"\\\\").replace(/;/g,"\;").replace(/,/g,"\\,").replace(/\r?\n/g,"\\n")},stamp=new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d+/,"");
+  var L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Family Letter Desk//EN","CALSCALE:GREGORIAN"];
+  ev.forEach(function(e){if(!parseISO(e.d))return;var d1=e.d.replace(/-/g,""),d2=addDaysISO(e.d,1).replace(/-/g,"");
+    L.push("BEGIN:VEVENT","UID:"+esc2(e.u)+"@family-letter-desk","DTSTAMP:"+stamp,"DTSTART;VALUE=DATE:"+d1,"DTEND;VALUE=DATE:"+d2,"SUMMARY:"+esc2(e.s),"END:VEVENT")});
+  L.push("END:VCALENDAR");return L.join("\r\n")+"\r\n";
+}
+var _rvn0=renderViewNav,announced=false;
+renderViewNav=function(){
+  _rvn0();
+  try{
+    if(!STORE)return;var n=reminderCount(),b=document.getElementById("view_dashboard");
+    if(b&&n){b.textContent="Dashboard ("+n+")";b.setAttribute("aria-label","Dashboard, "+n+" reminder"+(n===1?"":"s")+" due")}
+    if(!announced&&n){announced=true;var td=iso(new Date()),od=allReminders(dashMatters()).filter(function(r){return r.date<td}).length;setTimeout(function(){toast(od?od+" reminder"+(od===1?" is":"s are")+" overdue. See the dashboard.":n+" reminder"+(n===1?" is":"s are")+" due this week. See the dashboard.")},1200)}
+  }catch(e){}
+};
+
+/* ---------- backups ---------- */
+async function buildBackup(filter){
+  save();await persistNow();
+  var out={app:"family-letter-desk",v:2,exported:new Date().toISOString(),firm:FIRM,library:LIB,templates:TPL,contacts:CONTACTS,wording:typeof WOV!=="undefined"?WOV:{},reader:{vocab:VOC,learned:LEARN},users:USERS};
+  var st=filter?{v:2,current:STORE.current,matters:STORE.matters.filter(filter)}:STORE;
+  if(OPTS.lock){if(!CKEY)throw new Error("locked");out.encrypted=true;out.salt=OPTS.salt;out.iter=OPTS.iter;var eb=await encWith(CKEY,st);out.iv=eb.iv;out.ct=eb.ct}
+  else{out.encrypted=false;out.store=st}
+  return out;
+}
+async function backupDownload(){
+  var out=await buildBackup();
+  OPTS.lastBackup=new Date().toISOString();OPTS.changes=0;saveOpts();
+  downloadBlob("family-letter-desk-backup-"+iso(new Date())+".json",new Blob([JSON.stringify(out)],{type:"application/json"}));
+}
+function daysSinceBackup(){return OPTS.lastBackup?Math.floor((Date.now()-Date.parse(OPTS.lastBackup))/864e5):null}
+function backupBar(wrap){
+  var d=daysSinceBackup(),lim=OPTS.backupDays||7,need=OPTS.folderOn&&OPTS.folderNeedsPerm;
+  if(!need&&d!==null&&d<lim)return;
+  var bar=mk("div",{class:"revbar",id:"bkbar",role:"status"});
+  bar.appendChild(mk("span",{text:need?"Automatic backups to your folder are paused until you allow access again. ":(d===null?"You have not backed up the matters in this browser. ":"Your last backup was "+d+" day"+(d===1?"":"s")+" ago"+((OPTS.changes||0)?" and there have been "+OPTS.changes+" saves since. ":". "))}));
+  if(need)bar.appendChild(mk("button",{type:"button",class:"btn",id:"bk_allow",text:"Allow and back up now",onclick:async function(){var r=await backupToFolder(true);toast(r.ok?"Backed up to your folder.":(r.why||"Could not back up."));showView("dashboard")}}));
+  bar.appendChild(mk("button",{type:"button",class:"btn primary",id:"bk_now",text:"Back up now",onclick:async function(){try{await backupDownload();toast("Backup downloaded. Store it somewhere safe.");showView("dashboard")}catch(e){toast("Could not back up. If the app is locked, unlock it first.")}}}));
+  if(!OPTS.folderOn&&window.showDirectoryPicker)bar.appendChild(mk("button",{type:"button",class:"btn",text:"Set up automatic backups",onclick:function(){showView("settings")}}));
+  wrap.appendChild(bar);
+}
+function idb(){return new Promise(function(res,rej){var r=indexedDB.open("fld-fs",1);r.onupgradeneeded=function(){r.result.createObjectStore("h")};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
+function idbGet(k){return idb().then(function(db){return new Promise(function(res){var q=db.transaction("h").objectStore("h").get(k);q.onsuccess=function(){res(q.result)};q.onerror=function(){res(null)}})})}
+function idbSet(k,v){return idb().then(function(db){return new Promise(function(res,rej){var t=db.transaction("h","readwrite");t.objectStore("h").put(v,k);t.oncomplete=function(){res()};t.onerror=function(){rej(t.error)}})})}
+var FT=null,folderBusy=false,folderHandle=null;
+async function backupToFolder(manual){
+  if(folderBusy)return{ok:false,why:"A backup is already running."};
+  folderBusy=true;
+  try{
+    var h=folderHandle||await idbGet("dir").catch(function(){return null});if(!h)return{ok:false,why:"No folder has been chosen."};folderHandle=h;
+    var perm=h.queryPermission?await h.queryPermission({mode:"readwrite"}):"granted";
+    if(perm!=="granted"){
+      if(!manual){OPTS.folderNeedsPerm=true;saveOpts();return{ok:false,why:"permission"}}
+      perm=await h.requestPermission({mode:"readwrite"});if(perm!=="granted")return{ok:false,why:"Access to the folder was not given."};
+    }
+    if(OPTS.lock&&!CKEY)return{ok:false,why:"The app is locked."};
+    var out=await buildBackup(),name="family-letter-desk-backup-"+iso(new Date())+".json";
+    var fh=await h.getFileHandle(name,{create:true}),w=await fh.createWritable();await w.write(JSON.stringify(out));await w.close();
+    var names=[];for await(var e of h.entries()){if(e[0].indexOf("family-letter-desk-backup-")===0)names.push(e[0])}
+    names.sort();while(names.length>(OPTS.folderKeep||14)){try{await h.removeEntry(names.shift())}catch(x){break}}
+    OPTS.lastFolderBackup=new Date().toISOString();OPTS.lastBackup=OPTS.lastFolderBackup;OPTS.changes=0;OPTS.folderNeedsPerm=false;saveOpts();
+    return{ok:true,name:name};
+  }catch(e){return{ok:false,why:"Could not write to the folder ("+(e&&e.message||"error")+")."}}
+  finally{folderBusy=false}
+}
+function folderSoon(){
+  if(!OPTS.folderOn)return;clearTimeout(FT);
+  FT=setTimeout(function(){if(OPTS.lastFolderBackup&&Date.now()-Date.parse(OPTS.lastFolderBackup)<(OPTS.folderGap==null?600000:OPTS.folderGap))return;backupToFolder(false)},OPTS.folderDelay==null?120000:OPTS.folderDelay);
+}
+var persistAsked=false;
+function askPersist(){if(persistAsked)return;persistAsked=true;try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().then(function(g){OPTS.persisted=!!g;saveOpts()})}catch(e){}}
+var _pn0=persistNow;
+persistNow=async function(){await _pn0();OPTS.changes=(OPTS.changes||0)+1;try{saveOpts()}catch(e){}try{folderSoon();askPersist()}catch(e){}};
+async function mergeFromFile(file,pass){
+  var o=JSON.parse(await file.text());if(!o||o.app!=="family-letter-desk")throw new Error("shape");
+  var st=o.store;if(o.encrypted){var k=await deriveKey(pass,o.salt,o.iter||250000);st=await decWith(k,{iv:o.iv,ct:o.ct})}
+  if(!st||!Array.isArray(st.matters))throw new Error("shape");
+  var curId=CURM&&CURM.id,added=0,updated=0,kept=0;save();
+  st.matters.forEach(function(im){
+    var idx=STORE.matters.findIndex(function(x){return x.id===im.id}),inc=copyJSON(im);
+    if(idx<0){inc.audit=inc.audit||[];auditAdd(inc,"Merged in from "+file.name);STORE.matters.push(inc);added++;return}
+    var lm=STORE.matters[idx];
+    if((im.updated||0)>(lm.updated||0)){
+      var old=copyJSON(lm);old.id=mid();old.name=lm.name+" (previous version)";old.autoName=false;old.status="closed";
+      inc.audit=mergeAudit(lm.audit,inc.audit);auditAdd(inc,"Updated by merge from "+file.name);STORE.matters[idx]=inc;STORE.matters.push(old);updated++;
+    }else{lm.audit=mergeAudit(lm.audit,im.audit);kept++}
+  });
+  if(o.users&&Array.isArray(o.users.list)){o.users.list.forEach(function(u){if(u&&u.id&&u.name&&!userById(u.id))USERS.list.push(u)});saveUsers()}
+  normaliseStore(STORE);SNAP={};loadMatter(curId||STORE.current);save();await persistNow();renderMatterBar();renderTabs();renderForm();if(edited[cur]&&draft[cur]){paper.innerHTML=draft[cur]}else rebuild();
+  return{added:added,updated:updated,kept:kept};
+}
+function settingsExtra(wrap){
+  /* case workers */
+  var u=setSec("Case workers",false);wrap.appendChild(u.d);
+  u.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"List everyone who uses this app on this computer. Choose who you are and new matters are assigned to you, the dashboard shows your matters, and the activity log records who did what. This is a way of organising work, not a security control: anyone who can open the app can see every matter. Use the passphrase lock for that."}));
+  var box=mk("div",{id:"usersBox",style:"grid-column:1/-1"});u.g.appendChild(box);
+  function drawU(){
+    box.innerHTML="";
+    USERS.list.forEach(function(x,i){
+      var row=mk("div",{class:"hrow",style:"margin-bottom:6px"});
+      var nm=mk("input",{type:"text","aria-label":"Name of case worker "+(i+1),value:x.name}),tt=mk("input",{type:"text","aria-label":"Job title of "+x.name,value:x.title||"",placeholder:"Job title"}),rt=mk("input",{type:"number","aria-label":"Hourly rate of "+x.name,value:x.rate||"",placeholder:"Rate",min:"0",step:"5"});
+      var rl=mk("select",{"aria-label":"Role of "+x.name});["Case worker","Supervisor"].forEach(function(r){rl.appendChild(mk("option",{value:r,text:r}))});rl.value=x.role||"Case worker";
+      nm.addEventListener("input",function(){x.name=nm.value;saveUsers()});tt.addEventListener("input",function(){x.title=tt.value;saveUsers()});rt.addEventListener("input",function(){x.rate=rt.value;saveUsers()});rl.addEventListener("change",function(){x.role=rl.value;saveUsers()});
+      [nm,tt,rt,rl].forEach(function(e){row.appendChild(e)});
+      row.appendChild(mk("button",{type:"button",class:"btn warn",text:"Remove","aria-label":"Remove "+x.name,onclick:function(){USERS.list.splice(i,1);if(USERS.current===x.id)USERS.current="";STORE.matters.forEach(function(m){if(m.owner===x.id)m.owner=""});saveUsers();persistNow();drawU()}}));
+      box.appendChild(row);
+    });
+    var cur=mk("select",{id:"u_me","aria-label":"Who you are"});cur.appendChild(mk("option",{value:"",text:"Nobody chosen"}));USERS.list.forEach(function(x){cur.appendChild(mk("option",{value:x.id,text:x.name}))});cur.value=USERS.current||"";
+    cur.addEventListener("change",function(){setCurrentUser(cur.value);toast(cur.value?"Working as "+uname()+".":"No one chosen.")});
+    box.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",id:"u_add",text:"Add a case worker",onclick:function(){var x={id:mid(),name:"New case worker",title:"Case Worker",rate:"",role:"Case worker"};USERS.list.push(x);if(!USERS.current)USERS.current=x.id;saveUsers();drawU()}})]));
+    box.appendChild(mk("label",{class:"hint",for:"u_me",text:"I am"}));box.appendChild(cur);
+  }
+  drawU();
+  /* reminder rules */
+  var rr=setSec("Reminder rules",false);wrap.appendChild(rr.d);
+  rr.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Set when reminders appear to suit your practice, or switch a kind off. These apply to all matters on this computer."}));
+  var rbox=mk("div",{style:"grid-column:1/-1"});rr.g.appendChild(rbox);
+  function drawR(){
+    rbox.innerHTML="";
+    REM_DEFS.forEach(function(d){
+      var r=remRule(d.k),row=mk("div",{class:"hrow",style:"margin-bottom:6px"});
+      var on=mk("input",{type:"checkbox",id:"rr_on_"+d.k,"aria-label":"Turn on: "+d.label});on.checked=r.on;
+      on.addEventListener("change",function(){OPTS.remRules=OPTS.remRules||{};OPTS.remRules[d.k]=Object.assign({},OPTS.remRules[d.k],{on:on.checked});saveOpts()});
+      if(!d.noToggle)row.appendChild(on);
+      row.appendChild(mk("div",{class:"hmain"},[mk("strong",{text:d.label}),mk("div",{class:"hint",text:d.hint})]));
+      if(!d.toggleOnly){
+        var n=mk("input",{type:"number",id:"rr_days_"+d.k,min:"0",step:"1","aria-label":d.label+": "+d.unit,style:"width:90px"});n.value=r.days;
+        n.addEventListener("input",function(){var v=parseInt(n.value,10);OPTS.remRules=OPTS.remRules||{};OPTS.remRules[d.k]=Object.assign({},OPTS.remRules[d.k],{days:isNaN(v)||v<0?d.days:v});if(d.k==="progress")delete OPTS.progressDays;saveOpts()});
+        row.appendChild(n);row.appendChild(mk("span",{class:"hint",text:d.unit}));
+      }
+      rbox.appendChild(row);
+    });
+    rbox.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",id:"rr_reset",text:"Reset to the standard rules",onclick:function(){delete OPTS.remRules;delete OPTS.progressDays;saveOpts();drawR();toast("Standard rules restored.")}})]));
+  }
+  drawR();
+  /* backups */
+  var b=setSec("Automatic backups and storage",false);wrap.appendChild(b.d);
+  var pst=mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",id:"persistStatus",text:"Checking browser storage..."});b.g.appendChild(pst);
+  try{if(navigator.storage&&navigator.storage.persisted){navigator.storage.persisted().then(function(p){return(navigator.storage.estimate?navigator.storage.estimate():Promise.resolve({})).then(function(e){pst.textContent=(p?"The browser has agreed to keep this app's data unless you clear it yourself.":"The browser has not promised to keep this app's data. It may be cleared if the computer runs low on space, so keep backups.")+(e&&e.usage?" Stored: "+(e.usage/1048576).toFixed(1)+" MB.":"")})})}else pst.textContent="This browser cannot report whether its storage is protected. Keep backups."}catch(e){pst.textContent="This browser cannot report whether its storage is protected. Keep backups."}
+  var bd=mk("input",{type:"number",id:"bk_days",min:"1",step:"1"});bd.value=OPTS.backupDays||7;bd.addEventListener("input",function(){OPTS.backupDays=Math.max(1,parseInt(bd.value,10)||7);saveOpts()});
+  b.g.appendChild(fld("Remind me to back up after this many days",bd,null,true));
+  var fst=mk("p",{class:"dstatus",role:"status",style:"grid-column:1/-1",id:"folderStatus"});
+  function fpaint(){fst.textContent=OPTS.folderOn?("Automatic backups are on"+(OPTS.folderName?" (folder: "+OPTS.folderName+")":"")+(OPTS.lastFolderBackup?". Last backup "+new Date(OPTS.lastFolderBackup).toLocaleString("en-GB")+".":".")+(OPTS.folderNeedsPerm?" Access must be allowed again.":"")):"Automatic backups are off."}
+  if(!window.showDirectoryPicker)b.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Saving backups straight to a folder needs a browser that supports it, such as current Chrome or Edge on a computer. In this browser, use Export all matters below."}));
+  else{
+    b.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Choose a folder (for example on a drive that is backed up or on a network share) and the app saves a dated backup there a couple of minutes after you make changes, keeping the last 14. If encryption is on the backups are encrypted. If it is off they contain client details in plain text, so choose a safe place. The browser may ask you to allow access again each time you open the app."}));
+    b.g.appendChild(mk("div",{class:"row",style:"grid-column:1/-1"},[
+      mk("button",{type:"button",class:"btn",id:"bk_choose",text:"Choose backup folder",onclick:async function(){try{var h=await window.showDirectoryPicker({mode:"readwrite"});folderHandle=h;await idbSet("dir",h).catch(function(){});OPTS.folderName=h.name||"";OPTS.folderOn=true;OPTS.folderNeedsPerm=false;saveOpts();var r=await backupToFolder(true);fst.textContent=r.ok?"Folder chosen and a first backup saved there.":(r.why||"Folder chosen.");if(r.ok)fpaint()}catch(e){if(!e||e.name!=="AbortError")fst.textContent="Could not use that folder."}}}),
+      mk("button",{type:"button",class:"btn",id:"bk_foldernow",text:"Back up to the folder now",onclick:async function(){var r=await backupToFolder(true);fst.textContent=r.ok?"Backed up to the folder ("+r.name+").":(r.why||"Could not back up.");if(r.ok)fpaint()}}),
+      mk("button",{type:"button",class:"btn",id:"bk_off",text:"Turn automatic backups off",onclick:function(){OPTS.folderOn=false;saveOpts();fpaint()}})]));
+  }
+  b.g.appendChild(fst);fpaint();
+  /* merge */
+  var mg=setSec("Merge matters from a colleague",false);wrap.appendChild(mg.d);
+  mg.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"Matters are matched by their identity. A matter that is new to you is added. If both of you have changed the same matter, the more recently changed version is kept and your older version is kept beside it, closed and marked as the previous version, so nothing is lost. The app does not sync by itself, so hand files over after each person finishes their work on a matter."}));
+  var mf=mk("input",{type:"file",accept:".json,application/json",id:"mg_file"}),mp=mk("input",{type:"password",id:"mg_pass",autocomplete:"off"}),mst=mk("p",{class:"dstatus",role:"status",style:"grid-column:1/-1",id:"mg_status"});
+  mg.g.appendChild(fld("Backup or matters file from a colleague",mf));mg.g.appendChild(fld("Passphrase (only if the file is encrypted)",mp));
+  mg.g.appendChild(mk("div",{class:"row"},[
+    mk("button",{type:"button",class:"btn primary",id:"mg_btn",text:"Merge",onclick:async function(){var f=mf.files[0];if(!f){mst.textContent="Choose a file first.";mst.className="dstatus err";return}
+      try{var r=await mergeFromFile(f,mp.value);mst.textContent="Merged: "+r.added+" added, "+r.updated+" updated (older copy kept), "+r.kept+" left as they were because yours was newer.";mst.className="dstatus"}
+      catch(e){mst.textContent=o_isEnc(e)?"The passphrase is wrong, or the file is damaged.":"That is not a file made by this app.";mst.className="dstatus err"}}}),
+    mk("button",{type:"button",class:"btn",id:"mg_mine",text:"Export my matters for a colleague",onclick:async function(){try{var out=await buildBackup(function(m){return!m.owner||m.owner===USERS.current});downloadBlob("my-matters-"+iso(new Date())+".json",new Blob([JSON.stringify(out)],{type:"application/json"}));mst.textContent=OPTS.lock?"Exported (encrypted).":"Exported. The file is not encrypted and contains client details, so store it and send it safely.";mst.className="dstatus"}catch(e){mst.textContent="Could not export. If the app is locked, unlock it first.";mst.className="dstatus err"}}})]));
+  mg.g.appendChild(mst);
+}
+document.addEventListener("keydown",function(e){
+  if(!/^(ArrowLeft|ArrowRight|Home|End)$/.test(e.key))return;
+  var t=e.target&&e.target.closest?e.target.closest("[role=tab]"):null;if(!t||!t.parentNode)return;
+  var tabs=Array.prototype.slice.call(t.parentNode.querySelectorAll("[role=tab]")).filter(function(x){return x.offsetParent!==null});if(tabs.length<2)return;
+  var i=tabs.indexOf(t),n=e.key==="Home"?0:e.key==="End"?tabs.length-1:(i+(e.key==="ArrowRight"?1:-1)+tabs.length)%tabs.length;
+  e.preventDefault();tabs[n].focus();
+});
+function applyExtract(d,clean){var f=applyExtract0(d,clean);try{f=applyLearned(f)||f}catch(e){}return f}
 function showResult(filled,d){
   var h="";
   h+='<p><span class="lbl">Filled in:</span> '+(filled.length?esc(filled.join(", "))+".":"nothing could be found in these documents.")+'</p>';
@@ -3341,6 +4379,7 @@ function showResult(filled,d){
 }
 
 
+if(window.__FLD_DEBUG)window.__FLD_API={idbSet:idbSet,idbGet:idbGet,buildBackup:buildBackup,laAlerts:laAlerts,remindersFor:remindersFor,allReminders:allReminders,auditDiff:auditDiff,getCURM:function(){return CURM},getSTORE:function(){return STORE},OPTS:OPTS,USERS:USERS,icsText:icsText,mergeFromFile:mergeFromFile,backupToFolder:backupToFolder,rtfText:rtfText,ocrPrepare:ocrPrepare,ocrRun:ocrRun,VOC:VOC,LEARN:LEARN,applyLearned:applyLearned,learnLabel:learnLabel,setItems:function(i){lastDocItems=i},getS:function(){return S},setS:function(o){Object.assign(S,o)},extractRules:extractRules,extractCare:extractCare,representationFrom:representationFrom,explainOrders:explainOrders,plain:plain,kindOf:kindOf,summariseRules:summariseRules};
 boot();
 })();
 </script>

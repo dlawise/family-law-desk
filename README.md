@@ -161,3 +161,74 @@ Tested in Chromium only. Scanned documents depend on OCR quality and can be misr
 - **Client care letter (legal aid)**: legal aid is now the default funding. Upload the client's witness statement and instruction form in the document panel and read them. The built-in reader fills the client and other party, relationship, children, orders sought (non-molestation with or without notice, occupation, child arrangements, prohibited steps, specific issue), a second-person summary of what happened, police reference, safe contact, language needs, evidence mentioned and legal aid status. Check every line against the statement. The letter then covers who will act, the orders and how they work, evidence of abuse, how legal aid works (certificate scope, contribution, statutory charge, costs protection, the client's duties, the LAA's powers), what the client must provide, safety and helpline information, and the client's signature at the end. Private funding still uses the earlier fee-based letter.
 - **Closing letter**: upload the court orders and the hearing attendance notes. "How we represented you" is drafted from the hearings and notes (who attended, the client's instructions, what happened), "The outcome" lists the orders made, and "What the orders mean for you" explains them in plain English (non-molestation, occupation, undertakings, penal notice, child arrangements, prohibited steps, specific issue, duration). Legal aid matters get a legal aid paragraph instead of a final bill.
 - The "Add legal aid example" button shows a filled example. Legal and procedural wording was written without legal review: have a solicitor approve it, and confirm current legal aid rules and evidence requirements before use.
+
+## Documents, search, contacts, packs (Clio-style)
+
+- **Documents**: files read in the letters screen, or added in the Documents screen, are kept with the matter as text. Search them by word (one matter or all), view them with matches highlighted, set their type, and fill any letter from the ticked documents without uploading again. "Show what the documents say" lists the facts found with the document each came from. Only the text is stored, not the original file.
+- **Details still needed**: each letter lists the blanks it still has at the top of the form. Fill them there and the letter updates.
+- **Contacts**: other sides' solicitors, counsel, courts, banks. Link them to a matter and pick them as the recipient of a template.
+- **Document packs** (Templates screen): opening, hearing and closing packs, or your own selection, downloaded as one zip of Word files.
+- Stored documents and contacts are in the browser only and in backups. Large stores may reach the browser's storage limit, so remove documents you no longer need.
+
+## Reading real documents
+
+- The built-in reader now recognises common court forms (non-molestation order FL404A style, child arrangements order C43 style, notices), takes the order date, judge and court from the text, reads numbered witness statement paragraphs (name, address, children, relationship, dated incidents, police reference, language needs), and drafts the closing letter representation from prose attendance notes. Fake documents in `sample-documents/` show the formats it was tested on. Real documents vary a lot, so check every line.
+- With a local AI model (Ollama or LM Studio) selected, the app asks the model separately for the client's circumstances (care letter) and for the representation, outcome and meaning sections (closing letter), then falls back to the built-in reader if the model fails. Identifiers are masked before sending, as set in Settings. This path was tested only with a mock server, not with a real model, so try it on an anonymised matter and judge the quality.
+
+## Testing extraction
+
+`test-corpus/` holds a varied set of fake witness statements, court orders and attendance notes (different layouts, styles, abbreviations, date formats) with the facts each should yield. The built-in reader passes all 150 checks on it. These documents were written by the developer, so real documents from your practice may still differ. Please check every draft against the source documents.
+
+The same corpus is used to test the built-in document summaries (`test-corpus/scripts/sum.js`, `sum2.js`): each document is typed as a witness statement, instruction form, attendance note, court order or notice of hearing, and summarised with its date, orders, children, key incidents and deadlines. Notices of hearing are described as listed hearings, not as past events. The built-in summary picks out facts and key sentences; it does not interpret the documents. A local AI model can write fuller summaries if you connect one in Settings.
+
+## Teaching the built-in reader
+
+The built-in reader is rule-based, so it can be taught your firm's documents. Everything is stored in this browser only.
+
+- **Settings, Teach the reader:** list your usual courts, judges, and the headings your own attendance notes, statements and orders start with. The reader then recognises those documents and uses your spelling of court and judge names.
+- **Correct and remember:** after reading documents, open "Something wrong?", pick the field (client name, other party, court, case number, our reference, judge, client address) and type the right value. The reader remembers the label in front of it (for example "Opponent:") and uses it on the next documents. The wrong value is never filled into that field again.
+- **Summaries:** each summarised document has a "Wrong type?" choice, which is remembered for documents that start with the same heading, and a "Hide" button on any summary point you do not want.
+- Learned rules can be reviewed, forgotten, exported and imported (for sharing with colleagues) under Settings.
+
+A learned label such as "Applicant:" fills the field whichever party your client is, so remove or correct a rule that does not fit a particular matter. `test-corpus/scripts/teach.js` tests these features.
+
+## Scanned documents, PDFs and Word files
+
+Text PDFs, scanned PDFs, photographs, .docx, .odt and .rtf files were tested (`test-corpus/scans`, `test-corpus/scripts`). Findings and what changed:
+
+- Page headers and footers that repeat on every page of a PDF (court name, case number, "Page 1 of 3") are now kept once and the page numbers dropped, so they no longer pile up in the text.
+- Poor scans and photos get a second pass: the image is enlarged, evened out, cleaned of speckle and straightened (up to about 6 degrees), and the better reading is used.
+- On realistic scans and photos (about 200 dpi, a few degrees of skew, uneven light, noise) all 16 test files read correctly. Images below roughly 150 dpi with heavy noise still read badly. The app now says so ("The image is low resolution", "Recognition was poor") and asks for a clearer scan. Scanning at 200 to 300 dpi, flat and well lit, is best. Scanned pages can take 5 to 130 seconds each. A progress bar shows which scanned page is being read, the percentage and roughly how long is left, and says when a poor page is being read a second time. The Stop button stops a scan read straight away.
+- RTF files from Word were filling the text with font and style tables; the RTF reader was rewritten.
+- Handwriting is not read.
+
+## Legal aid tracking
+
+On a legal aid matter, Time and costs opens with a Legal aid tracker: costs used against the certificate costs limit (with an extension limit), disbursement limit, emergency certificate expiry, client contribution due and paid, scope and the date it was last reviewed, and a note of work outside the scope. It warns at 75%, 90% and 100% of the limit, when the emergency certificate is close to expiring, when a contribution is overdue and when scope has not been reviewed for 60 days. The Dashboard lists all legal aid matters. These are prompts based on what you enter. They do not replace the certificate or the LAA's current rules.
+
+## Reminders
+
+The Dashboard shows reminders due in the next two weeks, and the Dashboard tab shows how many are due this week: notice of hearing letter not yet saved, outcome letter not yet saved after a hearing, closing letter not sent after an outcome letter, no letter to the client for 8 weeks (changeable in Settings), the legal aid warnings above, and reminders you add yourself. Snooze or dismiss any of them. "Download calendar file" makes an .ics file for your calendar app; it leaves client names out unless you tick the box.
+
+## Case workers and the activity log
+
+Settings, Case workers: list the people who use the app, choose who you are, and new matters are assigned to you. The Dashboard shows your matters (or everyone's), and each matter has an owner you can change. Each matter has an Activity log (Matter file): who edited which fields (names only), saved letters, added documents, recorded time, downloaded Word files, and changed status or owner. Export a matter log as CSV.
+
+This is for organising work. It is not access control, and the log is not tamper-proof: anyone who can open the app in this browser can see and change everything. Use the passphrase lock to protect the data.
+
+To work with a colleague, use Settings, Merge matters from a colleague. Matters are matched by identity; new ones are added, and if both of you changed one, the newer version is kept and your older version is kept beside it, closed and marked "previous version". The app does not sync by itself.
+
+## Backups
+
+- The Dashboard reminds you when your last backup is older than the number of days you choose (default 7), with a Back up now button.
+- In Chrome or Edge on a computer you can choose a backup folder (Settings, Automatic backups and storage). The app then saves a dated backup there a few minutes after changes and keeps the last 14. Encrypted if the passphrase lock is on. The browser may ask you to allow access again each time you open the app. Other browsers: use Export all matters.
+- The app asks the browser to protect its stored data from being cleared and shows whether it agreed.
+- Backups also hold your firm profile, wording, library, contacts, the reader's learned rules and the case worker list.
+
+## Accessibility
+
+Checked with the axe-core tool in light and dark mode at desktop and phone widths across every screen: no violations are reported. Skip link, landmarks, labelled controls, keyboard focus kept inside dialogs (Escape closes, focus returns), arrow keys move along tabs, 24 pixel minimum touch targets, and readable colours in dark mode. Automated checks do not find everything, so a test with a screen reader such as NVDA or VoiceOver is still advisable. `test-corpus/scripts/a11y.js` and `kbd.js` repeat the checks (they need `npm install playwright axe-core`).
+
+## Reminder rules
+
+Settings, Reminder rules: each kind of reminder can be switched off and its timing changed. Notice of hearing letter (days before the hearing), outcome letter (days after the hearing), closing letter (days after the outcome letter), progress update (days without a letter, with a separate interval for legal aid matters if you want one), legal aid limit warnings (two percentages), scope review days, extension wait days, and all legal aid warnings on or off. The standard values are 14, 2, 14, 56 (same for legal aid), 75% and 90%, 60 and 21 days. "Reset to the standard rules" restores them. `test-corpus/scripts/rules.js` and `prog.js` test these and the scan progress and stop button.
