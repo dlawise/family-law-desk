@@ -232,3 +232,12 @@ Checked with the axe-core tool in light and dark mode at desktop and phone width
 ## Reminder rules
 
 Settings, Reminder rules: each kind of reminder can be switched off and its timing changed. Notice of hearing letter (days before the hearing), outcome letter (days after the hearing), closing letter (days after the outcome letter), progress update (days without a letter, with a separate interval for legal aid matters if you want one), legal aid limit warnings (two percentages), scope review days, extension wait days, and all legal aid warnings on or off. The standard values are 14, 2, 14, 56 (same for legal aid), 75% and 90%, 60 and 21 days. "Reset to the standard rules" restores them. `test-corpus/scripts/rules.js` and `prog.js` test these and the scan progress and stop button.
+
+## Standard wording and templates (update)
+- Settings → Standard wording now also controls: "What we need from you" and "Ending our instructions" in the legal aid care letter (labelled "legal aid care letter"), and in the closing letter the divorce affairs paragraph, the "orders can be varied" paragraph, the file-storage paragraph, the closing sentence and the feedback paragraph. Unedited, the wording is unchanged.
+- Templates accept legal aid merge fields: legal aid status, certificate number, legal aid scope, client contribution, costs limit, supervisor, police reference, safe contact.
+- Eight new draft starter templates (legal aid means, contribution, certificate amendment; non-molestation, occupation and s8 advice; breach; hearing preparation). They are drafts: have them reviewed before use. Existing users get them added automatically once.
+
+## Matter types and editing (update)
+- New matters now default to Non-molestation order. Types: non-molestation, occupation, transfer of tenancy, both orders, child arrangements, prohibited steps, specific issue, section 8, financial remedy, then divorce and others. Existing matters keep their type.
+- Letters can be edited directly on the page, with a formatting bar (bold, italic, underline, lists, heading, undo). Template documents can also be edited in the preview; those edits apply to that copy only. Change the template itself through its Text box.
