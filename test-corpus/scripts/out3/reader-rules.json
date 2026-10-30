@@ -1,0 +1,41 @@
+{
+ "vocab": {
+  "courts": [
+   "Tameside Justice Hub"
+  ],
+  "judges": [
+   "District Judge Okonkwo-Reid"
+  ],
+  "noteHeads": [
+   "Client contact record"
+  ],
+  "orderHeads": [],
+  "stmtHeads": []
+ },
+ "learned": {
+  "labels": [
+   {
+    "field": "otherParty",
+    "label": "Opponent",
+    "mode": "inline"
+   },
+   {
+    "field": "clientName",
+    "label": "Applicant",
+    "mode": "inline"
+   }
+  ],
+  "blocks": [
+   {
+    "field": "point",
+    "value": "CASE ACTIVITY SHEET 14 October 2026 Spoke to the client by telephone."
+   }
+  ],
+  "kinds": [
+   {
+    "sig": "CASE ACTIVITY SHEET",
+    "kind": "Attendance note"
+   }
+  ]
+ }
+}
