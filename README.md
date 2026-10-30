@@ -241,3 +241,39 @@ Settings, Reminder rules: each kind of reminder can be switched off and its timi
 ## Matter types and editing (update)
 - New matters now default to Non-molestation order. Types: non-molestation, occupation, transfer of tenancy, both orders, child arrangements, prohibited steps, specific issue, section 8, financial remedy, then divorce and others. Existing matters keep their type.
 - Letters can be edited directly on the page, with a formatting bar (bold, italic, underline, lists, heading, undo). Template documents can also be edited in the preview; those edits apply to that copy only. Change the template itself through its Text box.
+
+## Client care letter and closing letter in the firm's template
+- Both letters now follow the firm's own templates. The care letter has three versions (NMO and occupation, CAO/PSO and other section 8, and other matters such as financial remedy and transfer of tenancy), chosen from the matter type. The closing letter follows the firm's closing template, with the representation and outcome section filled from the matter.
+- Reading uploaded documents fills the placeholders: from the client's witness statement and instruction form, the instructions, relationship dates, types of abuse, most recent incident, effect on the client, family background, client's position and welfare concerns; from the order and hearing attendance note, the procedural history, outcome, what the orders mean, why the matter ended and the date of those instructions. Anything not found shows as a yellow gap.
+- Everything stays editable: on the left, in the letter on the right (with the formatting bar), and in Settings → Client care letter text, where each fixed part of both letters can be edited and reset. The finished letter can be copied for Word, downloaded as Word, printed, or sent with the Email helper.
+- Firm details used in the standard terms (office hours, telephone numbers, SRA website, complaints manager, privacy link, cash limit, days to return, private rates) are in the care letter's "firm details" section and are remembered for new matters.
+- Settings → "Layout for care and closing letters" can switch back to the earlier layout.
+- The reader's output is a draft. Check names, dates and the summary of what the client said against the documents before sending.
+- Tested end to end in test-corpus/e2e (statements, order and note for NMO, CAO/PSO and tenancy).
+
+## Witness statement templates
+- Templates → category "Witness statements": non-molestation order without notice (versions 1 and 2), non-molestation and occupation orders, occupation order only, transfer of tenancy, and an exhibit cover sheet. They are built from the firm's own precedents.
+- Merge fields fill from the matter and from the client's documents when read: names, court, case number, addresses, relationship and dates, types of abuse, most recent incident (in the first person), children, police reference, effect on the client, property address and type of tenancy. Each template has a "Details used by this template" panel to correct or complete them, and the finished document can be edited directly, then downloaded, copied for Word or saved to the matter file.
+- Anything the reader cannot find (dates of birth, incident details, accommodation and income details and so on) shows as a yellow gap to type over. The "delete as appropriate" lists are left in for the case worker to edit.
+- Paragraphs are not numbered, as in the precedents.
+
+## Reader tuning on court orders and structured witness statements
+
+The built-in reader now recognises FL404B-style orders (general injunction order, undertakings, interim occupation order, transfer of tenancy) and the sectioned witness statement templates.
+
+- **Orders**: reads court ("In the Family Court at: ..."), parties, representation, hearing type (return date, final, injunction), and the outcome: undertakings (with their terms and duration), liberty to restore, withdrawal, dismissal, a final non-molestation order and its end date, occupation order terms (leave by, exclusion zone, keys, power of arrest, duration), transfer of tenancy (property, landlord, signing deadline), costs and the next hearing. The outcome is written in plain English for the closing letter's "Representation and outcome", "Final orders made" and "What the orders mean".
+- **Statements**: relationship comes from the "associated persons ... because ..." clause; children from the Child / Date of Birth table; relationship dates, the most recent incident, the family home or tenancy address, the respondent's address and the type of tenancy or ownership are read from the template headings. Headings and the statement's own introductory sentences are no longer mixed into the incident list.
+- **Transfer of tenancy**: the care letter now drafts the instructions and background from the statement and has editable initial advice wording (Settings > Client care letter text > "Transfer of tenancy: initial advice").
+- Test fixtures: `test-corpus/e2e2/` (`ext.js` prints what the reader finds in each file, `run4.js` fills the care and closing letters for six scenarios).
+- Still true: the reader matches patterns and does not understand the documents. Check every line, and tell the app about any real format it misses by using the teach panel.
+
+## More order types and the supplemental statement
+
+The reader also understands these order styles: interim non-molestation order (without notice, return hearing), final non-molestation order after a contested hearing (terms and end date), final occupation order (sole occupation, belongings, duration), combined non-molestation and occupation order, fact-finding order (findings, findings not proved, Cafcass report), consent occupation order, consent tenancy transfer and directions orders. Fixtures are `ord_g` to `ord_n` in `test-corpus/e2e2/`. An order is now recognised from its "IN THE FAMILY COURT ... ORDER" heading even when the text mentions a witness statement. A new starter template, "Witness statement: supplemental, transfer of tenancy", is in Templates.
+
+## Tuning against real anonymised documents (Carter and Turner)
+- Orders headed "FL404B – …" / "In the Family Court at X" / "ORDER" are now recognised as orders even when the recitals mention a witness statement.
+- Order clauses with the respondent named ("The Respondent, NAME, shall not…"), lettered contact and distance lists, separate NMO and occupation end dates, interim "until further Order" orders and "return hearing after 14 days" are summarised in plain English; notice boxes and service boilerplate are left out.
+- Two orders on the same date become two hearings, not one.
+- Statements: glued children tables, "were cohabitants" relationships, relationship dates with separate living-together dates, respondent DOB and town, trailing full stops and the intro "you have suffered…" line are handled.
+- Previous-injunction and refuge evidence ticks only fire on specific wording.

@@ -1176,9 +1176,10 @@ VIEWFN.settings=function(box){
   a.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",text:"Apply these details to the current matter",onclick:function(){FIRM_KEYS.forEach(function(k){if(FIRM[k])S[k]=FIRM[k]});save();renderForm();rebuild();toast("Applied to this matter.")}})]));
   /* security */
 
+  careTextSection(wrap);
   teachSection(wrap);
   var wd=setSec("Standard wording",false);wrap.appendChild(wd.d);
-  wd.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"These fixed paragraphs appear in your letters. Edit them to match your firm's approved wording. The wording supplied is a starting point written without legal review, so have a solicitor in your firm approve it before use."}));
+  wd.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"The client care and closing letters now follow your firm template: edit their wording under Client care letter text, below. The paragraphs here still apply to the earlier layout and to other letters. These fixed paragraphs appear in your letters. Edit them to match your firm's approved wording. The wording supplied is a starting point written without legal review, so have a solicitor in your firm approve it before use."}));
   Object.keys(DEFW).forEach(function(k){
     var ta=mk("textarea",{rows:4,id:"w_"+k,"aria-label":WLAB[k]});ta.value=(WOV[k]&&WOV[k].trim())?WOV[k]:DEFW[k];
     ta.addEventListener("input",function(){if(ta.value.trim()===DEFW[k])delete WOV[k];else WOV[k]=ta.value;saveWov()});
@@ -2021,11 +2022,18 @@ var TPL_STARTERS=[
  {id:"t-occ-adv",title:"Advice on an occupation order",category:"Family orders",letter:true,body:"## What an occupation order does\n\nAn occupation order decides who may live in or enter the home, or part of it, and can require {{other party}} to leave. The court weighs your housing needs, finances, the children and the effect on everyone of making or refusing the order.\n\n## What we need from you\n\nPlease tell me who owns or rents the home, whose names are on the tenancy or mortgage, and who lives there now."},
  {id:"t-s8-adv",title:"Advice on child arrangements, prohibited steps and specific issue orders",category:"Family orders",letter:true,body:"## The orders you may ask for\n\n- A child arrangements order decides where a child lives and the time they spend with each parent.\n- A prohibited steps order stops a parent taking a step, such as removing a child from the country.\n- A specific issue order decides a particular question, such as a school.\n\n## Before the application\n\nUnless an exemption applies, you will usually need to attend a MIAM first. If domestic abuse is involved, tell me so that I can explain the exemption.\n\nThe court's main concern is the welfare of the child."},
  {id:"t-hear-prep",title:"Preparing for your hearing",category:"Court",letter:true,body:"Your hearing is on {{next hearing date}} at {{hearing time}}, at {{court}}, case number {{case number}}.\n\n- Please arrive at least 45 minutes early.\n- Bring photo ID and any documents I have asked for.\n- Tell me now if you need a separate waiting area or other safety arrangements.\n\nI will meet you before the hearing to go through what to expect."},
- {id:"t-breach",title:"Advice on breach of an order",category:"Family orders",letter:true,body:"You have told me that {{other party}} may have breached the order. Please keep a dated record of each incident, with messages, photographs and names of any witnesses.\n\nIf you are in immediate danger, call 999. A breach of a non-molestation order is a criminal offence and can also be dealt with by the family court, so tell me which you wish to pursue and I will advise on your options."}
+ {id:"t-breach",title:"Advice on breach of an order",category:"Family orders",letter:true,body:"You have told me that {{other party}} may have breached the order. Please keep a dated record of each incident, with messages, photographs and names of any witnesses.\n\nIf you are in immediate danger, call 999. A breach of a non-molestation order is a criminal offence and can also be dealt with by the family court, so tell me which you wish to pursue and I will advise on your options."},
+ {"id": "t-ws-nmo1", "title": "Witness statement: non-molestation order, without notice (version 1)", "category": "Witness statements", "body": "IN THE {{court}}\n\nCASE NO: {{case number}}\n\nIN THE MATTER OF THE FAMILY LAW ACT 1996\n\nBETWEEN\n\n{{client name}} (Applicant)\n\n-and-\n\n{{other party}} (Respondent)\n\n## FIRST STATEMENT OF {{client name}}\n\nI, {{client name}}, of {{client address}}, make this statement believing the contents to be true and knowing it will be placed before the Court as evidence. I say as follows:\n\n## Introduction\n\nI make this statement in support of my application for a Non-Molestation Order made without notice to the Respondent. I will refer to the Respondent as {{respondent first name}} throughout this statement.\n\nThe Respondent and I are associated persons within Section 62 of the Family Law Act 1996 because the Respondent is my {{relationship}}. (Amend to state the basis of association, for example: we were married; we were civil partners; we were cohabitants; we were in an intimate personal relationship of significant duration; we have a child together.)\n\nI seek the protection of the Court because I have suffered {{abuse types}} abuse at the hands of the Respondent.\n\nThe most recent incident was as follows. {{most recent incident}}\n\nI fear the Respondent's behaviour will continue and/or escalate unless the Court grants protective orders.\n\n## Background Information\n\nI was born on {{client date of birth}}.\n\nThe Respondent was born on {{respondent date of birth}}.\n\nThe Respondent {{relevant factors about the respondent}}. (Substance misuse, criminal history, mental health or other relevant matters, if applicable.)\n\nThe Respondent and I were in a relationship {{relationship dates}}.\n\nWe were married/civil partners on {{date of marriage}}. (Delete if not applicable.)\n\nWe lived together between {{dates lived together}} at {{former joint address}}.\n\nThe children connected with this matter are:\n\n- {{children}}\n\nI currently reside at {{client address}}.\n\nThe Respondent resides at {{respondent address}}.\n\n## History of Abuse\n\nI set out below a summary of the abuse I have experienced. This statement is prepared urgently in support of an emergency application and may not contain every incident that has occurred.\n\nI respectfully request permission to provide a further statement if more detail is required.\n\nAt the beginning of the relationship, matters were generally positive. However, the Respondent's behaviour gradually changed from around {{date or period behaviour changed}}.\n\n## Controlling and Coercive Behaviour\n\nThe Respondent became increasingly controlling.\n\nExamples of this behaviour include:\n\n- {{examples of controlling behaviour}}\n\nAs a result of the Respondent's conduct, I felt isolated, monitored and unable to make ordinary decisions without fear of conflict.\n\n## Financial Abuse\n\nThe Respondent was financially abusive towards me in that:\n\n- {{examples of financial abuse}}\n\nAs a result, I suffered financial hardship and stress.\n\n## Verbal and Emotional Abuse\n\nThroughout the relationship, the Respondent regularly verbally abused me.\n\nThe Respondent would frequently:\n\n- Call me abusive names;\n- Humiliate or belittle me;\n- Shout, swear or intimidate me;\n- Make degrading comments regarding my appearance, intelligence or character.\n\nExamples include: \"{{relevant quotes or examples}}\"\n\nThe Respondent's conduct significantly impacted my confidence, emotional wellbeing and mental health.\n\n## Manipulative Behaviour\n\nThe Respondent frequently manipulated me emotionally.\n\nExamples include:\n\n- Blaming me for their own behaviour;\n- Promising to change and then reverting to abusive conduct;\n- Minimising or denying incidents;\n- Making me feel responsible for the relationship difficulties.\n\nI felt trapped and unable to leave the relationship.\n\n## Physical Intimidation and Violence\n\nThe Respondent would often intimidate me physically. This included:\n\n- Standing over me;\n- Standing close to my face whilst shouting;\n- Blocking my path;\n- Threatening gestures;\n- Damaging property; and/or\n- Threats of violence.\n\nOn or about {{date of serious incident}}, a particularly serious incident occurred. On that occasion:\n\n{{full details of the serious incident}}\n\nI felt frightened and believed I was at risk of serious harm.\n\nFollowing the incident:\n\n{{police involvement, medical treatment, disclosures, photographs, reporting}}\n\n## Post-Separation Abuse\n\nFollowing the end of the relationship, the Respondent's behaviour continued and/or escalated.\n\nSince separation, the Respondent has:\n\n- Contacted me repeatedly;\n- Sent unwanted messages;\n- Called me persistently;\n- Made allegations against me;\n- Contacted my friends, family or employer;\n- Harassed me on social media;\n- Monitored my whereabouts; and/or\n- Attempted to intimidate me.\n\nThe Respondent has also: {{details of ongoing harassment}}\n\n## Recent Incidents\n\nOn {{date of recent incident one}}:\n\n{{recent incident one details}}\n\nOn {{date of recent incident two}}:\n\n{{recent incident two details}}\n\nOn {{date of most recent incident}}:\n\n{{most recent incident details}}\n\n## Current Fears\n\nI ask the Court to grant the order because I genuinely fear for my safety and wellbeing.\n\nThe Respondent's behaviour is unpredictable and has escalated over time.\n\nI believe there is a real risk that the Respondent will continue to:\n\n- Harass me;\n- Contact me;\n- Intimidate me;\n- Monitor me;\n- Threaten me; and/or\n- Cause me further emotional or physical harm.\n\nI do not believe the Respondent will stop without intervention from the Court.\n\nI therefore seek urgent protection and believe I am at significant risk of harm if an order is not granted.\n\n## Special measures\n\nI respectfully request that the following special measures be made available for any Court hearing:\n\n- Screens within the courtroom;\n- Separate waiting areas;\n- Separate entrances and exits where available;\n- Video-link participation where appropriate;\n- Any other special measures the Court considers necessary.\n\n## Without Notice Application\n\nI respectfully request that the Court grant a Non-Molestation Order.\n\nPursuant to Section 45 of the Family Law Act 1996, I request that the order be made without notice to the Respondent.\n\nI believe that there is a risk of significant harm attributable to the Respondent's conduct if the Court does not grant the order immediately.\n\nI believe that giving notice of this application to the Respondent may:\n\n- Increase the risk to my safety;\n- Cause the Respondent to escalate their behaviour;\n- Result in intimidation, threats or further harassment; and/or\n- Deter me from pursuing the application.\n\nIn support of this request, I rely upon the matters set out above and in particular: {{reasons for the without notice application}}\n\nI therefore respectfully request that the Court grant the order without notice so that effective protection can be provided immediately.\n\n## Statement of Truth\n\nI believe that the facts stated in this witness statement are true.\n\nI understand that proceedings for contempt of court may be brought against anyone who makes, or causes to be made, a false statement in a document verified by a statement of truth without an honest belief in its truth.\n\nSigned: ______________________________\n\nName: {{client name}}\n\nDated: ______________________________\n\n## Solicitors' details\n\n{{firm name}}\n\n{{firm address}}\n\nReference: {{our ref}}\n\nSolicitors for the Applicant", "letter": false},
+ {"id": "t-ws-nmo2", "title": "Witness statement: non-molestation order, sectioned evidence (version 2)", "category": "Witness statements", "body": "Statement of: {{client name}}\n\nStatement No: {{statement number}}\n\nExhibits: {{exhibit references}}\n\nIN THE {{court}}\n\nCASE NO: {{case number}}\n\nIN THE MATTER OF AN APPLICATION UNDER PART IV OF THE FAMILY LAW ACT 1996\n\nBETWEEN\n\n{{client name}} (Applicant)\n\n-and-\n\n{{other party}} (Respondent)\n\n## FIRST WITNESS STATEMENT OF {{client name}}\n\nI, {{client name}}, of {{client address}}, make this statement believing the contents to be true and knowing that it will be placed before the Court as evidence.\n\n## Introduction\n\nThe Respondent, {{other party}}, and I are associated persons within Section 62 of the Family Law Act 1996 because the Respondent is my {{relationship}}. (Amend to state the basis of association: we were married; we are former partners; we were in an intimate personal relationship of significant duration; we lived together; we are parents of the same child.)\n\nI make this statement in support of my application for a Non-Molestation Order without notice to the Respondent.\n\nI fear that if the Respondent were made aware of this application before an Order is granted, they may:\n\n- Attempt to prevent me from proceeding with my application;\n- Harass or intimidate me;\n- Escalate their abusive behaviour;\n- Pressure me into withdrawing my application.\n\nI have suffered {{abuse types}} abuse.\n\nThe most recent incident was as follows. {{most recent incident}}\n\nI therefore seek the urgent protection of the Court.\n\n## Background Information\n\nI was born on {{client date of birth}} and I am {{client age}} years old.\n\nI currently reside at {{client address}}.\n\nI suffer from {{health conditions}}, which have been affected by the Respondent's behaviour. I currently take the following medication: {{medication details}}. (Delete if not applicable.)\n\nThe Respondent was born on {{respondent date of birth}} and is {{respondent age}} years old.\n\nThe Respondent currently resides at: {{respondent address}}\n\nThe Respondent: {{relevant factors about the respondent}}\n\nThe Respondent and I were in a relationship {{relationship dates}}.\n\nWe lived together between {{dates lived together}}.\n\nWe have the following child(ren):\n\n- {{children}}\n\nThe children currently reside with: {{children live with}}\n\n## History of Abuse\n\nI set out below a summary of the abuse I have suffered from the Respondent. I have attempted to include the principal incidents relied upon in support of my application.\n\nOwing to the urgent nature of this application, I reserve the right to provide a further statement should additional information become necessary.\n\n## Controlling and Coercive Behaviour\n\nDuring the relationship, the Respondent became controlling and coercive.\n\nExamples of this behaviour include:\n\n- Monitoring my mobile phone;\n- Checking my social media accounts;\n- Restricting contact with friends and family;\n- Repeatedly questioning my whereabouts;\n- Demanding photographic proof of my location;\n- Accusing me of infidelity without justification;\n- Monitoring my daily activities.\n\nAs a result, I felt isolated, anxious, and unable to live freely.\n\n## Emotional and Psychological Abuse\n\nThroughout the relationship the Respondent subjected me to emotional and psychological abuse.\n\nThe Respondent frequently:\n\n- Insulted me;\n- Belittled me;\n- Humiliated me;\n- Made degrading comments about me;\n- Manipulated me emotionally.\n\nExamples include: \"{{examples of remarks or conduct}}\"\n\nThe Respondent regularly undermined my confidence and self-esteem. His behaviour caused significant emotional distress.\n\n## Harassment\n\nThe Respondent repeatedly contacted me when I had requested no contact.\n\nSuch behaviour included:\n\n- Telephone calls;\n- Text messages;\n- Emails;\n- Social media messages;\n- Contact through third parties;\n- Attendance at my home or workplace.\n\nThe harassment occurred on a {{frequency of harassment}} basis and caused me considerable anxiety.\n\n## Physical Abuse and Intimidation\n\nThe Respondent has subjected me to physical abuse and/or intimidation.\n\nExamples include: {{details of physical assaults or threats}}\n\nDuring these incidents I was frightened and feared for my safety.\n\nAs a result, I: {{police, medical treatment or disclosures}}\n\n## Significant Incidents\n\nOn {{date of incident one}}, the following incident occurred:\n\n{{incident one details}}\n\nOn {{date of incident two}}, the following incident occurred:\n\n{{incident two details}}\n\nOn {{date of incident three}}, the following incident occurred:\n\n{{incident three details}}\n\nI rely upon these incidents to demonstrate the pattern of abuse and the risk posed by the Respondent.\n\n## Police Involvement\n\nOn {{date reported to police}}, I reported the Respondent's conduct to the police.\n\nThe crime reference number provided was: {{police reference}}\n\nThe outcome was: {{police action or advice received}}\n\n## Impact Upon Me\n\nThe Respondent's behaviour has had a profound impact on my wellbeing.\n\nAs a consequence, I have experienced {{effect on the client}}, and/or other emotional effects.\n\nI remain fearful of the Respondent and his behaviour.\n\nI am concerned about what the Respondent may do next if the Court does not intervene.\n\nI wish to live my life free from abuse, harassment and intimidation.\n\n## Special measures\n\nI respectfully request that the following special measures be made available for any Court hearing:\n\n- Screens within the courtroom;\n- Separate waiting areas;\n- Separate entrances and exits where available;\n- Video-link participation where appropriate;\n- Any other special measures the Court considers necessary.\n\n## Without Notice Application\n\nI respectfully request that the Court make a Non-Molestation Order.\n\nI request that the application be determined on a without notice basis pursuant to Section 45 of the Family Law Act 1996.\n\nI believe there is a significant risk of harm if the Respondent becomes aware of this application before an Order is made. In particular:\n\n- The Respondent's behaviour is unpredictable;\n- The Respondent has a history of harassment and intimidation;\n- There is a risk the Respondent will attempt to contact me;\n- There is a risk the Respondent will escalate his behaviour;\n- There is a risk the Respondent will seek to pressure me into withdrawing the application.\n\nI therefore respectfully ask the Court to grant the Non-Molestation Order without notice so that immediate protection can be provided.\n\n## Statement of Truth\n\nI believe that the facts stated in this witness statement are true.\n\nI understand that proceedings for contempt of court may be brought against anyone who makes, or causes to be made, a false statement in a document verified by a statement of truth without an honest belief in its truth.\n\nSigned: ______________________________\n\nName: {{client name}}\n\nDated: ______________________________\n\n## Solicitors' details\n\n{{firm name}}\n\n{{firm address}}\n\nReference: {{our ref}}\n\nSolicitors for the Applicant", "letter": false},
+ {"id": "t-ws-exh", "title": "Exhibit cover sheet", "category": "Witness statements", "body": "Statement of: {{client name}}\n\nStatement No: {{statement number}}\n\nExhibit: {{exhibit reference}}\n\nIN THE {{court}}\n\nCASE NO: {{case number}}\n\nIN THE MATTER OF AN APPLICATION UNDER PART IV OF THE FAMILY LAW ACT 1996\n\nBETWEEN\n\n{{client name}} (Applicant)\n\n-and-\n\n{{other party}} (Respondent)\n\n## EXHIBIT {{exhibit reference}}\n\nDescription of exhibit: {{description of exhibit}}\n\nFor example:\n\n- Screenshots of WhatsApp messages\n- Call logs\n- Emails sent by the Respondent\n- Facebook messages\n- Police incident reports\n- Photographs of injuries\n- Medical records\n\nReference: {{exhibit reference}}\n\nAttached hereto are the documents marked {{exhibit reference}} referred to in the First Witness Statement of {{client name}} dated {{date of statement}}.", "letter": false},
+ {"id": "t-ws-nmooo", "title": "Witness statement: non-molestation and occupation orders", "category": "Witness statements", "body": "IN THE {{court}}\n\nCASE NO: {{case number}}\n\nIN THE MATTER OF THE FAMILY LAW ACT 1996\n\nBETWEEN\n\n{{client name}} (Applicant)\n\n-and-\n\n{{other party}} (Respondent)\n\n## FIRST WITNESS STATEMENT OF {{client name}}\n\nI, {{client name}}, of {{client address}}, make this statement believing the contents to be true and knowing that it will be placed before the Court as evidence.\n\n## Introduction\n\nI make this statement in support of my application for:\n\n- A Non-Molestation Order; and\n- An Occupation Order,\n\nboth sought without notice to the Respondent.\n\nI will refer to the Respondent as {{respondent first name}} throughout this statement.\n\nThe Respondent and I are associated persons within the meaning of Section 62 of the Family Law Act 1996 because the Respondent is my {{relationship}}. (Amend to state the basis: we are married; we were previously married; we are civil partners; we were cohabitants; we were in an intimate personal relationship of significant duration; we have child(ren) together.)\n\nI seek the protection of the Court because I have suffered {{abuse types}} abuse.\n\nThe most recent incident was as follows. {{most recent incident}}\n\nI therefore seek urgent protection by way of both a Non-Molestation Order and an Occupation Order.\n\n## Background Information\n\nI was born on {{client date of birth}} and am {{client age}} years old.\n\nI am employed as: {{client occupation}}\n\nI suffer from: {{health conditions}}\n\nThe Respondent was born on {{respondent date of birth}} and is {{respondent age}} years old.\n\nThe Respondent works as: {{respondent occupation}}\n\nThe Respondent: {{alcohol, drug misuse, mental health issues or criminal history}}\n\nThe Respondent and I were in a relationship {{relationship dates}}.\n\nWe lived together between: {{dates lived together}}\n\nWe have the following child(ren):\n\n- {{children}}\n\nThe children currently reside with: {{children live with}}\n\n## The Family Home\n\nThe property which is the subject of my Occupation Order application is: {{property address}}\n\nThe property is: {{tenancy type}} (Owned jointly; owned solely by me; owned solely by the Respondent; rented jointly; rented solely by me; rented solely by the Respondent. Delete as applicable.)\n\nI currently reside at the property together with: {{children and household members}}\n\nThe Respondent currently resides: {{respondent address}}\n\n## History of Abuse\n\n## Controlling Behaviour\n\nThe Respondent controlled:\n\n- My social life;\n- My family relationships;\n- My movements;\n- My communication;\n- My finances.\n\nExamples include: {{examples of controlling behaviour}}\n\n## Emotional Abuse\n\nThe Respondent regularly:\n\n- Insulted me;\n- Belittled me;\n- Humiliated me;\n- Manipulated me.\n\nExamples include: \"{{relevant quotes}}\"\n\n## Financial Abuse\n\nThe Respondent:\n\n- Failed to contribute financially;\n- Controlled household finances;\n- Pressured me for money;\n- Prevented me from working.\n\nAs a result: {{effect of the financial abuse}}\n\n## Physical Abuse and Intimidation\n\nThe Respondent physically intimidated me by:\n\n- Shouting in my face;\n- Blocking exits;\n- Threatening behaviour;\n- Damaging property;\n- Raising a fist;\n- Throwing objects.\n\nParticular incidents include: {{specific incidents}}\n\n## Significant Assaults\n\nOn {{date of assault one}}:\n\n{{details of assault one}}\n\nOn {{date of assault two}}:\n\n{{details of assault two}}\n\n## Escalation Following Separation\n\nFollowing the breakdown of the relationship: {{harassment, contact, stalking, visits or social media abuse}}\n\nMost recently: {{most recent incident}}\n\n## Current Fears\n\nI fear the Respondent because: {{current fears}}\n\nThe Respondent's behaviour is volatile and unpredictable.\n\nI genuinely fear:\n\n- Further violence;\n- Harassment;\n- Intimidation;\n- Threats;\n- Contact through third parties.\n\nWithout the Court's intervention, I believe I remain at significant risk of harm.\n\n## Special measures\n\nI respectfully request that the following special measures be made available for any Court hearing:\n\n- Screens within the courtroom;\n- Separate waiting areas;\n- Separate entrances and exits where available;\n- Video-link participation where appropriate;\n- Any other special measures the Court considers necessary.\n\n## Occupation Order Application\n\n## Entitlement to Occupy\n\nI am entitled to occupy the property because: {{basis of entitlement to occupy}} (joint tenant, joint owner, home rights or other basis.)\n\nThe Respondent and I fall within Section 33 of the Family Law Act 1996 because: {{relevant category}}\n\n## Balance of Harm Test\n\nI respectfully submit that the balance of harm test favours the making of an Occupation Order.\n\nIf an Occupation Order is not made:\n\n- I will suffer significant harm;\n- The children will suffer significant harm;\n- There is a risk of further abuse.\n\nThat harm outweighs any harm likely to be suffered by the Respondent if excluded.\n\n## Housing Needs\n\nThe property satisfies the needs of myself and the child(ren).\n\nThe property is close to schools, medical services, family support and employment.\n\nThe children are settled in the local area. Relocation would cause disruption to their education, health support and emotional wellbeing.\n\n## Alternative Accommodation\n\nI have no suitable alternative accommodation because: {{why there is no alternative accommodation}}\n\nBy contrast, the Respondent has alternative accommodation available, or can reasonably obtain it. Details: {{respondent's alternative accommodation}}\n\n## Financial Circumstances\n\nMy income is: {{client income}}\n\nMy expenditure includes: {{client expenditure}}\n\nThe Respondent's approximate income is: {{respondent income}}\n\nThe Respondent is better placed than me to secure alternative accommodation.\n\n## Necessity of the Occupation Order\n\nI believe the Occupation Order is necessary because:\n\n- It will protect me;\n- It will protect the children;\n- It will prevent further abuse;\n- It will provide housing stability.\n\nWithout an Occupation Order, the Respondent may seek to return to the property.\n\nI therefore request that the Respondent be excluded from {{property address}} and such exclusion zone as the Court considers appropriate.\n\n## Without Notice Application\n\nI respectfully ask the Court to grant both the Non-Molestation Order and the Occupation Order without notice.\n\nPursuant to Section 45 of the Family Law Act 1996, I believe there is a significant risk of harm if the order is not made immediately.\n\nIf the Respondent becomes aware of this application:\n\n- He/she may become violent;\n- He/she may harass or intimidate me;\n- He/she may seek to prevent me continuing the proceedings;\n- The risk to me and the children may escalate.\n\nThe urgency is increased because: {{reasons for urgency}}\n\nI therefore respectfully request that both Orders be made without notice so that immediate protection can be provided.\n\n## Statement of Truth\n\nI believe that the facts stated in this witness statement are true.\n\nI understand that proceedings for contempt of court may be brought against anyone who makes, or causes to be made, a false statement in a document verified by a statement of truth without an honest belief in its truth.\n\nSigned: ______________________________\n\nName: {{client name}}\n\nDated: ______________________________\n\n## Solicitors' details\n\n{{firm name}}\n\n{{firm address}}\n\nReference: {{our ref}}\n\nSolicitors for the Applicant", "letter": false},
+ {"id": "t-ws-oo", "title": "Witness statement: occupation order only", "category": "Witness statements", "body": "IN THE {{court}}\n\nCASE NO: {{case number}}\n\nIN THE MATTER OF THE FAMILY LAW ACT 1996\n\nBETWEEN\n\n{{client name}} (Applicant)\n\n-and-\n\n{{other party}} (Respondent)\n\n## APPLICANT'S WITNESS STATEMENT IN SUPPORT OF AN OCCUPATION ORDER\n\nI, {{client name}}, of {{client address}}, make this statement believing the contents to be true and knowing that it will be placed before the Court as evidence.\n\n## Introduction\n\nThe Respondent, {{other party}}, and I are associated persons within Section 62 of the Family Law Act 1996 because the Respondent is my {{relationship}}. (Amend to state the basis: we were married; we were civil partners; we were cohabiting; we were in an intimate personal relationship of significant duration; we have child(ren) together.)\n\nI make this statement in support of my application for an Occupation Order.\n\nI seek an Occupation Order because: {{why the respondent should not return to the property}}\n\nThe most recent incident was as follows. {{most recent incident}}\n\nI fear that if the Respondent returns to the family home, there will be a significant adverse impact upon:\n\n- My wellbeing;\n- The wellbeing of the children;\n- The safety and stability of the household.\n\n## Background Information\n\nI was born on {{client date of birth}}.\n\nThe Respondent was born on {{respondent date of birth}}.\n\nThe Respondent and I were in a relationship {{relationship dates}}.\n\nWe have the following child(ren):\n\n- {{children}}\n\nThe children currently reside with me.\n\nThe family home is: {{property address}}\n\nThe property is: {{tenancy type}} (Council property; housing association property; privately rented property; owner occupied. Delete as appropriate.)\n\nThe tenancy or ownership is held: {{who holds the tenancy or ownership}}\n\n## History of Abuse and Difficulties\n\nThe Respondent's behaviour throughout the relationship included {{abuse types}} abuse. (Delete where not applicable: verbal abuse; emotional abuse; coercive and controlling behaviour; intimidation; threats; property damage; physical violence.)\n\nExamples include: {{summary of controlling behaviour}}\n\nThe Respondent frequently: {{examples of intimidation, shouting, threats or control}}\n\nThe Respondent's behaviour negatively affected both myself and the children.\n\nParticular incidents include:\n\n## Incident One\n\nOn {{date of incident one}}:\n\n{{incident one details}}\n\n## Incident Two\n\nOn {{date of incident two}}:\n\n{{incident two details}}\n\n## Most Recent Incident\n\nOn {{date of most recent incident}}:\n\n{{most recent incident details}}\n\nFollowing these events: {{police, social services or other professional involvement}}\n\n## Current Circumstances\n\nThe Respondent no longer resides at the property. The Respondent has lived elsewhere since: {{date the respondent left the property}}\n\nThe Respondent currently resides at: {{respondent address}}\n\nI continue to live at the family home with the children. The current arrangements provide stability and consistency for the household.\n\nThe Respondent has recently: {{intention to return, attempted entry or asserted rights to the property}}\n\nThis has caused me significant anxiety and concern.\n\n## Occupation Order Application\n\n## Entitlement to Occupy\n\nI am entitled to occupy the property because: {{basis of entitlement to occupy}} (joint tenant, home rights, owner or other basis.)\n\nThe Respondent and I are associated persons within Section 33(1)(b)(i) of the Family Law Act 1996.\n\n## Balance of Harm Test\n\nI have suffered harm as a result of the Respondent's conduct as outlined above.\n\nIf an Occupation Order is not granted, I believe I and/or the children will suffer significant harm attributable to the Respondent.\n\nThe anticipated harm includes:\n\n- Emotional harm;\n- Psychological harm;\n- Instability;\n- Fear and anxiety;\n- Potential violence or intimidation.\n\nIn my respectful submission, the harm likely to be suffered by me and the children if the Order is not made significantly outweighs any harm the Respondent would suffer if the Order is granted.\n\n## Housing Needs\n\nThe family home adequately meets the needs of me and the children.\n\nThe property has {{number of bedrooms}} bedrooms.\n\nThe children attend local schools and have established educational and social arrangements.\n\nThe family home is close to schools, GP surgeries, support services, family networks and employment. Remaining in the property ensures continuity and stability.\n\n## Alternative Accommodation\n\nI do not have suitable alternative accommodation available to me.\n\nIf required to leave the property: {{difficulties if required to leave}}\n\nBy contrast, the Respondent: {{has alternative accommodation, can secure alternative housing or already resides elsewhere}}\n\nDetails of alternative accommodation available to the Respondent are: {{respondent's alternative accommodation}}\n\n## Welfare of the Children\n\nThe children have been affected by the Respondent's behaviour.\n\nI am concerned that a return to the family home would negatively impact their emotional wellbeing, sense of security, education and mental health.\n\nTheir best interests require stability.\n\nProfessional involvement has included: {{social services, school, child in need plan, CAFCASS or charities}}\n\nWhere relevant, professionals have indicated that: {{summary of their position}}\n\n## Necessity of the Order\n\nI do not feel safe if the Respondent returns to the property.\n\nThe Respondent has demonstrated behaviour which causes me genuine concern.\n\nThe current arrangements have provided stability and reduced conflict.\n\nThe Respondent's return would likely reintroduce risk and instability.\n\nI therefore respectfully request that the Court exclude the Respondent from the property.\n\n## Without Notice Application\n\nI respectfully ask the Court to make an Occupation Order.\n\nPursuant to Section 45 of the Family Law Act 1996, I ask that the application be considered without notice.\n\nI believe there is a significant risk of harm if the Respondent receives advance notice because: {{reasons for the without notice application}}\n\nI therefore request immediate protection from the Court.\n\n## Statement of Truth\n\nI believe that the facts stated in this witness statement are true.\n\nI understand that proceedings for contempt of court may be brought against anyone who makes, or causes to be made, a false statement in a document verified by a statement of truth without an honest belief in its truth.\n\nSigned: ______________________________\n\nName: {{client name}}\n\nDated: ______________________________\n\n## Solicitors' details\n\n{{firm name}}\n\n{{firm address}}\n\nReference: {{our ref}}\n\nSolicitors for the Applicant", "letter": false},
+ {"id": "t-ws-tt", "title": "Witness statement: transfer of tenancy", "category": "Witness statements", "body": "IN THE {{court}}\n\nCASE NO: {{case number}}\n\nIN THE MATTER OF THE FAMILY LAW ACT 1996\n\nBETWEEN\n\n{{client name}} (Applicant)\n\n-and-\n\n{{other party}} (Respondent)\n\n## FIRST STATEMENT OF THE APPLICANT\n\nI, {{client name}}, of {{client address}}, will say as follows:\n\n## Introduction\n\nI make this statement in support of my application for an order transferring the tenancy of {{property address}} from the joint names of myself and the Respondent into my sole name.\n\nThe Respondent and I are associated persons within the meaning of Section 62 of the Family Law Act 1996 because the Respondent is my {{relationship}}. (Amend to state the basis: we were married; we were civil partners; we cohabited; we were in an intimate relationship of significant duration; we are the parents of a child.)\n\nThe tenancy of the property remains held jointly by myself and the Respondent.\n\n## Background Information\n\nI currently reside at the property known as: {{property address}}\n\nThe property is: {{tenancy type}} (A council tenancy; a housing association tenancy; a private tenancy. Delete as applicable.)\n\nThe tenancy is currently held in the names of: {{tenancy holders}}\n\nThe property consists of: {{number of bedrooms and property type}}\n\nThe Respondent previously resided at the property but no longer lives there.\n\nThe relationship between myself and the Respondent has permanently ended. There is no prospect of reconciliation.\n\n## Children\n\nThe following children reside with me at the property:\n\n- {{children}}\n\nI am responsible for the day-to-day care of the children.\n\nThe children regard the property as their home.\n\nThe property is close to school, medical services, family members and support networks. Remaining in the property provides stability and continuity for the children.\n\n## Previous Family Court Proceedings\n\n(Delete this section if not applicable.)\n\nPrevious proceedings have taken place between myself and the Respondent.\n\nOn {{date of previous application}}, I applied for a Non-Molestation Order and/or an Occupation Order. (Delete as appropriate.)\n\nIn support of that application, I filed a witness statement detailing the history of abuse and relevant incidents. A copy of my previous witness statement is attached and marked \"{{exhibit reference}}\".\n\nOn {{date of previous order}}, the Court granted: {{details of the order}}\n\nA copy of the Order is attached and marked \"{{exhibit reference of the order}}\".\n\nThe Respondent has not resided at the property since: {{date the respondent left the property}}\n\n## Current Circumstances\n\nI continue to reside at the property.\n\nThe Respondent resides at: {{respondent address}}\n\nI am responsible for:\n\n- Rent payments;\n- Utility bills;\n- Household expenses;\n- Childcare arrangements.\n\nThe Respondent no longer contributes towards the day-to-day running of the household.\n\n## Attempts to Resolve Matters\n\nBefore issuing this application, I attempted to resolve matters without Court intervention.\n\nOn {{date of letter to the respondent}}, I wrote to the Respondent requesting consent to transfer the tenancy into my sole name.\n\nThe Respondent was informed that:\n\n- The tenancy could be transferred by agreement;\n- He would be released from future tenancy obligations;\n- Court proceedings would be issued if no response was received.\n\nA copy of this correspondence is attached and marked \"{{exhibit reference of the letter}}\".\n\nThe Respondent failed to respond, refused consent, or failed to engage constructively. (Delete as applicable.)\n\nIt has therefore become necessary to ask the Court to determine the issue.\n\n## Ongoing Difficulties\n\nDespite the end of the relationship, difficulties continue because the tenancy remains in joint names.\n\nThe Respondent has continued to: {{details of issues arising from the joint tenancy}}\n\n(For example: attempting to access the property; asserting rights over the property; interfering with housing arrangements; refusing to cooperate regarding tenancy matters.)\n\nThese matters have caused me stress, anxiety and uncertainty.\n\n## Why the Tenancy Should Be Transferred\n\nThe Respondent has not resided at the property for a substantial period.\n\nI am the person who occupies and maintains the property.\n\nThe children live at the property and regard it as their permanent home.\n\nI have no suitable alternative accommodation available.\n\nRequiring me and the children to move would:\n\n- Disrupt education;\n- Disrupt healthcare arrangements;\n- Remove support networks;\n- Cause emotional distress.\n\nThe Respondent does not require the property to meet his housing needs. The Respondent has: {{alternative accommodation details}}\n\nI respectfully submit that it is fair and reasonable for the tenancy to be transferred into my sole name.\n\nSuch an order would:\n\n- Reflect the reality of the parties' circumstances;\n- Provide security of tenure;\n- Promote stability for the children;\n- Reduce future conflict between the parties.\n\nI therefore respectfully request that the Court transfer the tenancy of {{property address}} into my sole name.\n\nI further ask the Court to remove the Respondent from the tenancy agreement and make any additional directions necessary to give effect to the transfer.\n\n## Relevant Considerations Under Schedule 7 Family Law Act 1996\n\nI respectfully ask the Court to take into account the matters set out in Schedule 7 of the Family Law Act 1996. In particular:\n\n## Housing Needs\n\nMy housing needs and those of the children require us to remain in the property.\n\nThe Respondent has alternative housing available to him.\n\n## Financial Resources\n\nMy income is approximately: {{client income}} per month.\n\nMy primary outgoings include rent, utilities, food, childcare and transport.\n\nThe Respondent's approximate income is: {{respondent income}} per month.\n\nThe Respondent is better placed financially to secure alternative accommodation.\n\n## Wellbeing\n\nRemaining in the property promotes the physical and emotional wellbeing of myself and the children.\n\nRelocating would cause significant disruption and hardship.\n\n## Conduct\n\nThe Court may also consider the history of the parties' relationship and any previous findings or protective orders that have been made.\n\n## Statement of Truth\n\nI believe that the facts stated in this witness statement are true.\n\nI understand that proceedings for contempt of court may be brought against anyone who makes, or causes to be made, a false statement in a document verified by a statement of truth without an honest belief in its truth.\n\nSigned: ______________________________\n\nName: {{client name}}\n\nDated: ______________________________\n\n## Typical exhibits\n\n- TT1: Previous witness statement in support of NMO/OO application\n- TT2: Occupation Order / Non-Molestation Order\n- TT3: Letter requesting consent to transfer tenancy\n- TT4: Tenancy Agreement\n- TT5: Rent Statement\n- TT6: Housing Association / Council correspondence\n- TT7: Evidence of children's schooling and residence\n- TT8: Proof of benefits and income\n\n## Solicitors' details\n\n{{firm name}}\n\n{{firm address}}\n\nReference: {{our ref}}\n\nSolicitors for the Applicant", "letter": false},
+ {"id": "t-ws-supp", "title": "Witness statement: supplemental, transfer of tenancy", "category": "Witness statements", "body": "IN THE {{court}}\n\nCASE NO: {{case number}}\n\nIN THE MATTER OF THE FAMILY LAW ACT 1996\nBETWEEN\n\n{{client name}}\n Applicant\n\n-and-\n\n{{other party}}\n Respondent\n\nSUPPLEMENTAL WITNESS STATEMENT OF THE APPLICANT IN SUPPORT OF A TRANSFER OF TENANCY APPLICATION\n\nI, {{client name}}, of {{client address}}, make this supplemental statement believing the contents to be true and knowing that it will be placed before the Court as evidence. I say as follows:\n\n## Introduction\n\nI make this supplemental statement in support of my application for an order transferring the tenancy of {{property address}} from the joint names of myself and the Respondent into my sole name pursuant to Section 53 and Schedule 7 of the Family Law Act 1996.\n\nThis statement should be read together with my previous witness statement dated {{date}}.\n\nUnless otherwise stated, the contents of my previous statement remain true and are relied upon.\n\nThe purpose of this supplemental statement is to provide the Court with updated information regarding:\n\na. The parties' current circumstances;\n\nb. Housing arrangements;\n\nc. The Respondent's position regarding the tenancy;\n\nd. Any recent incidents or developments;\n\ne. The ongoing need for the tenancy to be transferred into my sole name.\n\n## Update Since Previous Statement\nSince filing my original witness statement, there have been the following developments:\n\n{{summary of developments}}\n\nThe Respondent's current position regarding the tenancy is:\n\n{{details}}\n\nThe landlord's current position is:\n\n{{details}}\n\nTo the best of my knowledge, the Respondent currently resides at:\n\n{{address or unknown}}\n\nThe Respondent has not occupied the property since:\n\n{{date}}\n\nThe Respondent continues to have no day-to-day involvement in relation to:\nThe tenancy;\nRent payments;\nUtility accounts;\nMaintenance of the property;\nCare of the child(ren).\n## Children's Current Circumstances\nThe child(ren) continue to reside with me at:\n\n{{property address}}\n\nThe child(ren) remain settled in the property.\n\nThe child(ren) attend:\n\n{{school / college details}}\n\nThe current arrangements provide stability and continuity.\n\nThe child(ren) continue to benefit from:\n\nEstablished schooling;\nFamily support networks;\nLocal friendships;\nFamiliar community services.\nRelocation would disrupt these arrangements and have a negative impact upon their emotional wellbeing.\n## Current Housing Position\n\nI remain in occupation of the property.\n\nThe property continues to be my only suitable accommodation.\n\nI do not have any realistic alternative housing available to me.\n\nMy current housing circumstances are as follows:\n\n{{details}}\n\nThe property remains suitable for:\nMyself;\nThe child(ren).\nThe property continues to meet our housing needs.\n## Financial Circumstances\nMy current income is approximately:\n\n£{{amount}} per {{week/month}}.\n\nMy current outgoings include:\nRent;\nUtility bills;\nFood;\nChildcare;\nSchool-related expenses;\nTravel costs.\n\nMy financial circumstances would make it difficult to secure alternative accommodation.\n\nTo the best of my knowledge, the Respondent's financial circumstances are:\n\n{{details}}\n\nI believe the Respondent remains in a better position than me to secure alternative accommodation if required.\n## Further Attempts to Resolve Matters\n\nSince filing my original statement, I have made further attempts to resolve the tenancy issue without Court intervention.\n\nIn particular:\n\n{{details of correspondence / proposals / negotiations}}\n\nCopies of any relevant correspondence are exhibited as:\n\n{{exhibit references}}\n\nDespite those efforts:\n\n{{details of respondent's response or lack of response}}\n\nIt has therefore not been possible to resolve this matter by agreement.\n## Continuing Difficulties Caused by Joint Tenancy\n\nThe tenancy remaining in joint names continues to cause practical difficulties.\n\nThese include:\n\na. Ongoing uncertainty regarding long-term housing security;\n\nb. Difficulties in dealing with the landlord;\n\nc. Continued association between myself and the Respondent;\n\nd. Anxiety regarding the Respondent's ability to assert rights over the property.\n\nThe tenancy does not reflect the reality of the parties' circumstances.\n\nThe relationship ended permanently some time ago and there is no prospect of reconciliation.\n\nThe Respondent no longer lives at the property and has not done so for a significant period.\n\n## Additional Relevant Matters\nSince filing my original statement, the following additional matters have arisen:\n\n{{details}}\n\nAny further involvement of:\nChildren's Services;\nHousing Officers;\nSupport Organisations;\nPolice;\nProbation Services;\n\nis as follows:\n\n{{details}}\n\nThese matters further support the need for housing certainty and stability.\n## Why the Transfer Remains Necessary\n\nI continue to respectfully submit that transfer of the tenancy is fair, reasonable and necessary.\n\nThe property remains the only settled home available to me and the child(ren).\n\nThe Respondent no longer occupies the property.\n\nThe Respondent has not done so for a considerable period.\n\nThe child(ren)'s welfare strongly favours maintaining the present living arrangements.\n\nThe transfer would:\n\na. Reflect the practical reality of the parties' circumstances;\n\nb. Provide housing security;\n\nc. Promote stability for the child(ren);\n\nd. Reduce the possibility of future disputes.\n\nRefusing the application would prolong uncertainty and continue to create unnecessary difficulties.\n## Order Sought\nI respectfully ask the Court to order pursuant to Section 53 and Schedule 7 of the Family Law Act 1996 that:\n\na. The Respondent's interest in the tenancy be transferred to me;\n\nb. The tenancy be held solely in my name;\n\nc. The landlord amend its tenancy records accordingly;\n\nd. The Respondent be removed from the tenancy agreement; and\n\ne. Such further directions as may be necessary be made to give effect to the transfer.\n\n## Statement of Truth\n\nI believe that the facts stated in this witness statement are true.\n\nI understand that proceedings for contempt of Court may be brought against anyone who makes, or causes to be made, a false statement in a document verified by a Statement of Truth without an honest belief in its truth.\n\nSigned: _______________________________\n\n{{client name}}\n\nDated: _______________________________\n\n## Solicitors' Details\n\n{{firm name}}\n\nBranch Office: {{firm address}}\n\nReference: {{our ref}}\n\nSolicitors for the Applicant."}
 ];
 (function(){try{var r=localStorage.getItem(TKEY);if(r){var o=JSON.parse(r);if(o&&Array.isArray(o.items)){TPL=o;var seen=o.seen||[];TPL_STARTERS.forEach(function(t){if(seen.indexOf(t.id)<0&&!o.items.some(function(x){return x.id===t.id}))o.items.push(copyJSON(t))});o.seen=TPL_STARTERS.map(function(t){return t.id});saveTpl();return}}}catch(e){}TPL={items:copyJSON(TPL_STARTERS),seen:TPL_STARTERS.map(function(t){return t.id})};saveTpl()})();
 function saveTpl(){try{localStorage.setItem(TKEY,JSON.stringify(TPL))}catch(e){}}
-var TPL_FIELDS=["client name","salutation","client address","client email","our ref","case number","court","other party","matter type","firm name","firm address","firm contact","case worker","case worker title","date","hearing date","next hearing date","hearing type","hearing time","venue","retention","legal aid status","certificate number","legal aid scope","client contribution","costs limit","supervisor","police reference","safe contact"];
+var TPL_FIELDS=["client name","salutation","client address","client email","our ref","case number","court","other party","matter type","firm name","firm address","firm contact","case worker","case worker title","date","hearing date","next hearing date","hearing type","hearing time","venue","retention","legal aid status","certificate number","legal aid scope","client contribution","costs limit","supervisor","police reference","safe contact","office hours","office phone","emergency phone","sra number","sra website","complaints manager","complaints position","complaints link","privacy link","cash limit","sign days"];
 function tplHtml(t,recip){
   var h="";
   if(t.letter){
@@ -2090,6 +2098,19 @@ VIEWFN.templates=function(box){
   var armed=false,tm;ed.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn warn",text:"Delete template",onclick:function(ev){
     var b=ev.target;if(!armed){armed=true;b.textContent="Click again to delete";tm=setTimeout(function(){armed=false;b.textContent="Delete template"},3000);return}
     clearTimeout(tm);TPL.items=TPL.items.filter(function(x){return x!==t});saveTpl();tplSel=null;showView("templates")}})]));
+  var usedK=[];String(t.body||"").replace(/\{\{\s*([^}]+?)\s*\}\}/g,function(m0,k){k=k.toLowerCase().replace(/\s+/g," ").trim();if(TPLMAP[k]&&usedK.indexOf(k)<0)usedK.push(k);return m0});
+  if(usedK.length){
+    var dpn=setSec("Details used by this template",t.category==="Witness statements");wrap.appendChild(dpn.d);
+    dpn.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"These come from the matter and are filled when you read the client's documents. Change them here and the document below updates. Anything not listed shows as a yellow gap that you can type over in the document."}));
+    var seenK={};
+    usedK.forEach(function(k){
+      var key=TPLMAP[k][0];if(seenK[key])return;seenK[key]=1;
+      var big=/Info$|Address$|lastIncident|impactOnClient/.test(key);
+      var inp=mk(big?"textarea":"input",big?{rows:2,id:"tpf_"+key}:{type:"text",id:"tpf_"+key});inp.value=String(S[key]||"");
+      inp.addEventListener("input",function(){S[key]=inp.value;save();prev()});
+      dpn.g.appendChild(fld(TPLMAP[k][1].replace(/^./,function(c){return c.toUpperCase()}),inp,null,true));
+    });
+  }
   var out=setSec("Fill for this matter",true);wrap.appendChild(out.d);
   var rc=mk("textarea",{id:"tp_recip",rows:3});rc.value=tplRecip;rc.addEventListener("input",function(){tplRecip=rc.value;prev()});
   if(t.to){
@@ -2219,7 +2240,7 @@ function extractCare(items){
   out.withoutNotice=/without notice|ex[- ]?parte/i.test(all);
   var r=/\b(?:my|the)\s+(ex[- ]?husband|ex[- ]?wife|former (?:husband|wife|spouse|partner)|ex[- ]?partner|ex[- ]?boyfriend|ex[- ]?girlfriend|husband|wife|boyfriend|girlfriend|partner|brother|sister|mother|father|son|daughter|uncle|aunt|cousin|step[a-z]+|father of my (?:child|children)|children'?s? father|children'?s? mother)\b/i.exec(flat);
   if(r){
-    var w=r[1].toLowerCase(),lived=/lived together|live together|cohabit|our home|shared home|same (?:house|home)|we live/i.test(all);
+    var w=r[1].toLowerCase(),lived=/lived together|live together|cohabit|our home|shared home|home we shared|we shared (?:a|the|our) (?:home|house|flat)|moved in together|same (?:house|home)|we live/i.test(all);
     out.relationship=/^ex[- ]?(husband|wife)|^former (husband|wife|spouse)/.test(w)?REL[1]:/^(husband|wife)$/.test(w)?REL[0]:/father of|children'?s? (father|mother)/.test(w)?REL[7]:/^(ex|former)/.test(w)?(lived?REL[3]:REL[5]):/^(partner|boyfriend|girlfriend)$/.test(w)?(lived?REL[2]:REL[4]):REL[6];
     if(/^(ex|former)/.test(w))out.relationship=lived?REL[3]:REL[5];
   }
@@ -2262,7 +2283,7 @@ function extractCare(items){
   if(ip&&/interpreter|first language/i.test(ip[0]))out.interpreter=ip[0].trim().slice(0,100);
   var sf=/^[ \t]*(?:safe|best|preferred|secure)[^:\n]{0,40}:[ \t]*(.+)$/im.exec(all);
   if(sf)out.safeContact=sf[1].trim().slice(0,140);
-  [["police|crime reference|arrested|caution","Police report or crime reference"],["MARAC","MARAC referral"],["IDVA|independent domestic violence advis","Support from an independent domestic violence adviser (IDVA)"],["injunction|restraining order|protective order","Previous injunction or protective order"],["GP|doctor|hospital|A&E|medical","GP or medical records"],["refuge|women'?s aid|housing officer|housing association|local authority housing","Support from a refuge, domestic abuse service or housing provider"],["social services|children'?s services|section 47|child protection","Involvement of children's services"],["convict|conviction|cautioned","Conviction or caution"]].forEach(function(p){if(new RegExp(p[0],"i").test(all))out.evidence.push(p[1])});
+  [["police|crime reference|arrested|caution","Police report or crime reference"],["MARAC","MARAC referral"],["IDVA|independent domestic violence advis","Support from an independent domestic violence adviser (IDVA)"],["(?:previous|earlier|prior|existing|expired) (?:injunction|restraining order|protective order|non-molestation order)|breach(?:ed)? (?:of )?(?:an? |the )?(?:injunction|order)","Previous injunction or protective order"],["GP|doctor|hospital|A&E|medical","GP or medical records"],["refuge|women'?s aid|housing officer|local authority housing","Support from a refuge, domestic abuse service or housing provider"],["social services|children'?s services|section 47|child protection","Involvement of children's services"],["convict|conviction|cautioned","Conviction or caution"]].forEach(function(p){if(new RegExp(p[0],"i").test(all))out.evidence.push(p[1])});
   var ci=/\b(?:legal aid|LAA)\b/i.test(all);
   var cn=/(?:certificate|case|LAA)\s*(?:no\.?|number|ref(?:erence)?)\s*[:\-]?\s*([0-9]{6,8}\/?[A-Z]?)/i.exec(all);if(cn)out.legalAid.certNo=cn[1];
   if(/emergency (?:certificate|funding|legal aid)[^.\n]{0,40}(?:appl|request|sought|pending|waiting)/i.test(all))out.legalAid.cert=LA_STATUS[2];else if(/emergency (?:certificate|funding|legal aid)/i.test(all))out.legalAid.cert=LA_STATUS[0];else if(/substantive/i.test(all)&&ci)out.legalAid.cert=LA_STATUS[1];
@@ -2359,10 +2380,10 @@ function representationFrom(hs,ns,P){
   hs.forEach(function(h){
     if(!isDate(h.date))return;
     var n=ns.filter(function(x){return x.date===h.date})[0],nt=n?(String(n.present||"")+" "+String(n.summary||"")):"";
-    var counsel=/counsel|barrister/i.test(nt),absent=/client (?:did not attend|was absent|absent|not present)|did not attend/i.test(nt.replace(/respondent[^.]*did not attend/ig,""));
+    var counsel=/counsel|barrister/i.test(nt)||/counsel|barrister/i.test(String(h.appRep||"")),cname=h.appRep&&/counsel|barrister/i.test(h.appRep)?" ("+String(h.appRep).replace(/\s+of counsel\b.*$/i,"").replace(/,?\s*(?:counsel|barrister)\b.*$/i,"")+")":"",absent=/client (?:did not attend|was absent|absent|not present)|did not attend/i.test(nt.replace(/respondent[^.]*did not attend/ig,""));
     var ty=h.type?(/^[A-Z][a-z]/.test(h.type)?h.type.charAt(0).toLowerCase()+h.type.slice(1):h.type):"";
-    var s="On "+fmtDate(h.date,false)+(ty?", the court held the "+ty:", there was a hearing")+(h.court?" at "+h.court:"")+(h.judge?" before "+h.judge:"")+". ";
-    s+=absent?(counsel?"You did not attend, and counsel instructed by us attended on your behalf. ":"You did not attend, and I attended on your behalf. "):(counsel?"Counsel instructed by us represented you at court. ":"I represented you at court. ");
+    var s="On "+fmtDate(h.date,false)+(ty?(/^without notice/i.test(ty)?", the court held a hearing without notice to the other party":", the court held the "+ty):", there was a hearing")+(h.court?" at "+h.court:"")+(h.judge?" before "+h.judge:"")+". ";
+    s+=absent?(counsel?"You did not attend, and counsel instructed by us attended on your behalf. ":"You did not attend, and I attended on your behalf. "):(counsel?"Counsel instructed by us"+cname+" represented you at court. ":"I represented you at court. ");
     if(/without notice|ex[- ]?parte/i.test(nt))s+="We made the application without notice to the other party. ";
     else if(/(?:respondent|other party|he|she)[^.]{0,40}attended with (?:a |their )?(?:solicitor|counsel|barrister)/i.test(nt))s+="The other party attended with legal representation. ";
     else if(/(?:respondent|other party)[^.]{0,30}(?:not present|did not attend|absent)/i.test(nt))s+="The other party did not attend. ";
@@ -2377,6 +2398,7 @@ function representationFrom(hs,ns,P){
     }
     if(decide.length)s+=decide.join(" ")+" ";
     else if(h.summary&&!/^The court held/.test(String(h.summary)))s+=P(String(h.summary))+" ";
+    if(h.rep)s+=h.rep+" ";
     if(h.orders&&h.orders.length)s+="The orders made are set out below. ";
     out.push(s.trim());
   });
@@ -2474,6 +2496,796 @@ function buildCareLA(){
 
 $("btnExampleMatter").insertAdjacentHTML("afterend",'<button class="btn" id="btnExampleLA" type="button">Add legal aid example</button>');
 $("btnExampleLA").addEventListener("click",function(){var m=newMatterObj("Example legal aid matter",Object.assign({},EXAMPLE_LA));m.cur="care";addMatter(m);toast("Legal aid example added.")});
+
+/* ---------- client care letter in the firm's own template (NMO, CAO/PSO, other) ---------- */
+var DEFC={"commit": "We are here to assist you. If you have any questions about your matter or are uncertain about any aspect of it, please contact us. We are committed to providing a professional, efficient and client-focused service. If at any time you feel that we are not meeting this commitment, please let us know.", "conduct": "The supervising solicitor responsible for your case is {{supervisor}}. They have overall responsibility for your matter and for ensuring that appropriate legal services are provided to you.\n\nThey are assisted by {{case worker}}, who will have day-to-day conduct of your matter, supported by other members of our legal and administrative team. They will keep you informed of developments and can be contacted for advice and assistance.\n\nWe endeavour to maintain continuity throughout your case. However, should there be any change in personnel handling your matter, we will notify you promptly and explain the reason.\n\nIf your allocated solicitor or caseworker is unavailable, our administrative staff will take a message and arrange for a colleague to assist in urgent situations. We have procedures in place to ensure continuity of service during staff absences. Any member of the team assisting you will be fully briefed on your matter.\n\nWe normally operate an appointment system. This helps ensure that the appropriate member of staff is available to assist you without unnecessary delay. In order for us to prepare and manage your case effectively, it is important that you provide timely instructions and relevant information when requested.", "purpose": "This letter applies to all legal services we provide to you in connection with this matter. Any work undertaken on your behalf will be governed by the terms contained in this letter.", "safety": "Your safety comes first. If you are in immediate danger, call 999. The National Domestic Abuse Helpline is free and open 24 hours a day on 0808 2000 247. If it is not safe to speak, or if you have been hurt or are in danger, call 999.", "nmo_instr_end": "The abuse and incidents relied upon are detailed within your Family Retainer Form and supporting evidence.\n\nPlease review the above summary carefully and notify us immediately if any information is inaccurate or incomplete. Your instructions form the basis upon which we are able to advise and represent you.", "cao_instr_end": "Please review the above summary and notify us immediately if any information is incorrect or requires amendment. These instructions form the basis upon which we will advise and represent you.\n\nA detailed record of your instructions is contained within the Family Retainer Form and/or any accompanying attendance notes and documents.", "oth_instr_end": "A detailed record of your instructions is contained within the Family Retainer Form and/or any accompanying attendance notes and documents.\n\nPlease review the above and notify us immediately if any information is incorrect or incomplete.", "nmo_adv1": "Based on your instructions, we have advised that it is appropriate for you to seek legal protection through an application for a Non-Molestation Order.\n\nWe advised you that a Non-Molestation Order is made pursuant to Section 42 of the Family Law Act 1996 and is intended to protect an Applicant and any relevant child from harassment, intimidation, abuse, threats or violence.\n\nWe advised that the Court must first determine whether the Respondent qualifies as an associated person under the Family Law Act 1996.", "nmo_adv2": "We advised that the Court will consider:\n\n- The nature of the Respondent's conduct;\n- The effect of that conduct upon you;\n- Any evidence available;\n- Any risk of future harm;\n- The welfare of any child involved.\n\nWe advised that the Court may grant:\n\nWithout Notice (Ex Parte) Application\n\nThis means the application is considered by the Court without notifying the Respondent beforehand. The Court will only do this where there is evidence that:\n\n- There is an immediate risk of significant harm;\n- Delay may place the Applicant at increased risk;\n- The Respondent may seek to prevent the application proceeding if notified.", "nmo_adv3": "We advised that the Court's threshold for granting a Without Notice Order is high and that success cannot be guaranteed.\n\nOn Notice Application\n\nAlternatively, the Court may direct that the Respondent be given notice of the application and an opportunity to respond before any Order is made.", "nmo_adv4": "If an Order is granted, breach of the Order may constitute a criminal offence and may result in arrest and prosecution.\n\nYou have also been advised to read the enclosed guidance leaflet regarding domestic abuse proceedings and Non-Molestation Orders.", "cao_adv": "Based on the information you have provided, we have advised that it is in your interests to obtain legal representation in relation to these proceedings.\n\nGenerally, Child Arrangements Order and Prohibited Steps Order proceedings follow these stages:\n\nSafeguarding Checks\n\nOnce the application has been issued, the Court will notify CAFCASS (Children and Family Court Advisory and Support Service). CAFCASS will normally undertake safeguarding enquiries with:\n\n- The Police;\n- Children's Services; and/or\n- Other relevant agencies.\n\nYou may be contacted directly by CAFCASS to discuss any safeguarding concerns regarding yourself or the child(ren).\n\nFirst Hearing Dispute Resolution Appointment (FHDRA)\n\nThe first hearing is generally the FHDRA. At this hearing the Court will:\n\n- Consider safeguarding information;\n- Explore whether agreement can be reached;\n- Identify the issues in dispute;\n- Determine whether further evidence is required.\n\nThe Court will not ordinarily hear detailed evidence at this stage.\n\nDirections\n\nIf the matter cannot be resolved, the Court is likely to make directions which may include:\n\n- Filing witness statements;\n- Obtaining reports from CAFCASS;\n- Drug or alcohol testing;\n- Fact-finding hearings;\n- Disclosure of documents; or\n- Other assessments.\n\nFinal Hearing\n\nIf agreement cannot be reached, the matter may proceed to a Final Hearing where:\n\n- Evidence is heard;\n- Witnesses may be cross-examined;\n- The Judge determines the issues in dispute; and\n- Final Orders are made.\n\nThe Court's overriding consideration will be the welfare and best interests of the child(ren).", "nmo_scope": "In relation to your instructions, we will:\n\n- Take and review your instructions;\n- Assess available evidence;\n- Prepare Court applications;\n- Prepare witness statements and supporting documentation;\n- Draft proposed Orders;\n- Review all documentation received from the Court or Respondent;\n- Correspond with the Court and other parties;\n- Provide legal advice throughout proceedings;\n- Negotiate where appropriate;\n- Arrange advocacy and representation at Court where required;\n- Explain any Orders made by the Court;\n- Advise upon enforcement, variation and appeal rights where applicable.\n\nIn providing our services, we will:\n\n- Communicate in plain language;\n- Explain each stage of the proceedings;\n- Keep you informed of progress;\n- Advise on risks and prospects of success;\n- Notify you of any relevant developments in law;\n- Respond to your enquiries promptly;\n- Review funding arrangements where applicable; and\n- Process your information in accordance with data protection legislation.\n\nWe ask that you:\n\n- Provide clear and accurate instructions;\n- Respond promptly to requests for information;\n- Provide supporting evidence when requested;\n- Inform us immediately of any further incidents;\n- Notify us of any change in contact details;\n- Attend appointments and hearings when required.", "cao_scope": "In relation to your instructions, we will:\n\n- Obtain and consider your instructions;\n- Review all applications, court papers, statements and orders;\n- Advise you regarding your legal position and options;\n- Prepare applications, responses, witness statements and supporting evidence where required;\n- Correspond with the Court, CAFCASS, the other party, their representatives and other relevant agencies;\n- Explain applicable legislation, Court procedures and Court directions;\n- Prepare you for all hearings;\n- Arrange representation at Court where appropriate;\n- Advise you regarding settlement options;\n- Advise you regarding compliance with Court Orders;\n- Advise you regarding enforcement and variation of any Orders where necessary.\n\nIn providing our services, we will:\n\n- Communicate with you in plain language;\n- Explain the legal work required as your matter progresses;\n- Keep you informed of progress and developments;\n- Advise you where circumstances affect likely outcomes, risks or costs;\n- Respond to your queries promptly; and\n- Process your information in accordance with applicable data protection legislation.\n\nWe ask that you:\n\n- Provide clear and accurate instructions;\n- Keep us informed of relevant developments;\n- Provide requested documentation promptly;\n- Attend appointments and court hearings as required;\n- Notify us of changes to your contact details; and\n- Respond promptly to requests for information.", "oth_scope": "In connection with your matter, our work may include:\n\n- Taking detailed instructions from you;\n- Preparing applications, witness statements, supporting documentation and draft orders;\n- Reviewing all case materials and evidence;\n- Corresponding and negotiating with the other party and relevant agencies;\n- Advising you on relevant legislation, procedures and available options;\n- Arranging representation and attendance at court hearings where appropriate;\n- Instructing barristers or other advocates where necessary;\n- Explaining the effect of any court orders made;\n- Advising on any rights of appeal and the consequences of any breach of court orders.\n\nIn providing our services, we will:\n\n- Communicate with you in plain language;\n- Explain the legal work required as your matter progresses;\n- Keep you informed of progress and developments;\n- Advise you where circumstances affect likely outcomes, risks or costs;\n- Inform you of any known risks that may affect your matter;\n- Notify you of any relevant legal developments;\n- Consider alternative funding arrangements where appropriate;\n- Respond to your queries promptly; and\n- Process your information in accordance with applicable data protection legislation.\n\nWe ask that you:\n\n- Provide clear and accurate instructions;\n- Keep us informed of relevant developments;\n- Provide requested documentation promptly;\n- Attend appointments and court hearings as required;\n- Notify us of changes to your contact details; and\n- Respond promptly to requests for information.", "nmo_us": "We have agreed to represent you and will undertake the following steps:\n\n- Draft the appropriate Court application.\n- Prepare your supporting witness statement.\n- Prepare a draft Non-Molestation Order.\n- File the application and supporting documents with the Family Court.\n- Request a Without Notice Hearing where appropriate and instructed.\n- Correspond with the Court regarding the progress of your case.\n- Arrange service of any Order or application documents in accordance with Court directions.\n- Instruct professional process servers where required.\n- Notify you of hearing dates, directions and developments.\n- Represent you at all hearings and arrange Counsel where appropriate.\n- Advise you regarding compliance, enforcement and any breaches of the Order.", "cao_us": "We have agreed to represent you and shall take the following steps as appropriate:\n\n- Review all available Court documents and previous Orders.\n- Notify the Court and all relevant parties that we act on your behalf.\n- Consider the merits of the application and your position.\n- Advise you on the strength of your case and any evidence required.\n- Communicate with CAFCASS, Children's Services and other agencies where necessary.\n- Prepare and file responses, witness statements, position statements, applications and supporting documentation.\n- Keep you informed of hearing dates, Court directions, filing deadlines and developments in the proceedings.\n- Represent you at hearings and arrange Counsel where appropriate.\n- Provide ongoing advice about strategy, risks and likely outcomes.", "oth_us": "We have agreed to assist you and will take the following steps where appropriate:\n\n- Prepare and file the necessary applications and supporting documents;\n- Lodge any required Notices at Court;\n- Arrange service of documents where required;\n- Inform you of hearing dates and deadlines;\n- Attend hearings and arrange advocacy where necessary; and\n- Keep you informed of all significant developments.", "nmo_you": "You must:\n\n- Inform us immediately of any further incidents involving the Respondent.\n- Preserve all relevant evidence.\n- Inform us of any change in your circumstances.\n- Inform us of any changes to your contact details.\n- Attend all appointments and hearings.\n- Cooperate fully in relation to preparation of witness statements and evidence.", "cao_you": "You should:\n\n- Provide clear and accurate instructions.\n- Immediately inform us of any change in circumstances affecting the child(ren).\n- Provide all relevant documents and evidence promptly.\n- Attend appointments and Court hearings as required.\n- Inform us of any changes to your address, telephone number or email address.\n- Comply with any Court Orders and directions.\n- Continue to update us regarding any relevant incidents or safeguarding concerns.", "oth_you": "You must:\n\n- Notify us of any significant change in your circumstances;\n- Inform us immediately if your contact details change;\n- Provide all requested documentation and evidence promptly; and\n- Maintain contact with us regarding your matter.", "nmo_docs": "To assist us in preparing your matter and any Legal Aid application, please provide:\n\nIdentification and Financial Documents\n\n- Passport, Driving Licence or other photographic ID;\n- Three months' Bank Statements;\n- Three months' Payslips (if applicable);\n- Recent Benefit Award Letters (if applicable).\n\nEvidence Supporting the Application\n\n- Text messages, emails or social media communications from the Respondent;\n- Screenshots of threatening, abusive or harassing communications;\n- Police reports, crime reference numbers or statements;\n- Medical records or GP letters;\n- MARAC documentation (if applicable);\n- Refuge or domestic abuse support organisation letters;\n- Photographs of injuries or property damage;\n- Witness statements or contact details for potential witnesses;\n- Previous Court Orders, including Non-Molestation Orders, Occupation Orders, Child Arrangements Orders and/or Criminal Court Orders.\n\nPlease provide any available evidence as soon as possible to assist with the preparation of your application.", "cao_docs": "To assist us with your case and any Legal Aid assessment, please provide:\n\nIdentity and Financial Documents\n\n- Passport, Driving Licence, or other photographic ID;\n- Three months' Bank Statements;\n- Three months' Payslips (if applicable);\n- Recent benefit award letters (if applicable).\n\nCase Documents\n\n- Copies of all Court papers and Orders;\n- Any CAFCASS correspondence or reports;\n- Any correspondence with the other party;\n- School reports or relevant education records;\n- Social Services correspondence (if applicable);\n- Medical records or reports relating to safeguarding concerns (if applicable);\n- Evidence supporting your case, including text messages, emails, photographs, social media messages, police reports, crime reference numbers and domestic abuse evidence.\n\nGateway Evidence (where Legal Aid is sought)\n\nWhere applicable, please provide any available gateway evidence including:\n\n- Non-Molestation Orders;\n- Occupation Orders;\n- Undertakings;\n- Police evidence;\n- MARAC letters;\n- Refuge or support service letters;\n- GP or healthcare professional letters;\n- Social Services evidence; or\n- CAFCASS safeguarding information.\n\nPlease provide any outstanding documents as soon as possible.", "oth_docs": "To enable us to assess your eligibility for Legal Aid (where applicable), please provide copies of the following:\n\n- Photographic identification (passport, driving licence or equivalent);\n- Three months' bank statements;\n- Three months' wage slips (if applicable);\n- Evidence of benefits received (if applicable);\n- Any documents relevant to your matter;\n- Any available supporting evidence.\n\nPlease provide any outstanding documents as soon as possible.", "progress": "We will keep you informed of developments in your matter and explain the significance of important documents, court directions and decisions. Updates may be provided by:\n\n- Letter;\n- Email;\n- Telephone; or\n- Appointment.\n\nShould responsibility for your matter transfer to another member of staff, we will notify you accordingly.", "standards": "We are contracted with the Legal Aid Agency and are subject to regular reviews and audits designed to maintain professional standards. Access to client files is strictly controlled and remains confidential.", "confid": "We are professionally and legally obliged to keep your affairs confidential. External auditors or assessors may occasionally review files for quality assurance purposes. Such reviews are conducted subject to strict confidentiality obligations.\n\nWe may also be required by law to make disclosures relating to money laundering, terrorist financing or other statutory reporting obligations. In some circumstances, we may be prohibited from informing you that such disclosure has been made.", "hours": "Our normal office hours are: {{office hours}}\n\nOffice telephone: {{office phone}}\n\nEmergency contact number: {{emergency phone}}", "regulation": "{{firm name}} is regulated by the Solicitors Regulation Authority (SRA), number {{sra number}}. Further information can be found at: {{sra website}}", "pii": "We maintain compulsory professional indemnity insurance in accordance with regulatory requirements. Further information about our insurers is available on request.", "lafund": "Legal Aid may be available to clients who satisfy the applicable eligibility requirements. Eligibility is generally determined by:\n\n1. Merits: whether the case satisfies the applicable legal merits criteria; and\n2. Means: whether your financial circumstances qualify.\n\nAdditional evidence requirements may apply depending on the nature of the matter. Where applicable, full details of Legal Aid eligibility, contributions and ongoing obligations will be provided separately.", "private": "If Legal Aid is not available, services may be provided on a private-paying basis.", "complaints": "We are committed to providing a high-quality service. If you have any concerns, please first raise them with the person handling your matter. If the issue remains unresolved, please contact: {{complaints manager}}, {{complaints position}}.\n\nA copy of our Complaints Procedure is available on request, or at {{complaints link}}.", "conflict": "We will not act where there is an actual or significant risk of conflict of interest unless permitted by the applicable professional rules and appropriate safeguards are in place. Should an unforeseen conflict arise during the course of your matter, we will inform you and advise accordingly.", "distance": "Where instructions are provided remotely and relevant consumer legislation applies, you may have cancellation rights. Further information will be provided where applicable.", "finserv": "We are not authorised by the Financial Conduct Authority. However, we may provide limited investment-related services where these are incidental to the legal services we are providing.", "equality": "We are committed to equality, diversity and inclusion in all dealings with clients, staff and third parties. A copy of our Equality and Diversity Policy is available upon request.", "aml": "Our policy is to accept cash payments only up to {{cash limit}}. Additional verification checks may be required where necessary. Any monies returned to clients will ordinarily be paid by bank transfer or cheque.", "dp": "{{firm name}} is registered with the Information Commissioner's Office (ICO). We collect and process personal information for the purpose of providing legal services and complying with legal and regulatory obligations. Information may include:\n\n- Identification details;\n- Contact information;\n- Financial information;\n- Special category personal data where relevant;\n- Information necessary to progress your matter.\n\nFurther details are available in our Privacy Policy: {{privacy link}}\n\nBy instructing us, you consent to the processing of your personal data in accordance with applicable law.", "terminate": "You may terminate your instructions to us at any time by notifying us in writing. We may cease acting where there is a valid reason, including:\n\n- Breakdown in communication;\n- Failure to follow advice essential to your case;\n- Non-payment of fees (where applicable);\n- Abusive or unacceptable behaviour towards staff.\n\nAny outstanding fees and disbursements will remain payable.", "storage": "Upon completion of your matter, your file will be stored in accordance with our retention policy. Files are generally retained for {{retention}} and may then be securely destroyed. You may request copies of documents during the retention period.", "conclusion": "We trust that the terms of this letter are acceptable to you. If any information contained in this letter is incorrect, please contact us immediately.\n\nPlease sign and return a copy of this letter to confirm your instructions. Should we not receive a signed copy within {{sign days}} days, our continued receipt of instructions and your acceptance of legal advice may be treated as acceptance of these terms.\n\nIf you have any questions regarding this letter, please contact us.", "ack": "I confirm that I have read and understood the contents of this Client Care Letter and agree to instruct {{firm name}} on the terms set out above.", "enc_nmo": "- Initial Retainer Form with Your Instructions\n- General Advice on Domestic Abuse Cases\n- Legal Aid Leaflet\n- Service Standards", "enc_cao": "- Initial Retainer Form / Client Instructions\n- Legal Aid Information Leaflet\n- Service Standards Document", "enc_oth": "- Initial Retainer Form / Client Instructions\n- Legal Aid Information Leaflet\n- Service Standards Document"};
+var LABC={"commit": "Our commitment to you", "conduct": "Conduct of your matter", "purpose": "Purpose of this letter", "safety": "Safety paragraph (if ticked)", "nmo_instr_end": "NMO: end of Your instructions", "cao_instr_end": "CAO/PSO: end of Your instructions", "oth_instr_end": "Other: end of Your instructions", "nmo_adv1": "NMO advice: 1 (the order and associated person)", "nmo_adv2": "NMO advice: 2 (what the court considers, without notice)", "nmo_adv3": "NMO advice: 3 (threshold and on notice)", "nmo_adv4": "NMO advice: 4 (breach and leaflet)", "cao_adv": "CAO/PSO advice: stages of proceedings", "nmo_scope": "NMO: scope of our services", "cao_scope": "CAO/PSO: scope of our services", "oth_scope": "Other: scope of our services", "nmo_us": "NMO: action to be taken by us", "cao_us": "CAO/PSO: action to be taken by us", "oth_us": "Other: action to be taken by us", "nmo_you": "NMO: action to be taken by you", "cao_you": "CAO/PSO: action to be taken by you", "oth_you": "Other: action to be taken by you", "nmo_docs": "NMO: documents to provide", "cao_docs": "CAO/PSO: documents to provide", "oth_docs": "Other: documents to provide", "progress": "Progress updates", "standards": "Professional standards", "confid": "Confidentiality and quality assurance", "hours": "Office opening hours", "regulation": "Regulation", "pii": "Professional indemnity insurance", "lafund": "Legal aid funding", "private": "Private funding (introduction)", "complaints": "Complaints procedure", "conflict": "Conflict of interest", "distance": "Distance selling regulations", "finserv": "Financial services", "equality": "Equality and diversity", "aml": "Anti-money laundering requirements", "dp": "Data protection", "terminate": "Terminating instructions", "storage": "Storage of documents", "conclusion": "Conclusion", "ack": "Client acknowledgement", "enc_nmo": "NMO: enclosures", "enc_cao": "CAO/PSO: enclosures", "enc_oth": "Other: enclosures"};
+function WC(k){var v=WOV["cl_"+k];return(v&&v.trim())?v:DEFC[k]}
+function bodyC(k){return bodyOf(WC(k))}
+function bodyOf(t){return stdBodyHtml(t).replace(/<h3>(.*?)<\/h3>/g,"<p><strong>$1</strong></p>")}
+(function(){
+  ["officeHours","officePhone","emergencyPhone","sraWebsite","complaintsPosition","complaintsLink","privacyLink","amlCashLimit","signDays","privateRates"].forEach(function(k){if(FIRM_KEYS.indexOf(k)<0)FIRM_KEYS.push(k);if(!(k in BLANK))BLANK[k]=""});
+  ["relDates","abuseTypes","lastIncident","impactOnClient","extraFacts","wnPosition","meritsText","likelihoodText","appStatus","existingOrderDate","famBackground","clientPosition","welfareConcerns","careInstructions","careBackground","careAdviceText","careEnclosures"].forEach(function(k){if(!(k in BLANK))BLANK[k]=""});
+  BLANK.careLayout="Firm template";BLANK.c_safety=BLANK.c_safety==null?true:BLANK.c_safety;
+})();
+var APP_STATUS=["The other party has applied to the court","You are applying to the court","You are asking to vary an existing order"];
+function famOf(){
+  var t=S.matterType||"";
+  if(/non-molestation|occupation|injunction/i.test(t))return"nmo";
+  if(/child arrangements|prohibited steps|specific issue|section 8|children/i.test(t))return"cao";
+  if(S.o_nmo||S.o_occ)return"nmo";
+  if(S.o_cao||S.o_pso||S.o_sio)return"cao";
+  return"oth";
+}
+function csec(title,html){return"<h3>"+esc(title)+"</h3>"+html}
+function listHtml(arr){return arr.length?"<ul>"+arr.map(function(x){return"<li>"+x+"</li>"}).join("")+"</ul>":""}
+function ordersPhrase(){
+  var a=[];
+  if(S.o_nmo||/non-molestation/i.test(S.matterType||""))a.push("a Non-Molestation Order under Part IV of the Family Law Act 1996");
+  if(S.o_occ||/occupation/i.test(S.matterType||""))a.push("an Occupation Order under the Family Law Act 1996");
+  return a.length?a.join(" and "):gap("orders sought");
+}
+function instrNMO(){
+  var o=has("otherParty")?esc(S.otherParty.trim()):gap("respondent");
+  var h="<p>You have instructed us to represent you in your family matter concerning allegations of domestic abuse perpetrated by "+o+".</p>";
+  if(lines("daEvidence").length)h+="<p>You have provided us with the following supporting information and/or documents:</p>"+ul("daEvidence",false);
+  h+="<p>You have instructed us to assist you in making an application for "+ordersPhrase()+".</p>";
+  var st=[];
+  st.push("You were in a relationship with "+o+" "+(has("relDates")?esc(S.relDates.trim()):gap("between [start] and [end]"))+".");
+  if(has("abuseTypes"))st.push("During the relationship you experienced "+esc(S.abuseTypes.trim())+" abuse.");
+  var li0=has("lastIncident")?S.lastIncident.toLowerCase().replace(/^on [^,]+,\s*/,"").slice(0,40):"";
+  lines("abuseSummary").forEach(function(x){if(li0&&x.toLowerCase().indexOf(li0)>-1)return;st.push(esc(x))});
+  if(!lines("abuseSummary").length)st.push(gap("summary of the allegations"));
+  st.push("You fear that "+o+" may continue to harass, threaten, intimidate or cause harm to you"+(lines("childrenInfo").length?" and/or the children":"")+".");
+  st.push(has("lastIncident")?esc(S.lastIncident.trim())+(/[.!?]$/.test(S.lastIncident.trim())?"":"."):"The most recent incident occurred on "+gap("date and summary of the most recent incident")+".");
+  if(has("impactOnClient"))st.push("As a result you have suffered "+esc(S.impactOnClient.trim())+(/[.!?]$/.test(S.impactOnClient)?"":"."));
+  if(has("policeRef"))st.push("The police crime reference is "+esc(S.policeRef.trim())+".");
+  h+="<p>You state that:</p>"+listHtml(st);
+  if(lines("childrenInfo").length)h+="<p>The children involved are:</p>"+ul("childrenInfo",false)+(has("childLiveWith")?"<p>They live "+esc(S.childLiveWith.trim())+".</p>":"");
+  if(has("urgency"))h+="<p>"+esc(S.urgency.trim())+"</p>";
+  if(lines("extraFacts").length)h+="<p>You further instruct that:</p>"+ul("extraFacts",false);
+  return h+bodyC("nmo_instr_end");
+}
+function instrCAO(){
+  var st=S.appStatus||"",o=has("otherParty")?esc(S.otherParty.trim()):gap("other party");
+  var orders=[];
+  if(S.o_cao)orders.push("A Child Arrangements Order");
+  if(S.o_pso)orders.push("A Prohibited Steps Order");
+  if(S.o_sio)orders.push("A Specific Issue Order");
+  if(!orders.length)orders.push(gap("orders applied for"));
+  if(st===APP_STATUS[2]||has("existingOrderDate"))orders.push("A variation of an existing order dated "+(has("existingOrderDate")?esc(S.existingOrderDate.trim()):gap("date of order")));
+  var h="<p>"+(st===APP_STATUS[1]?"You have instructed us to make an application in relation to the children for:":st===APP_STATUS[0]?"You have told us that "+o+" has made an application in relation to the children for:":st===APP_STATUS[2]?"You have told us that an application has been made, or is to be made, to vary an existing order in relation to the children, for:":"You have instructed us in relation to the children and the following orders ("+gap("who has applied")+"):")+"</p>"+listHtml(orders);
+  if(lines("childrenInfo").length)h+="<p>You have explained that there are ongoing disputes concerning the arrangements for the child(ren), namely:</p>"+ul("childrenInfo",false)+(has("childLiveWith")?"<p>They live "+esc(S.childLiveWith.trim())+".</p>":"");
+  h+="<p>You have informed us that:</p>"+(lines("famBackground").length?ul("famBackground",false):"<p>"+gap("summary of family background")+"</p>");
+  h+="<p>You further instruct that you:</p>"+(lines("clientPosition").length?ul("clientPosition",false):"<p>"+gap("your position on the application")+"</p>");
+  var wc=lines("welfareConcerns").concat(lines("abuseSummary"));
+  if(wc.length)h+="<p>You have raised concerns including, but not limited to:</p>"+listHtml(wc.map(esc));
+  if(has("policeRef"))h+="<p>The police crime reference is "+esc(S.policeRef.trim())+".</p>";
+  return h+bodyC("cao_instr_end");
+}
+function instrOth(){
+  var h="<p>You have instructed us to assist you with:</p>"+(lines("careInstructions").length?paras("careInstructions","summary of instructions"):"<p>"+gap("summary of your instructions")+"</p>");
+  h+="<p>You informed us that:</p>"+(lines("careBackground").length?paras("careBackground","factual background"):"<p>"+gap("summary of the factual background")+"</p>");
+  return h+bodyC("oth_instr_end");
+}
+function adviceNMO(){
+  var h=bodyC("nmo_adv1");
+  h+="<p>Based on your instructions, "+(has("otherParty")?esc(S.otherParty.trim()):"the Respondent")+" qualifies as an associated person because: "+(has("relationship")?esc(S.relationship)+".":gap("relationship category"))+"</p>";
+  h+=bodyC("nmo_adv2");
+  h+="<p>You have instructed that:</p><p>"+(has("wnPosition")?esc(S.wnPosition.trim()):(S.o_nmo_wn?"you wish us to apply without notice.":"you wish us to apply on notice."))+"</p>";
+  h+=bodyC("nmo_adv3");
+  h+="<p>Based upon your instructions and the evidence available at present, we advised that:</p><p>"+(has("meritsText")?esc(S.meritsText.trim()):gap("summary of merits assessment"))+"</p>";
+  h+="<p>Whilst no outcome can be guaranteed, our provisional assessment is that:</p><p>"+(has("likelihoodText")?esc(S.likelihoodText.trim()):gap("likelihood of success as advised"))+"</p>";
+  if(S.o_occ)h+=careAdvice().replace(/<h3>Non-molestation order<\/h3>[\s\S]*?(?=<h3>|$)/,"");
+  return h+bodyC("nmo_adv4");
+}
+function adviceCAO(){
+  var h=bodyC("cao_adv");
+  if(S.o_sio||S.o_pso||S.o_cao)h+=careAdvice();
+  if(S.o_nmo)h+=careAdvice().replace(/<h3>(?!Non-molestation)[\s\S]*?(?=<h3>Non|$)/,"");
+  return h;
+}
+function adviceOth(){
+  var h="";
+  if(lines("careAdviceText").length)h+=paras("careAdviceText","initial advice");
+  var n=careAdvice();if(S.o_nmo||S.o_occ||S.o_cao||S.o_pso||S.o_sio)h+=n;
+  if(!h)h="<p>"+gap("initial advice given to the client")+"</p>";
+  return h;
+}
+function laFundHtml(){
+  var x=buildCareLA(),i=x.indexOf("<h3>How legal aid works for you</h3>");if(i<0)return"";
+  var j=x.indexOf("<h3>",i+10);return x.slice(i+"<h3>How legal aid works for you</h3>".length,j<0?x.length:j);
+}
+function buildCareFirm(){
+  var f=famOf(),h=openLetter(false);
+  h+='<p class="re">Re: Your family matter: '+esc(S.matterType||"")+(has("court")?'<br><span>'+esc(S.court)+(has("caseNumber")?' | Case number '+esc(S.caseNumber):'')+'</span>':'')+'</p>';
+  h+="<p>Thank you for contacting this firm to act on your behalf. This letter explains the service we offer and answers common questions about how we will work with you throughout your matter."+(S.careFunding===FUNDING[1]?" We have a contract with the Legal Aid Agency for Family Law work and have summarised below the key points relating to the conduct of your case and its funding.":"")+"</p>";
+  if(S.c_safety&&f!=="oth")h+="<p><strong>"+esc(WC("safety").split(". ")[0])+".</strong> "+esc(WC("safety").split(". ").slice(1).join(". "))+(has("safeContact")?" I will contact you only in the way you have told us is safe: "+esc(S.safeContact.trim())+".":"")+"</p>";
+  h+=csec("Our commitment to you",bodyC("commit"));
+  h+=csec("Conduct of your matter",bodyC("conduct"));
+  if(has("interpreter"))h+="<p>You have told us that "+esc(S.interpreter.trim())+". I will arrange an interpreter for meetings and for court hearings.</p>";
+  h+=csec("Purpose of this letter",bodyC("purpose"));
+  h+=csec("Your instructions",f==="nmo"?instrNMO():f==="cao"?instrCAO():instrOth());
+  h+=csec("Our initial advice",f==="nmo"?adviceNMO():f==="cao"?adviceCAO():adviceOth());
+  if(S.hearingDate)h+="<p>The next hearing is on "+dateOr("hearingDate","date",true)+(has("hearingTime")?" at "+esc(S.hearingTime):"")+(has("court")?" at "+esc(S.court.trim()):"")+".</p>";
+  if(lines("careServices").length)h+="<p>We have also agreed that we will:</p>"+ul("careServices",false);
+  h+=csec("Our services to you and the scope of our work",bodyC(f+"_scope")+(S.careFunding===FUNDING[1]&&has("laScope")?"<p>Your legal aid certificate covers: "+esc(S.laScope.trim())+". Our work does not include anything your certificate does not cover. If something new comes up, I will tell you whether it can be covered and ask the Legal Aid Agency to extend the certificate where needed.</p>":""));
+  h+=csec("Action to be taken by us",bodyC(f+"_us"));
+  h+=csec("Action to be taken by you",bodyC(f+"_you"));
+  h+=csec("Documents to provide",bodyC(f+"_docs"));
+  h+=csec("Progress updates",bodyC("progress"));
+  h+=csec("Professional standards",bodyC("standards"));
+  h+=csec("Confidentiality and quality assurance",bodyC("confid"));
+  h+=csec("Office opening hours",bodyC("hours"));
+  h+=csec("Regulation",bodyC("regulation"));
+  h+=csec("Professional indemnity insurance",bodyC("pii"));
+  h+=csec("Legal aid funding",bodyC("lafund")+(S.careFunding===FUNDING[1]?laFundHtml():""));
+  var pf="";
+  if(S.careFunding!==FUNDING[1]){pf+="<p>Your matter is privately funded. We will send bills "+esc(S.careBilling)+"."+(has("supervisorRate")?" The supervising solicitor's hourly rate is "+gbp(S.supervisorRate,2)+" plus VAT.":"")+"</p>"}
+  pf+=bodyC("private");
+  pf+=has("privateRates")?"<p>Current charging rates are:</p>"+ul("privateRates",false):"<p>Current charging rates are: "+gap("charging rates")+"</p>";
+  pf+="<p>Where no fixed-fee arrangement is agreed, monies may be requested on account of fees and disbursements.</p>";
+  h+=csec("Private funding",pf);
+  h+=csec("Complaints procedure",bodyC("complaints"));
+  h+=csec("Conflict of interest",bodyC("conflict"));
+  if(S.c_cancel)h+=csec("Distance selling regulations",bodyC("distance"));
+  h+=csec("Financial services",bodyC("finserv"));
+  h+=csec("Equality and diversity",bodyC("equality"));
+  if(S.c_aml)h+=csec("Anti-money laundering requirements",bodyC("aml"));
+  if(S.c_privacy)h+=csec("Data protection",bodyC("dp"));
+  h+=csec("Terminating instructions",bodyC("terminate"));
+  h+=csec("Storage of documents",bodyC("storage"));
+  h+=csec("Conclusion",bodyC("conclusion"));
+  var enc=has("careEnclosures")?lines("careEnclosures"):WC("enc_"+f).split(/\n/).map(function(x){return x.replace(/^[-*•]\s*/,"").trim()}).filter(Boolean);
+  h+=signoff(enc);
+  return h;
+}
+var careConfirm0=careConfirm;
+careConfirm=function(){
+  if(S.careLayout==="Earlier layout")return careConfirm0();
+  return'<div class="clientconf"><h3>Client acknowledgement</h3>'+bodyC("ack")+'<table class="accept"><tr><th>Signed</th><td></td></tr><tr><th>Name</th><td>'+val("clientName","client name")+'</td></tr><tr><th>Date</th><td></td></tr></table></div>';
+};
+BUILD.care=function(){return S.careLayout==="Earlier layout"?buildCare():buildCareFirm()};
+(function(){
+  var ci=SECTIONS.map(function(x){return x.id}).indexOf("lafund");
+  var A=[
+   {id:"carenmo",title:"Care letter facts: NMO and occupation orders",types:["care"],open:false,fields:[
+    {k:"relDates",l:"When the relationship was",hint:"For example: between January 2018 and March 2026."},{k:"abuseTypes",l:"Types of abuse",hint:"For example: physical, emotional, controlling and financial."},
+    {k:"lastIncident",l:"Most recent incident",hint:"A full sentence, for example: On 3 May 2026, he came to your home and shouted threats."},{k:"impactOnClient",l:"Effect on the client",hint:"For example: significant anxiety and fear."},
+    {k:"wnPosition",l:"Client's position on a without notice application"},{k:"meritsText",l:"Merits assessment as advised",t:"textarea",rows:3},{k:"likelihoodText",l:"Likelihood of success as advised",t:"textarea",rows:2},
+    {k:"extraFacts",l:"Any other relevant facts",t:"textarea",rows:3,hint:"One point per line."}]},
+   {id:"carecao",title:"Care letter facts: CAO, PSO and specific issue",types:["care"],open:false,fields:[
+    {k:"appStatus",l:"Who has applied",t:"select",opts:APP_STATUS},{k:"existingOrderDate",l:"Date of existing order (if varying)"},
+    {k:"famBackground",l:"Family background",t:"textarea",rows:4,hint:"One point per line."},{k:"clientPosition",l:"Client's position on the application",t:"textarea",rows:3,hint:"One point per line."},
+    {k:"welfareConcerns",l:"Welfare and safeguarding concerns",t:"textarea",rows:4,hint:"One concern per line, including any risk of removal."}]},
+   {id:"careoth",title:"Care letter facts: other matters",types:["care"],open:false,fields:[
+    {k:"careInstructions",l:"Summary of the client's instructions",t:"textarea",rows:3,hint:"One paragraph per line."},{k:"careBackground",l:"Summary of the factual background",t:"textarea",rows:4,hint:"One paragraph per line."},
+    {k:"careAdviceText",l:"Initial advice given",t:"textarea",rows:5,hint:"One paragraph per line."}]},
+   {id:"careterms",title:"Care letter: firm details used in the standard terms",types:["care"],open:false,fields:[
+    {k:"careLayout",l:"Layout for care and closing letters",t:"select",opts:["Firm template","Earlier layout"],hint:"The firm template follows your own client care letter. The earlier layout is the one used before."},
+    {k:"officeHours",l:"Office opening hours",h:1,hint:"For example: Monday to Friday, 9:00 am to 5:30 pm."},{k:"officePhone",l:"Office telephone",h:1},{k:"emergencyPhone",l:"Emergency contact number",h:1},
+    {k:"sraWebsite",l:"SRA website",h:1},{k:"complaintsPosition",l:"Complaints manager's position",h:1},{k:"complaintsLink",l:"Complaints procedure link",h:1},{k:"privacyLink",l:"Privacy policy link",h:1},
+    {k:"amlCashLimit",l:"Cash payment limit",h:1,hint:"For example: £500."},{k:"signDays",l:"Days to return the signed letter",h:1},
+    {k:"privateRates",l:"Private charging rates",t:"textarea",rows:4,h:1,hint:"One rate per line."},{k:"careEnclosures",l:"Enclosures (leave blank for the standard list)",t:"textarea",rows:3}]}];
+  A.reverse().forEach(function(s){SECTIONS.splice(ci+1,0,s)});
+})();
+function careTextSection(wrap){
+  var d=setSec("Client care letter text",false);wrap.appendChild(d.d);
+  d.g.appendChild(mk("p",{class:"hint",style:"grid-column:1/-1;margin:0",text:"The fixed wording of the client care letter, in your firm's own template. Pick a part, edit it and it applies to every new letter. Write {{firm name}}, {{case worker}}, {{supervisor}}, {{office phone}} and similar merge fields where details should be filled in. Start a line with - for a bullet or 1. for a numbered list. Leave a part unchanged to keep the standard wording."}));
+  var sel=mk("select",{id:"cl_sel","aria-label":"Part of the care letter"});Object.keys(DEFC).forEach(function(k){sel.appendChild(mk("option",{value:k,text:LABC[k]||k}))});
+  var ta=mk("textarea",{rows:12,id:"cl_text","aria-label":"Wording"});
+  function show(){ta.value=WC(sel.value)}
+  sel.addEventListener("change",show);
+  ta.addEventListener("input",function(){var k=sel.value;if(ta.value.trim()===DEFC[k].trim())delete WOV["cl_"+k];else WOV["cl_"+k]=ta.value;saveWov()});
+  d.g.appendChild(fld("Part of the letter",sel,null,true));d.g.appendChild(fld("Wording",ta,null,true));
+  d.g.appendChild(mk("div",{class:"row"},[mk("button",{type:"button",class:"btn",text:"Reset this part",onclick:function(){delete WOV["cl_"+sel.value];saveWov();show()}}),
+    mk("button",{type:"button",class:"btn",text:"Reset all parts",onclick:function(){Object.keys(DEFC).forEach(function(k){delete WOV["cl_"+k]});saveWov();show();toast("All care letter parts reset.")}})]));
+  show();
+}
+
+/* ---------- closing letter in the firm's template, and filling from statements, orders and notes ---------- */
+(function(){
+  var X={"C": {"cl_steps_nmo": "- Obtained and reviewed your instructions;\n- Advised you regarding the applicable law and procedure;\n- Prepared the relevant Court documents;\n- Drafted and filed the application and supporting evidence;\n- Represented you throughout the proceedings as required.", "cl_steps_cao": "- Obtained and reviewed your instructions;\n- Advised you regarding the applicable law, procedure and the court's focus on the welfare of the child(ren);\n- Prepared the relevant Court documents, responses and statements;\n- Corresponded with the Court, CAFCASS and the other party as required;\n- Represented you throughout the proceedings as required.", "cl_steps_oth": "- Obtained and reviewed your instructions;\n- Advised you regarding the applicable law and procedure;\n- Prepared the relevant documents and Court papers;\n- Corresponded with the other party and the Court as required;\n- Represented you throughout the proceedings as required.", "cl_intro": "We now write to formally confirm that your matter has been concluded and our file is being closed.", "cl_end": "As a result, no further work remains to be undertaken and we have therefore closed your file. Should you require legal assistance in the future, please do not hesitate to contact us.", "cl_fin_la": "Your legal costs have been funded by the Legal Aid Agency and there are presently no outstanding fees payable to this firm.", "cl_fin_priv": "If any fees remain payable, a separate invoice has been provided to you.", "cl_storage": "Your file consists of documents which belong to you and documents which form part of our records. In accordance with our file retention policy and professional obligations, your file will be retained for a minimum period of {{retention}} from the date of closure. Thereafter, the file may be confidentially destroyed without further notice.\n\nIf you require copies of any documents contained within your file, please inform us as soon as possible. Please note:\n\n- Archived files are held in storage;\n- Retrieval of archived files may take between 7 and 14 days;\n- Retrieval fees may apply where appropriate.", "cl_origA": "We confirm that all original documents belonging to you have been returned.", "cl_origB": "We confirm that we do not hold any original documents belonging to you and therefore have no documents to return.", "cl_survey": "We are continually seeking to improve the service we provide. As part of our quality assurance process, we may invite you to complete a brief Client Satisfaction Questionnaire regarding your experience with our firm. Any feedback you provide will remain confidential and will be used solely for service improvement purposes. We would be grateful if you would complete and return the questionnaire should you receive one.", "cl_future": "Should you require legal advice or representation in the future, whether in relation to family matters or any other area within our practice, please do not hesitate to contact us.\n\nWe would like to take this opportunity to thank you for instructing {{firm name}} and for the trust you placed in us throughout your matter. We hope that you have been satisfied with the service provided."}, "L": {"cl_steps_nmo": "Closing letter, NMO: what we did", "cl_steps_cao": "Closing letter, CAO/PSO: what we did", "cl_steps_oth": "Closing letter, other: what we did", "cl_intro": "Closing letter: opening confirmation", "cl_end": "Closing letter: end of representation and outcome", "cl_fin_la": "Closing letter: legal aid financial matters", "cl_fin_priv": "Closing letter: private financial matters (ending)", "cl_storage": "Closing letter: storage of documents", "cl_origA": "Closing letter: originals returned", "cl_origB": "Closing letter: no originals held", "cl_survey": "Closing letter: client satisfaction questionnaire", "cl_future": "Closing letter: future assistance"}};Object.keys(X.C).forEach(function(k){DEFC[k]=X.C[k]});Object.keys(X.L).forEach(function(k){LABC[k]=X.L[k]});
+  ["closeReason","closeInstrDate","prevCorrDate"].forEach(function(k){if(!(k in BLANK))BLANK[k]=""});
+  if(!("c_survey" in BLANK))BLANK.c_survey=true;
+  var cs=SECTIONS.filter(function(x){return x.id==="closingfields"})[0];
+  if(cs){cs.fields.unshift({k:"prevCorrDate",l:"Date of our earlier letter about closing",t:"date",hint:"Optional. Leave blank to leave out the reference."});
+    cs.fields.push({k:"closeReason",l:"Why the matter ended, in the client's words",t:"textarea",rows:3,hint:"For example: you told us you no longer wished to continue. Filled from the last attendance note where it can be."},{k:"closeInstrDate",l:"Date of those instructions",t:"date"},{k:"c_survey",l:"Add the client satisfaction questionnaire paragraph",t:"check"})}
+})();
+function fundWord(){return S.careFunding===FUNDING[1]?"Legal Aid":S.careFunding===FUNDING[2]?"a third party":"private funding"}
+function billLine(){
+  var bill=num(S.billAmount),held=num(S.heldOnAccount),t="";
+  if(S.billOption===BILL_OPTS[0]){
+    t="My final bill"+(has("billAmount")?" for "+gbp(S.billAmount,2):"")+" is enclosed. ";
+    if(!isNaN(bill)&&!isNaN(held)){
+      if(held>0)t+="We hold "+gbp(S.heldOnAccount,2)+" on your account, which has been applied towards the bill. ";
+      var diff=bill-held;
+      if(diff>0)t+="This leaves a balance of "+gbp(String(diff.toFixed(2)),2)+" to pay.";
+      else if(diff<0)t+="That leaves "+gbp(String((-diff).toFixed(2)),2)+" which will be refunded to you. Please confirm your bank details.";
+      else t+="The money held on account covers the bill in full, so no balance is outstanding.";
+    }
+  }else if(S.billOption===BILL_OPTS[1])t="No balance is outstanding.";
+  else t="My final bill will follow under separate cover.";
+  return t;
+}
+function buildClosingFirm(){
+  var f=famOf(),h=openLetter(false);
+  h+='<p class="re">Re: Your family matter: '+esc(S.matterType||"")+(has("court")||has("caseNumber")?'<br><span>'+[has("court")?esc(S.court):"",has("caseNumber")?"Case number "+esc(S.caseNumber):""].filter(Boolean).join(" | ")+'</span>':'')+'</p>';
+  h+="<p>"+(has("prevCorrDate")?"We write further to our previous correspondence dated "+dateOr("prevCorrDate","date",false)+", wherein we advised that we would take steps to close your matter. ":"")+bodyC("cl_intro").replace(/^<p>|<\/p>$/g,"")+"</p>";
+  var o=has("otherParty")?esc(S.otherParty.trim()):gap("respondent");
+  var rep="<p>You instructed us to represent you in relation to your "+esc(matterWord())+(f==="nmo"?" against "+o:"")+"."+(f==="nmo"?" "+(has("abuseTypes")?"You informed us that you had experienced "+esc(S.abuseTypes.trim())+" abuse, and you sought protection from the Court.":"You informed us that you had experienced "+gap("summary of the allegations")+", and you sought protection from the Court."):(f==="cao"&&lines("childrenInfo").length?" The children concerned are:":""))+"</p>";
+  if(f==="cao"&&lines("childrenInfo").length)rep+=ul("childrenInfo",false);
+  rep+="<p>Upon receiving your instructions, we:</p>"+bodyC("cl_steps_"+f);
+  if(lines("c_represent").length)rep+="<p>The following steps took place during the proceedings:</p>"+ul("c_represent",false);
+  else rep+="<p>The following steps took place during the proceedings: "+gap("summary of procedural history")+"</p>";
+  if(has("closeReason"))rep+="<p>"+(has("closeInstrDate")?"Following your instructions on "+dateOr("closeInstrDate","date",false)+", you advised us that: ":"You advised us that: ")+esc(S.closeReason.trim())+"</p>";
+  rep+="<p>Accordingly:</p>"+(lines("c_outcome").length?ul("c_outcome",false):"<p>"+gap("outcome of the application")+"</p>");
+  if(lines("finalOrders").length)rep+="<p>The final orders made were:</p>"+ul("finalOrders",false);
+  if(lines("c_meaning").length)rep+="<p><strong>What the orders mean for you</strong></p>"+paras("c_meaning","explanation");
+  rep+=bodyC("cl_end");
+  h+=csec("Representation and outcome",rep);
+  var fin="<p>As advised at the commencement of your matter, your legal costs were funded through: "+esc(fundWord())+".</p>";
+  if(S.careFunding===FUNDING[1])fin+=bodyC("cl_fin_la");
+  else fin+="<p>Following a review of your file, we confirm: "+esc(billLine())+"</p>"+bodyC("cl_fin_priv");
+  h+=csec("Financial matters",fin);
+  h+=csec("Storage of documents",bodyC("cl_storage")+"<p><strong>Original documents</strong></p>"+bodyC(S.originalsReturned?"cl_origA":"cl_origB"));
+  if(S.c_survey)h+=csec("Client satisfaction questionnaire",bodyC("cl_survey"));
+  h+=csec("Future assistance",bodyC("cl_future"));
+  var enc=lines("enclosures");
+  if(!enc.length){enc=[];if(S.c_survey)enc.push("Client Satisfaction Questionnaire");if(lines("finalOrders").length)enc.push("Final Court Order(s)")}
+  h+=signoff(enc);
+  return h;
+}
+(function(){var b0=BUILD.closing;BUILD.closing=function(){return S.careLayout==="Earlier layout"?b0():buildClosingFirm()}})();
+
+/* fill the new fields from uploaded statements, orders and attendance notes */
+var MONRE="(?:January|February|March|April|May|June|July|August|September|October|November|December)";
+function extraCare(o,items){
+  var all=items.map(function(i){return cleanOcr(i.text)}).join("\n"),flat=all.replace(/\r/g,"").replace(/\s+/g," ");
+  var sents=[];all.replace(/\r/g,"").split(/\n/).forEach(function(ln){ln=ln.trim().replace(/^\d{1,3}[.)]\s+/,"");if(!ln||/^(?:signed|dated|statement of truth|i believe that the facts|in the family court|case (?:no|number)|first witness statement|witness statement of)\b/i.test(ln))return;(ln.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[]).forEach(function(x){x=x.trim();if(x)sents.push(x)})});
+  var dp="((?:\\d{1,2}(?:st|nd|rd|th)?\\s+)?"+MONRE+"\\s+\\d{4}|\\b(?:19|20)\\d{2}\\b)";
+  var d1=new RegExp("(?:relationship|together|began dating|started dating|moved in together|got together)[^.]{0,60}?(?:in|from|since|on)\\s+"+dp,"i").exec(flat);
+  var d2=new RegExp("(?:separated|split up|relationship ended|ended the relationship|broke up|moved out|left (?:him|her|the home))[^.]{0,60}?(?:in|on|from)\\s+"+dp,"i").exec(flat);
+  if(d1&&d2)o.relDates="between "+d1[1]+" and "+d2[1];else if(d1)o.relDates="from "+d1[1];
+  var T=[["physical",/\b(hit|punch\w*|slap\w*|kick\w*|strangl\w*|chok\w*|push\w*|shov\w*|assault\w*|injur\w*|bruis\w*)\b/i],["verbal",/\b(shout\w*|scream\w*|swear\w*|insult\w*|name[- ]calling|abusive messages)\b/i],["emotional",/\b(belittl\w*|humiliat\w*|threat\w*|intimidat\w*|frighten\w*|terrif\w*|gaslight\w*)\b/i],["controlling and coercive",/\b(controlling|coerc\w*|isolat\w*|monitor\w*|track\w*|checked my phone|not allowed to)\b/i],["financial",/\b(controlled (?:the )?(?:money|finances)|took my (?:money|wages|card)|financial abuse|bank account)\b/i],["harassing",/\b(harass\w*|stalk\w*|followed me|kept (?:calling|texting|messaging)|turned up at)\b/i]];
+  var ty=T.filter(function(t){return t[1].test(all)}).map(function(t){return t[0]});
+  if(ty.length)o.abuseTypes=ty.length>1?ty.slice(0,-1).join(", ")+" and "+ty[ty.length-1]:ty[0];
+  var kw=/\b(hit|punch\w*|slap\w*|kick\w*|strangl\w*|chok\w*|push\w*|shov\w*|threat\w*|abus\w*|assault\w*|harass\w*|follow\w*|intimidat\w*|shout\w*|scream\w*|attack\w*|smash\w*|violen\w*|turned up|texted|messag\w*)\b/i;
+  var best=null;
+  sents.forEach(function(s){s=s.trim();if(s.length<30||s.length>420||!kw.test(s))return;var ds=allDates(s);if(!ds.length)return;var iso=ds[ds.length-1].iso;if(!best||iso>=best.iso)best={iso:iso,s:s}});
+  if(best)o.lastIncident=("On "+fmtDate(best.iso,false)+", "+toYou(best.s).replace(/^(?:On )?\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4},?\s*/i,"").replace(/^./,function(c){return c.toLowerCase()})).replace(/\s+/g," ").slice(0,300);
+  if(best)o.lastIncidentFp=("On "+fmtDate(best.iso,false)+", "+best.s.replace(/^\s*(?:On\s+)?\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+\s+\d{4},?\s*/i,"").replace(/^./,function(c){return c.toLowerCase()})).replace(/\s+/g," ").slice(0,300);
+  var IM=[["fear",/\b(afraid|frightened|scared|terrified|fear\w*)\b/i],["anxiety",/\b(anxi\w*|panic|on edge)\b/i],["low mood",/\b(depress\w*|low mood|hopeless|tearful|crying)\b/i],["difficulty sleeping",/\b(can'?t sleep|cannot sleep|unable to sleep|nightmares?|insomnia)\b/i],["distress",/\b(distress\w*|traumati[sz]\w*|upset)\b/i]];
+  var im=IM.filter(function(t){return t[1].test(all)}).map(function(t){return t[0]});
+  if(im.length)o.impactOnClient=im.length>1?im.slice(0,-1).join(", ")+" and "+im[im.length-1]:im[0];
+  var kid=/\b(child|children|son|daughter|kids|baby)\b/i,wk=/\b(drink\w*|alcohol|drunk|drugs?|unsafe|neglect\w*|witness\w*|shout\w*|scream\w*|abduct\w*|abroad|passport|remov\w*|refus\w+ to return|not returned|withh\w+|violen\w*|afraid|scared|hit|concern\w*|worr\w*|take (?:the )?(?:children|them|him|her)|for good)\b/i,own=/^\s*(?:I|we)\s+(?:seek|want|would like|wish|am asking|am seeking|ask|need|apply)\b/i;
+  var wc=[];sents.forEach(function(s){s=s.trim();if(s.length>30&&s.length<320&&kid.test(s)&&wk.test(s)&&!own.test(s)&&wc.length<5)wc.push(toYou(s))});
+  if(wc.length)o.welfareConcerns=wc;
+  var fb=[];sents.forEach(function(s){s=s.trim();if(s.length>30&&s.length<320&&/\b(separat\w*|relationship|married|moved out|live with|lives with|living with|live in|lives in|contact|spend time|spends time|handover|since the|tenancy)\b/i.test(s)&&!own.test(s)&&!/^\s*(?:I|we)\s+(?:am|seek)\b.*\b(?:court|order)\b/i.test(s)&&fb.length<4)fb.push(toYou(s))});
+  if(fb.length)o.famBackground=fb;
+  var cp=[],re=/\bI (want|would like|wish|am asking|am seeking|ask|seek|need)\s+([^.!?]{6,200})/gi,m;
+  while((m=re.exec(flat))&&cp.length<4){var v={"am asking":"ask","am seeking":"seek"}[m[1].toLowerCase()]||m[1].toLowerCase();var rest=toYou(m[2]).replace(/\s+/g," ").trim().replace(/^(A|An|The|That|For|To|My|Your)\b/,function(w){return w.toLowerCase()});cp.push(v+" "+rest)}
+  if(cp.length)o.clientPosition=cp;
+  if(/\bI (?:seek|am asking|am applying|apply|ask the court|want the court)\b/i.test(flat))o.appStatus=APP_STATUS[1];
+  else if(/(?:has|have) (?:made|issued|filed) an application|I have been served|I am the respondent|applicant,? [A-Z]/i.test(flat))o.appStatus=APP_STATUS[0];
+  if(!o.orders.length){
+    if(/transfer of (?:the )?tenancy|tenancy (?:transfer|be transferred)|transfer (?:the )?tenancy|tenancy into my/i.test(all))o.otherType="Transfer of tenancy";
+    else if(/financial remedy|form e\b|consent order|matrimonial (?:finances|assets)|pension sharing|clean break/i.test(all))o.otherType="Financial remedy";
+    else if(/\bdivorce|dissolution\b/i.test(all))o.otherType="Divorce";
+  }
+  var ins=[];sents.forEach(function(s){s=s.trim();if(/\bI (?:want|need|am seeking|am asking|would like) /i.test(s)&&s.length<300&&ins.length<2)ins.push(toYou(s))});
+  if(ins.length)o.careInstructions=ins.map(function(x){return x.replace(/\bour\b/gi,"your")});
+  var bg=(o.incidents||[]).slice(0,3);if(!bg.length)bg=fb;if(bg.length)o.careBackground=bg.map(function(x){return x.replace(/\bour\b/gi,"your")});
+}
+var extractRules0=extractRules;
+extractRules=function(items){
+  var d=extractRules0(items);
+  try{
+    var all=items.map(function(i){return String(i.text||"")}).join("\n"),hs=(d&&d.hearings)||[];
+    var wn=/without notice|ex[- ]?parte/i.test(all),first=true;
+    hs.slice().sort(function(a,b){return String(a.date).localeCompare(String(b.date))}).forEach(function(h){
+      if(!/^injunction hearing$/i.test(h.type||""))return;
+      var rd=new RegExp("return date[^.\\n]{0,40}"+(isDate(h.date)?fmtDate(h.date,false).replace(/^0/,""):"@@"),"i");
+      if(rd.test(all)||/return date/i.test(String(h.summary||"")))h.type="Return date hearing";
+      else if(first&&wn)h.type="Without notice hearing";
+      first=false;
+    });
+  }catch(e){}
+  return d;
+};
+var extractCare0=extractCare;
+extractCare=function(items){var keep=items.filter(function(i){var k=kindOf(i.name,i.text);return k!=="Court order"&&k!=="Attendance note"});var o=extractCare0(keep.length?keep:items);items=keep.length?keep:items;try{extraCare(o,items)}catch(e){}return o};
+var applyCare0=applyCare;
+applyCare=function(c,filled){
+  applyCare0(c,filled);if(!c)return;
+  function set(k,v,l){if(v==null||v===""||(Array.isArray(v)&&!v.length))return;S[k]=Array.isArray(v)?v.join("\n"):v;if(filled.indexOf(l)<0)filled.push(l)}
+  if(!(c.orders&&c.orders.length)&&c.otherType)set("matterType",c.otherType,"type of matter");
+  set("relDates",c.relDates,"dates of the relationship");set("abuseTypes",c.abuseTypes,"types of abuse");set("lastIncident",c.lastIncident,"most recent incident");if(c.lastIncident&&c.lastIncidentFp&&S.lastIncident===c.lastIncident){S.lastIncidentFp=c.lastIncidentFp;S.lastIncidentFpFor=c.lastIncident}set("impactOnClient",c.impactOnClient,"effect on the client");
+  set("welfareConcerns",c.welfareConcerns,"welfare concerns");set("famBackground",c.famBackground,"family background");set("clientPosition",c.clientPosition,"client's position");if(c.appStatus)set("appStatus",c.appStatus,"who has applied");
+  set("careInstructions",c.careInstructions,"summary of instructions");set("careBackground",c.careBackground,"factual background");
+};
+function closingExtras(ns,pastH,set){
+  var best=null;
+  ns.forEach(function(n){var t=String(n.instructions||"")+" "+String(n.summary||"");
+    (t.replace(/\s+/g," ").replace(/\b(?:client )?instructions?\s*:\s*/ig,". ").match(/[^.!?]+[.!?]+/g)||[]).forEach(function(s){s=s.trim();
+      if(/\b(client|you)\b[^.]{0,80}\b(instruct\w*|confirm\w*|decid\w*|wish\w*|no longer|withdraw\w*|does not want|do not want|agreed|content to)\b/i.test(s)&&/\b(withdraw\w*|no longer|end|conclud\w*|close|settle\w*|discontinu\w*|not (?:wish|want) to (?:continue|proceed)|undertaking\w*)\b/i.test(s)&&isDate(n.date)&&(!best||n.date>=best.d))best={d:n.date,s:s}})});
+  if(best){var cr=best.s.replace(/^\s*(?:the )?client\s+/i,"").replace(/\b(?:she|he|they)\b/gi,"you").replace(/\byou (wishes|wants|does|has|is)\b/gi,function(m,v){return"you "+({wishes:"wish",wants:"want",does:"do",has:"have",is:"are"})[v.toLowerCase()]}).replace(/\b(no longer|not) (wishes|wants)\b/gi,function(m,x,v){return x+" "+v.toLowerCase().replace(/es$|s$/,"")}).replace(/\band (wishes|wants)\b/gi,function(m,v){return"and "+v.toLowerCase().replace(/es$|s$/,"")});cr=toYou(cr).replace(/\band (?:does not|doesn't) /gi,"and do not ").replace(/\band wants\b/gi,"and want").replace(/\band has\b/gi,"and have");if(!/^you\b/i.test(cr))cr="you "+cr.replace(/^./,function(c){return c.toLowerCase()});set("closeReason",cr,"why the matter ended");set("closeInstrDate",best.d,"date of closing instructions")}
+  var txt=pastH.map(function(h){return(h.orders||[]).join(" ")+" "+(h.summary||"")}).join(" ")+" "+ns.map(function(n){return String(n.summary||"")}).join(" ");
+  if(!S.c_outcome||!String(S.c_outcome).trim()){
+    var oc=[];
+    if(/withdr(?:aw|ew|awn)/i.test(txt))oc.push("The application was withdrawn.");
+    if(/undertaking/i.test(txt))oc.push("The other party gave undertakings to the court in place of an order being made.");
+    if(/dismiss/i.test(txt))oc.push("The application was dismissed.");
+    if(oc.length)set("c_outcome",oc.join("\n"),"outcome");
+  }
+}
+
+var TPLMAP={"client name":["clientName","client name"],"salutation":["salutation","name"],"our ref":["ourRef","reference"],"case number":["caseNumber","case number"],"court":["court","court"],"other party":["otherParty","other party"],"firm name":["firmName","firm name"],"firm address":["firmAddress","firm address"],"firm contact":["firmContact","firm contact"],"case worker":["caseWorker","case worker"],"case worker title":["caseWorkerTitle","job title"],"retention":["retention","storage period"],"client address":["clientAddress","client address"],"client email":["clientEmail","client email"],"matter type":["matterType","matter type"],"hearing type":["hearingType","hearing type"],"hearing time":["hearingTime","hearing time"],"venue":["venue","venue"],"legal aid status":["laStatus","legal aid status"],"certificate number":["laCertNo","certificate number"],"legal aid scope":["laScope","legal aid scope"],"client contribution":["laContribution","client contribution"],"costs limit":["laCostsLimit","costs limit"],"supervisor":["supervisor","supervisor"],"police reference":["policeRef","police reference"],"safe contact":["safeContact","safe contact"],"office hours":["officeHours","office hours"],"office phone":["officePhone","office telephone"],"emergency phone":["emergencyPhone","emergency number"],"sra number":["sraNumber","SRA number"],"sra website":["sraWebsite","SRA website"],"complaints manager":["complaintsContact","complaints manager"],"complaints position":["complaintsPosition","position"],"complaints link":["complaintsLink","complaints link"],"privacy link":["privacyLink","privacy link"],"cash limit":["amlCashLimit","cash limit"],"sign days":["signDays","number of days"]};
+/* ---------- tuning on real order formats (FL404B style) and structured witness statements ---------- */
+(function(){
+  var NAMEBAD=/^(?:first statement|second statement|witness statement|statement of|in the|in support|reference|applicant|respondent|date of birth|n\/a|represented|attended|the applicant|the respondent|and|between|-and-|case|order|parties|people in the case)\b/i;
+  function okName(n){n=String(n||"").trim().replace(/[\s,.;:]+$/,"");return n.length>3&&n.length<60&&/^[A-Za-z][A-Za-z'’\-\. ]+$/.test(n)&&!NAMEBAD.test(n)&&/\s/.test(n)}
+  function nice(n){n=String(n).trim().replace(/\s+/g," ");return/[a-z]/.test(n)?n:titleCase(n)}
+  function partiesIn(t){
+    t=String(t||"").replace(/\r/g,"");var out={Applicant:"",Respondent:""};
+    ["Applicant","Respondent"].forEach(function(role){
+      var m,pats=[
+        new RegExp("\\bThe "+role+" is ([A-Z][A-Za-z'\\u2019\\-\\. ]{3,50}?)(?:,|\\.|\\s+(?:represented|attended|appeared|appearing|acting|in person)\\b)"),
+        new RegExp("^[ \\t]*"+role+"[ \\t]*:[ \\t]*([^\\n:]{4,60})$","m"),
+        new RegExp("^[ \\t]*([A-Za-z][A-Za-z'\\u2019\\-\\. ]{3,50}?)[ \\t]*\\n[ \\t]*\\(?"+role+"\\)?[ \\t]*$","mi"),
+        new RegExp("^[ \\t]*([A-Za-z][A-Za-z'\\u2019\\-\\. ]{3,50}?)[ \\t]*\\("+role+"\\)","mi"),
+        new RegExp("^[ \\t]*"+role+"[ \\t]*\\n+[ \\t]*([^\\n]{4,60})[ \\t]*$","m")
+      ];
+      for(var i=0;i<pats.length&&!out[role];i++){m=pats[i].exec(t);if(m&&okName(m[1]))out[role]=nice(m[1])}
+    });
+    if(!out.Respondent){var u=/The Respondent,\s+([A-Z][A-Za-z'’\-\. ]{3,50}?),\s+(?:gives|undertakes|and I)/.exec(t);if(u&&okName(u[1]))out.Respondent=nice(u[1])}
+    return out;
+  }
+  function courtIn(t){
+    var m=/(?:In the )?Family Court (?:sitting )?at:?\s*([^\n]{3,90})/i.exec(t)||/\bsitting (?:in private )?at:?\s*([^\n]{3,120}?)\s+on\s+\d/i.exec(t);
+    if(!m)return"";var c=m[1].trim().replace(/[.;,\s]+$/,"").replace(/\s+/g," ");
+    c=c.replace(/,\s*\d.*$/,"");
+    c=/[a-z]/.test(c)?c:titleCase(c);
+    return/(Centre|Court|Hearing Centre|Justice Centre)$/i.test(c)?c:"Family Court at "+c;
+  }
+  function dOf(s){var d=allDates(String(s||""));return d.length?fmtDate(d[0].iso,false):""}
+  function plainPhr(s){
+    s=String(s||"").replace(/^[a-z]\.\s+|^\d+\.\s+/i,"").replace(/[;.]+$/,"").trim();
+    s=s.replace(/\bthe Applicant'?s\b/g,"your").replace(/\bthe Applicant,?\s+[A-Z][A-Za-z'\- ]+$/,"you").replace(/\bthe Applicant\b/g,"you").replace(/\bher (movements|home|workplace|address)\b/g,"your $1").replace(/\bhis behalf\b/g,"their behalf").replace(/\bthe Respondent\b/g,"the other party").replace(/\bhis\/her\b/g,"their").replace(/\byou is\b/g,"you are").replace(/\bhe\/she\b/g,"they");
+    s=s.replace(/^He (?:will|shall) not\b/i,"Not to").replace(/^She (?:will|shall) not\b/i,"Not to").replace(/^They (?:will|shall) not\b/i,"Not to");
+    return s.charAt(0).toLowerCase()+s.slice(1);
+  }
+  function orderFacts(t){
+    t=String(t||"").replace(/\r/g,"");var flat=t.replace(/\s+/g," "),L=t.split(/\n/).map(function(x){return x.trim()});
+    var f={und:false,undItems:[],undUntil:"",liberty:false,libertyBy:"",nmo:"",occ:"",tenancy:false,costsLine:"",appRep:"",resRep:"",nmoDismissed:false,nmoWithdrawn:false,occDismissed:false,occWithdrawn:false,occSeparate:false,nmoUntil:"",leaveBy:"",zone:"",keys:false,poa:false,duration:"",property:"",landlord:"",sign:"",concluded:false,nextType:"",nextDate:"",nextTime:"",finalised:false};
+    f.und=/gives the following undertakings|undertakes to the court|Respondent'?s undertaking|undertakings? (?:given|accepted)/i.test(flat);
+    if(f.und){
+      var s0=-1;for(var i=0;i<L.length;i++){if(/^undertakings$|gives the following undertakings|undertakes to the court/i.test(L[i])){s0=i;break}}
+      if(s0>-1)for(var j=s0+1;j<L.length&&f.undItems.length<12;j++){
+        var l=L[j].replace(/^(?:[a-z]\.|\d+\.)\s+/i,"");
+        if(/^(?:These undertakings|The Court explained|IMPORTANT NOTICE|THE COURT ORDERS|Respondent'?s Signature)/i.test(l))break;
+        if(/^(?:Not to|He (?:will|shall) not|She (?:will|shall) not|They (?:will|shall) not)\b/i.test(l)&&l.length<260){
+          if(/:$/.test(l)){var more=[];for(var k=j+1;k<L.length&&more.length<8;k++){var z=L[k];if(!z)continue;if(/^(?:save as|[a-z]\.\s|\d+\.\s|Not to|These undertakings|Child|Contact|Additional)/i.test(z)||z.length>90)break;more.push(z.replace(/[;.,]+$/,"").replace(/^\[.*\]$/,""))}
+            more=more.filter(Boolean);var isAddr=/within|attend/i.test(l);l=l.replace(/:$/,"")+(more.length?(isAddr?" ":" ")+(isAddr?more.join("; "):more.map(function(x){return x.toLowerCase()}).join(", ")):"")}
+          f.undItems.push(l)}
+      }
+      var um=/(?:undertakings shall (?:remain in force|continue)|until)\s*(?:until)?:?\s*\n+\s*([^\n]{5,60})/i.exec(t.slice(t.search(/undertakings/i)));
+      if(um&&allDates(um[1]).length)f.undUntil=dOf(um[1]);else if(/(?:remain in force|continue) until\s*:?\s*(?:\n\s*)?Further Order/i.test(t)||/until further order/i.test(flat))f.undUntil="further order";
+      f.finalised=/matter was finalised today|matter finalised today|proceedings are concluded/i.test(flat);
+    }
+    f.liberty=/adjourned generally with liberty to restore/i.test(flat);
+    var lb=/not restored by\s+([^.\n]{5,40})/i.exec(flat);if(lb)f.libertyBy=dOf(lb[1]);
+    f.nmoWithdrawn=/(?:permission to withdraw|withdraw)[^.]{0,80}non-?molestation|non-?molestation[^.]{0,80}(?:is|was|been|stands) withdrawn/i.test(flat);
+    f.nmoDismissed=/(?:application for a non-?molestation order[^.]{0,60}(?:is|are|was) dismissed|non-?molestation[^.]{0,40}application is dismissed|application is dismissed)/i.test(flat)&&!f.occDismissed;
+    f.occWithdrawn=/(?:permission to withdraw|withdraw)[^.]{0,80}occupation|occupation order (?:application )?(?:shall be|is|was) withdrawn/i.test(flat);
+    f.occDismissed=/(?:application for an occupation order[^.]{0,40}(?:is|was) dismissed|occupation order[^.]{0,40}application is dismissed)/i.test(flat);
+    if(f.occDismissed&&!/non-?molestation[^.]{0,60}dismissed/i.test(flat))f.nmoDismissed=false;
+    f.occSeparate=/occupation order application shall:?\s*(?:continue separately|be adjourned|be determined)/i.test(flat)||/Occupation Order application shall be:?\s*(?:determined separately|adjourned)/i.test(flat);
+    var nu=/non-?molestation order shall (?:continue|remain in force) until\s+([^.\n]{5,60})/i.exec(flat);if(nu&&allDates(nu[1]).length){f.nmoUntil=dOf(nu[1]);f.nmo="final"}
+    if(/interim occupation order/i.test(flat))f.occ="interim";else if(/\bOCCUPATION ORDER\b/.test(t)&&/shall leave the family home|shall not enter|Exclusion from the Family Home/i.test(t))f.occ=/pending the next hearing/i.test(flat)?"interim":"made";
+    var lv=/shall leave the (?:family home|property)\s+by\s+([^.\n]{3,50})/i.exec(flat);if(lv)f.leaveBy=lv[1].trim();
+    var zn=/within (\d+) metres? of/i.exec(flat);if(zn)f.zone=zn[1];
+    f.keys=/return all keys/i.test(flat);f.poa=/power of arrest shall attach/i.test(flat);
+    var dr=/Paragraphs? [^.]{0,30}? shall remain in force\s*([^.]{3,80})\./i.exec(flat);if(dr)f.duration=dr[1].replace(/^[:\s]+/,"").trim();
+    f.tenancy=/transfer(?:red)? (?:of )?(?:the )?(?:Respondent'?s interest in the )?tenancy|Schedule 7|transferring the tenancy/i.test(flat)&&/IT IS ORDERED|THE COURT ORDERS|shall be transferred/i.test(flat);
+    var pr=/tenancy of:?\s*\n+\s*([^\n]{6,120})/i.exec(t)||/tenancy of ([^.\n]{6,100}?)\s*(?:shall|is|\.)/i.exec(flat);if(pr&&/\d/.test(pr[1]))f.property=pr[1].trim();
+    if(!f.property){var fh=/family home is:?\s*\n+\s*([^\n]{6,120})/i.exec(t);if(fh)f.property=fh[1].trim()}
+    var ll=null;L.forEach(function(x){var m=/^([A-Z][A-Za-z'&\- ]{2,50}?) shall amend its tenancy records/.exec(x);if(m&&!ll)ll=m}); ll=ll||/served upon:?\s*([A-Z][A-Za-z'&\- ]{2,50}?)\s+within/i.exec(flat);if(ll)f.landlord=ll[1].trim();
+    var sg=/sign any documents[^.]{0,80}within (\d+) days/i.exec(flat);if(sg)f.sign=sg[1];
+    var ar=/The Applicant is [^,.]+?,?\s+represented by\s+([^.]{3,120})\./i.exec(flat);if(ar)f.appRep=ar[1].replace(/\s+instructed by [^.]*$/i,"").trim();
+    var rr=/The Respondent is [^,.]+?,?\s*(?:who )?(did not attend[^.]{0,80}|has not been given[^.]{0,60}|represented by [^.]{3,100}|attended in person|attended remotely|appearing as a litigant in person|acting in person)/i.exec(flat);if(rr)f.resRep=rr[1].trim();
+    var nh=/listed for (?:a |an )?([^.]{3,60}?) on (\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4})(?: at (\d{1,2}(?:[:.]\d{2})?\s*(?:am|pm)?))?/i.exec(flat);
+    if(nh){f.nextType=hearingTypeOf(nh[1])==="Injunction hearing"&&/return date/i.test(nh[1])?"Return date hearing":(hearingTypeOf(nh[1])||nh[1]);f.nextDate=allDates(nh[2])[0].iso;f.nextTime=nh[3]?firstTime(nh[3]):""}
+    return f;
+  }
+  function untilWords(s){return s?(s==="further order"?"until the court makes a further order":"until "+s):""}
+  var COVERED=/non-?molestation order dated|adjourned generally|restored by|permission to withdraw|(?:is|are|was) dismissed|shall (?:continue|remain in force) until|leave the (?:family home|property)|^upon leaving|shall not enter within|return all keys|change the locks|^paragraphs? [\d ,and to]+ shall remain|power of arrest shall|transferred to the applicant|shall amend its tenancy|sign any documents|proceedings are concluded|^(?:the )?occupation order application shall|^the application shall be listed|^pursuant to section 53|^landlord directions|^(?:the )?respondent shall immediately return|^option [a-c]|delete as appropriate|^(?:the )?applicant shall serve a copy|interim occupation order is made|^these undertakings|^the respondent confirmed|^the court (?:explained|accepted)|^(?:a|b|c|d|e)\.\s/i;
+  function plainOp(s){
+    s=s.replace(/\s+/g," ").trim();
+    if(/^there shall be no order as to costs save (?:for )?detailed assessment/i.test(s))return"There is no order for costs, except that the costs of any publicly funded (legal aid) party can be assessed.";
+    if(/^no order as to costs/i.test(s))return"There is no order for costs.";
+    if(/^costs reserved/i.test(s))return"Costs were reserved, which means the question of costs was left for later.";
+    if(/^costs in the case/i.test(s))return"Costs will be decided as part of the case.";
+    s=s.replace(/\bThe Respondent shall have liberty to apply\b/i,"The other party has liberty to apply").replace(/\bNothing in this Order shall prevent the parties from\b/i,"Nothing in this order stops you and the other party from").replace(/\bThe Court shall\b/g,"The court will").replace(/\bThe Applicant shall have permission to\b/g,"You have permission to").replace(/\bThe Applicant shall\b/g,"You must").replace(/\bThe Respondent shall\b/g,"The other party must").replace(/\bthe Respondent'?s\b/g,"the other party's").replace(/\bthe Respondent\b/gi,"the other party").replace(/\bthe Applicant'?s\b/gi,"your").replace(/\bthe Applicant\b/gi,"you").replace(/\bshall\b/g,"must").replace(/\bwithout further order\b/,"without the need for a further order").replace(/\bforthwith\b/g,"straight away").replace(/\bFor the avoidance of doubt, /,"");
+    s=s.replace(/^./,function(c){return c.toUpperCase()});if(!/[.!?]$/.test(s))s+=".";
+    return s;
+  }
+  var COVERED2=/^(?:until further order of the court,\s*)?(?:the )?(?:respondent|other party)(?:,\s*[A-Z][^,]{2,40},)?\s+(?:shall|must) not|^(?:nothing in this order prevents|any communication (?:concerning|must)|for the avoidance of doubt|having left the family home|the respondent shall return all keys|upon service of this order|this order does not prevent)|^(?:the )?respondent is reminded|^personal service|^a (?:sealed copy|certificate of service)|^service (?:must|shall)|^there shall be no order as to costs|^you must obey|^if you disobey|^the applicant may report|^imprisonment|^a fine|^both\b|^(?:the )?applicant shall serve|^such (?:alternative|other)|^the applicant shall be at liberty|^without notice|^this matter shall be listed|^at the return hearing|^the respondent shall have liberty|^costs reserved|^the respondent shall leave|^by \d|^\d+ willow|^northern community|^within \d|^the other party must not|^(?:the )?respondent shall (?:immediately )?(?:leave|vacate)|^the other party must (?:immediately )?(?:leave|vacate)|sole occupation|^(?:the )?applicant shall have occupation|may collect|stand dismissed upon expiry|^this matter shall be listed for a return hearing|^the tenancy of|amend its (?:tenancy )?records|^a non-molestation order shall be made|^any child arrangements issues|^cafcass|^the court finds|^on \d.{0,30} the respondent|does not find proved|^(?:use or threaten|harass|molest|contact|telephone|text|email|social)|^both orders shall continue|^the occupation order shall remain|^this order shall (?:continue|remain)|^the allegation|^the property\.?$|^such collection/i;
+  function sweep(t,f){
+    if(f&&f.findings&&f.findings.length)t=String(t).replace(/^The Court finds that:[\s\S]*?(?=^Protective Orders)/m,"");
+    var L=String(t).replace(/\r/g,"").split("\n").map(function(x){return x.trim()});
+    var a=-1;for(var i=0;i<L.length;i++){if(/^(?:THE COURT ORDERS|IT IS ORDERED(?: THAT)?)\b/i.test(L[i])){a=i;break}}
+    if(a<0){for(var q=L.length-1;q>=0;q--){if(/^(?:AND )?UPON\b/i.test(L[q])){a=q;break}}}
+    if(a<0){for(var q2=L.length-1;q2>=0;q2--){if(/^(?:Applicant|Respondent)\s*:/i.test(L[q2])||/^Before\b/i.test(L[q2])){a=q2;break}}}
+    if(a<0)return[];
+    var out=[],buf="";
+    function flush(){buf=buf.trim();if(/^(?:Upon leaving|Enter the property|Attempt to enter|Remain at the property|Cause or permit)/i.test(buf))buf="";if(buf){(/:\s*a\.\s/.test(buf)?[buf]:buf.split(/(?<=[.!?])\s+(?=[A-Z])/)).forEach(function(s){s=s.replace(/^(?:\d+\.|\([a-z0-9]+\))\s*/,"").trim();if(s&&!COVERED.test(s)&&!(f&&(f.terms&&f.terms.length||f.occ||f.tenancy||f.findings&&f.findings.length)&&COVERED2.test(s))&&s.length>12&&out.length<8)out.push(plainOp(s))})}buf=""}
+    for(var j=a+1;j<L.length;j++){var l=L[j];
+      if(/^(?:Dated\b|Ordered by|Important Notice|IMPORTANT NOTICE|SCHEDULE TO ORDER|Family Advocacy Scheme|Qualified Legal Representative|FAMILY ADVOCACY|QUALIFIED LEGAL|ADDITIONAL RECITALS|OPTIONAL RECITALS|Further Recitals|Respondent'?s Undertaking)/i.test(l))break;
+      if(!l){var nxl="";for(var jj=j+1;jj<L.length;jj++){if(L[jj]){nxl=L[jj];break}}if(/:\s*$/.test(buf)||/^[a-z]\.\s/.test(nxl)){continue}flush();continue}
+      if(l.length<45&&!/[.;:]$/.test(l)&&!/^\d+\./.test(l)&&!/^[a-z]\.\s/.test(l)){flush();continue}
+      l=l.replace(/^(?:\d+\.|\([a-z0-9]+\))\s*/,"");if(/^(?:\d+\.)?\s*$/.test(l))continue;
+      if(/^[a-z]\.\s/.test(l)||/:$/.test(l)&&/shall not/i.test(l)){buf+=" "+l;continue}
+      flush();buf=l}
+    flush();
+    var seen={};return out.filter(function(s){var k=s.toLowerCase();if(/^(?:enter the property|attempt to enter|remain at the property|cause or permit)/i.test(s)||/;\s*[b-d]\.\s/.test(s))return false;if(seen[k])return false;seen[k]=1;return true});
+  }
+  function outcomeOf(f,t){
+    var o=[];
+    if(f.und){
+      var its=f.undItems.map(plainPhr).filter(Boolean).slice(0,6);
+      o.push("The other party gave undertakings to the court (promises to the court with the same force as an order), without any findings or admissions."+(its.length?" They promised: "+its.join("; ")+".":"")+(f.undUntil?" The undertakings last "+untilWords(f.undUntil)+".":""));
+    }
+    if(f.liberty)o.push("Your application for a non-molestation order was adjourned generally with liberty to restore, which means it is put on hold and you can ask the court to list it again if the undertakings are broken."+(f.libertyBy?" If it is not restored by "+f.libertyBy+", it is dismissed automatically.":""));
+    if(f.nmo==="final")o.push("The court made a non-molestation order"+(f.nmoUntil?" which lasts until "+f.nmoUntil:"")+".");
+    if(f.nmoWithdrawn)o.push("You were given permission to withdraw your application for a non-molestation order"+(f.und||/undertaking/i.test("")?", because the other party gave undertakings":"")+".");
+    if(f.nmoDismissed)o.push("Your application for a non-molestation order was dismissed.");
+    if(f.occ){
+      var b=["The court made "+(f.occ==="interim"?"an interim ":"an ")+"occupation order."];
+      if(f.leaveBy)b.push("The other party must "+(f.leaveProp?"leave "+f.leaveProp:"leave the family home")+(f.leaveBy==="immediately"?" immediately":" by "+f.leaveBy)+" and must not enter, try to enter or stay at the property.");
+      else if(f.noReturn)b.push(f.returnCond?"The other party must not return to the property without "+f.returnCond.replace(/\bthe Respondent\b/g,"the other party")+".":"The other party must not enter, try to enter, occupy or live at the property.");
+      if(f.sole)b.push("You have sole occupation of the property.");
+      if(f.belongings)b.push(f.belongings.replace(/\.$/,"")+".");
+      if(f.zone)b.push("The other party must stay at least "+f.zone+" metres away from the property.");
+      if(f.keys)b.push("The other party must return all keys and you may change the locks.");
+      if(f.poa)b.push("A power of arrest is attached, so the police can arrest the other party if the order is broken.");
+      if(f.duration)b.push("The order stays in force "+f.duration.replace(/^(?:until|pending)\b/i,function(w){return w.toLowerCase()})+".");
+      else if(f.occUntil)b.push("The order lasts until "+f.occUntil+".");
+      if(f.thenDismiss)b.push("Your application will be dismissed when the order ends unless you ask the court to restore it.");
+      if(f.consent)b[0]="By agreement, "+b[0].replace(/^./,function(c){return c.toLowerCase()});
+      o.push(b.join(" "));
+    }
+    if(f.occDismissed)o.push("Your application for an occupation order was dismissed.");
+    if(f.occWithdrawn)o.push("You were given permission to withdraw your application for an occupation order.");
+    if(f.occSeparate&&!f.occ)o.push("Your occupation order application was not decided at this hearing and continues separately.");
+    if(f.tenancy)o.push("The court ordered that the tenancy"+(f.property?" of "+f.property:"")+" is transferred into your sole name."+(f.landlord?" "+f.landlord+" must update its records.":"")+(f.sign?" The other party must sign any documents needed to complete the transfer within "+f.sign+" days.":"")+(f.concluded?"":""));
+    if(t){var sw=sweep(t,f);if(sw.length)o.push("The order also provides: "+sw.join(" "));}
+    if(f.nextDate)o.push("The case was listed again on "+fmtDate(f.nextDate,false)+(f.nextType?" for a "+String(f.nextType).toLowerCase()+".":"."));
+    return o;
+  }
+  function concludes(f){return !!((f.nmo==="final"&&!f.findings.length&&!f.cafcass)||(f.occ==="made"&&f.sole&&!f.cafcass)||f.tenancy||f.nmoWithdrawn||f.nmoDismissed||f.occDismissed||(f.und&&(f.liberty||f.finalised)))}
+  function typeFor(f,t){
+    if(f.directionsOrder)return"Directions hearing";
+    if(f.factFinding)return"Fact-finding hearing";
+    if(f.nmo==="interim")return"Without notice hearing";
+    if(f.tenancy||f.nmo==="final"||(f.occ&&f.occ!=="interim"&&f.sole))return"Final hearing (injunction)";
+    if(/return date/i.test(String(t).slice(0,3000))&&!/listed for[^.]{0,30}return date/i.test(t))return"Return date hearing";
+    return"Injunction hearing";
+  }
+  function matterFor(f,t){
+    if(f.tenancy)return"Transfer of tenancy";
+    var nm=f.und||f.nmo||f.nmoWithdrawn||f.nmoDismissed||/non-?molestation order/i.test(t),oc=!!f.occ;
+    if(oc&&!nm)return"Occupation order";
+    if(oc&&nm&&(f.nmo||f.und))return"Non-molestation and occupation orders";
+    if(nm)return"Non-molestation order";
+    if(/occupation order/i.test(t))return"Occupation order";
+    return"";
+  }
+
+
+  function addFacts(f,t){
+    t=String(t).replace(/\r/g,"");var flat=t.replace(/\s+/g," "),L=t.split("\n").map(function(x){return x.trim()});
+    f.consent=/\bBy Consent\b/.test(t.slice(0,900));
+    f.directionsOrder=/DIRECTIONS ORDER/i.test(t.slice(0,500));
+    var nmoOp=/\bNON-MOLESTATION ORDER\b/.test(t)||/shall not:?\s*(?:a\.\s*)?(?:use or threaten|harass|intimidate|molest)/i.test(flat)||/Non-Molestation Order (?:shall|is) made/i.test(flat)||(/The Respondent shall not (?:use or threaten|intimidate|harass|molest)/i.test(flat)&&!f.und);
+    var interim=/return hearing/i.test(flat)&&/without notice|risk of significant harm if the order is not made immediately|until the return hearing/i.test(flat);
+    if(nmoOp&&!f.und&&!f.nmoWithdrawn&&!f.nmoDismissed&&!f.nmo)f.nmo=interim?"interim":"final";
+    if(f.nmo==="interim")f.withoutNotice=/without notice/i.test(flat);
+    var ds=/(?:this|the|both) orders? (?:shall|will) (?:continue|remain in force) until\s+([^.\n]{5,40})/i.exec(flat);
+    if(ds&&allDates(ds[1]).length&&!f.nmoUntil&&!f.und)f.nmoUntil=dOf(ds[1]);
+    f.terms=[];
+    if(f.nmo&&!f.und){
+      for(var i=0;i<L.length;i++){
+        var l=L[i].replace(/^(?:\d+\.)\s+/,"");
+        var m=/^(?:Until further Order of the Court,\s*)?The Respondent(?:,\s*[A-Z][^,]{2,40},)?\s+shall not\s*:?\s*(.*)$/i.exec(l);
+        if(m&&m[1]&&/^(?:use or threaten|intimidate|harass|pester|molest|contact|attend|publish|encourage|permit|instruct|keep|communicate|interfere|post|distribute)/i.test(m[1])){
+          var tx=m[1].replace(/[.;]+$/,"");
+          if(/:$/.test(tx)||/ by$/.test(tx)){tx=tx.replace(/:$/,"");var more=[];for(var k=i+1;k<L.length&&more.length<8;k++){var z=L[k];if(!z)continue;var zz=/^[a-z]\.\s+(.*)$/i.exec(z);if(!zz)break;more.push(zz[1].replace(/[;.]+$/,"").replace(/[;,]?\s+(?:or|and)\s*$/,"").replace(/^./,function(c){return c.toLowerCase()}))}tx+=" "+more.join(", ")}
+          f.terms.push("Not to "+tx)}
+        else if(m&&!m[1]){
+          for(var k2=i+1;k2<L.length;k2++){var z2=L[k2];if(!z2)continue;var zm=/^[a-z]\.\s+(.*)$/i.exec(z2);if(!zm)break;if(/^(?:Enter|Attempt|Occupy|Reside)/i.test(zm[1]))break;f.terms.push("Not to "+zm[1].replace(/[;.]+$/,"").replace(/^./,function(c){return c.toLowerCase()}))}
+        }
+      }
+      f.terms=f.terms.slice(0,10);
+    }
+    var occOp=/\bOCCUPATION ORDER\b/i.test(t)&&/shall (?:immediately )?(?:leave|vacate)|shall not (?:enter|occupy|return)|sole occupation|shall have occupation/i.test(flat);
+    if(occOp&&!f.occ)f.occ=/pending the next hearing|interim/i.test(flat)?"interim":"made";
+    if(!f.occ&&/shall (?:immediately )?vacate/i.test(flat))f.occ="made";
+    var vc=/shall (?:immediately )?(?:leave|vacate)\s+([^.]*?)(?: by ([^.]{3,50}))?\.(?:\s|$)/i.exec(flat);
+    if(vc&&!f.leaveBy)f.leaveBy=vc[2]?vc[2].trim():"immediately";
+    if(vc&&f.leaveBy&&/\d/.test(vc[1]))f.leaveProp=vc[1].replace(/\s*by .*$/,"").replace(/^the (?:family )?(?:home|property)(?: known as)?:?\s*/i,"").trim();
+    f.sole=/sole occupation|shall have occupation of the property/i.test(flat);
+    var bl=/may collect (?:their |personal )?belongings[^.]*/i.exec(flat);if(bl)f.belongings="The other party may collect "+bl[0].replace(/^may collect (?:their |personal )?/i,"their ").replace(/^their belongings only/i,"their belongings only");
+    f.noReturn=/shall not (?:return|enter or attempt to enter|occupy|reside)/i.test(flat);
+    f.returnCond=(/shall not return to the property without\s+([^.]{5,120})/i.exec(flat)||[])[1]||"";
+    f.thenDismiss=/application shall thereafter stand dismissed upon expiry/i.test(flat);
+    var du=/(?:the occupation order|both orders|this order) shall (?:remain in force|continue) until\s+([^.\n]{5,60})/i.exec(flat);
+    if(du&&allDates(du[1]).length)f.occUntil=dOf(du[1]);
+    if(!f.tenancy&&/tenancy of[^.]{3,120} shall be transferred into the sole name|transferred into the sole name of the Applicant/i.test(flat))f.tenancy=true;
+    if(f.tenancy&&!f.property){var pp=/tenancy of ([^.\n]{6,110}?)\s+shall be transferred/i.exec(flat);if(pp)f.property=pp[1].trim()}
+    if(f.tenancy&&!f.landlord){var ln=null;L.forEach(function(x){var m=/^([A-Z][A-Za-z'&\- ]{2,50}?) shall amend its (?:tenancy )?records/.exec(x);if(m&&!ln)ln=m});if(ln)f.landlord=ln[1].trim()}
+    var rh=/return hearing[^.]{0,90}?(?:after|on)\s+(\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4})/i.exec(flat);
+    if(rh&&!f.nextDate){f.nextDate=allDates(rh[1])[0].iso;f.nextType="Return date hearing"}
+    var rh2=/return hearing on the first available date after ([^.]{3,40}?)(?: with| \.|\.)/i.exec(flat);if(rh2&&!rh)f.returnAfter=rh2[1].trim();
+    f.findings=[];f.notProved=[];
+    var fi=-1;for(var fx=0;fx<L.length;fx++){if(/^The Court finds that:?$/i.test(L[fx])){fi=fx;break}}
+    if(fi>-1){for(var j=fi+1;j<L.length;j++){var mm=/^On (\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4}) the Respondent:?$/i.exec(L[j]);if(mm){var nx=L.slice(j+1).filter(Boolean)[0]||"";f.findings.push("On "+mm[1]+" the other party "+nx.replace(/[.;]+$/,"").replace(/\bthe Applicant'?s\b/gi,"your").replace(/\bthe Applicant\b/gi,"you").replace(/\bat her\b/g,"at you").replace(/\bher (workplace|home|house|work|address|car|family|friends)\b/g,"your $1"))}
+      if(/^The Court does not find proved/i.test(L[j])){var np=L.slice(j+1).filter(Boolean)[0]||"";f.notProved.push(np.replace(/[.;]+$/,""));break}}}
+    if(/Non-Molestation Order shall be made upon the terms attached/i.test(flat)&&!f.nmo)f.nmo="final";
+    var cf=/CAFCASS shall prepare a report by\s*:?\s*([^.\n]{5,40})/i.exec(flat);if(cf)f.cafcass=dOf(cf[1]);
+    f.childListed=/child arrangements issues shall be listed/i.test(flat);
+    f.factFinding=f.findings.length>0;
+    return f;
+  }
+  var orderFacts0=orderFacts;orderFacts=function(t){var f=orderFacts0(t);try{addFacts(f,t)}catch(e){f.err=e.message}return f};
+  var outcomeOf0=outcomeOf;
+  outcomeOf=function(f,t){
+    var o=outcomeOf0(f,t),add=[];
+    try{
+      if(f.findings&&f.findings.length)add.push("The court made findings: "+f.findings.join("; ")+"."+(f.notProved.length?" The court did not find proved: "+f.notProved.join("; ")+".":""));
+      if((f.nmo==="final"||f.nmo==="interim")&&!f.und){
+        var base=o.filter(function(x){return/^The court made a non-molestation order/.test(x)})[0];
+        if(base)o.splice(o.indexOf(base),1);
+        var line=f.nmo==="interim"?"The court made an interim non-molestation order"+(f.withoutNotice?" without notice to the other party":"")+", which lasts until the return hearing or a further order of the court.":"The court made a non-molestation order"+(f.nmoUntil?" which lasts until "+f.nmoUntil:"")+".";
+        if(f.terms.length)line+=" The other party must not: "+f.terms.map(function(x){return plainPhr(x).replace(/^not to /,"")}).join("; ")+".";
+        add.push(line);
+      }
+      if(f.returnAfter)add.push("A return hearing will be listed on the first available date after "+f.returnAfter+", when the court will decide whether the order continues.");
+      if(f.cafcass||f.childListed)add.push(((f.childListed?"Any child arrangements issues will be listed before a District Judge.":"")+(f.cafcass?" Cafcass must prepare a report by "+f.cafcass+".":"")).trim());
+      if(f.consent&&f.tenancy&&o.length)o[0]="By agreement, "+o[0].replace(/^./,function(c){return c.toLowerCase()});
+      o=o.concat(add.filter(Boolean));
+    }catch(e){o.push("(outcome step: "+e.message+")")}
+    return o;
+  };
+  var kindOf0=kindOf;
+  kindOf=function(name,text){
+    var k=kindOf0(name,text);
+    if(isFlOrder(text))return"Court order";
+    if(k==="Other"||k==="Letter"){var h=String(text||"").slice(0,3000);
+      if(/\bFL40\d[a-z]?\b|THE COURT ORDERS|IT IS ORDERED|AND UPON\b|undertakings? to the court/i.test(h)&&/\border\b/i.test(h)&&!/witness statement|make this statement/i.test(h))return"Court order"}
+    return k};
+
+  var extractRules1=extractRules;
+  extractRules=function(items){
+    var d=extractRules1(items);
+    try{
+      var ords=items.filter(function(it){var k=kindOf(it.name,it.text);return k==="Court order"});
+      var all=items.map(function(i){return i.text}).join("\n");
+      var oc0=courtIn(ords.map(function(o){return o.text}).join("\n")||"");if(oc0)d.court=oc0;else if(!d.court){var c=courtIn(all);if(c)d.court=c}
+      if(!d.ourRef){var rf=/Applicant Reference:\s*([A-Za-z0-9][A-Za-z0-9\/\-.]{3,30})/i.exec(all);if(rf&&!/^n\/?a$/i.test(rf[1]))d.ourRef=rf[1]}
+      var pa=partiesIn(ords.length?ords.map(function(o){return o.text}).join("\n"):all);
+      if(pa.Applicant||pa.Respondent){d.parties=[];if(pa.Applicant)d.parties.push({role:"Applicant",name:pa.Applicant});if(pa.Respondent)d.parties.push({role:"Respondent",name:pa.Respondent});
+        d.notes=d.notes.filter(function(n){return!/^Parties found/.test(n)});d.notes.splice(1,0,"Parties found: "+d.parties.map(function(p){return p.role+" "+p.name}).join("; ")+". Choose which one is your client under the document panel.")}
+      var hi=0,facts=[];
+      ords.forEach(function(it){
+        var f=orderFacts(it.text);facts.push(f);
+        var date=(function(){var m=/Ordered on\s+(\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4})/i.exec(it.text)||/(?:^|\n)\s*Dated:?\s*(\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4})/i.exec(it.text);return m?allDates(m[1])[0].iso:""})();
+        var h=null;(d.hearings||[]).forEach(function(x){if(!h&&!x.fromNote&&!x.__used&&(!date||x.date===date))h=x});if(h)h.__used=1;
+        if(!h)return;
+        if(!h.court)h.court=d.court;
+        h.type=typeFor(f,it.text);
+        var oc=outcomeOf(f,it.text);h.outcome=oc.join(" ");h.outcomeCosts=/order for costs|costs were reserved|costs will be decided/i.test(h.outcome);h.appRep=f.appRep;h.facts=f;
+        var bits=[];
+        if(h.type||h.date){var hw=h.type==="Without notice hearing"?"a hearing without notice to the other party":(/^[aeiou]/i.test(h.type)?"an ":"a ")+h.type.replace(/\s*\(.*\)$/,"").toLowerCase();bits.push("The court held "+hw+(isDate(h.date)?" on "+fmtDate(h.date,false):"")+(h.judge?" before "+h.judge:"")+".")}
+        h.summary=(bits.join(" ")+(h.outcome?" "+h.outcome:"")).trim();
+        if(f.resRep||f.appRep)h.rep=(f.resRep?"The other party "+(/^(?:did not|has not)/i.test(f.resRep)?"did not attend the hearing":/^represented/i.test(f.resRep)?"was "+f.resRep:/person/i.test(f.resRep)?"attended in person":/remote/i.test(f.resRep)?"attended remotely":"was "+f.resRep)+".":"");
+        if(f.nextDate&&date&&f.nextDate>date){d.nextHearing={date:f.nextDate,time:f.nextTime||"",type:f.nextType||"Hearing"}}
+        if(concludes(f)){
+          var t1=f.tenancy?"Order transferring the tenancy into your sole name":f.nmo==="final"?"Non-molestation order"+(f.nmoUntil?" until "+f.nmoUntil:""):f.und?"Undertakings given by the other party in place of a non-molestation order"+(f.undUntil&&f.undUntil!=="further order"?" until "+f.undUntil:""):f.nmoWithdrawn?"Application for a non-molestation order withdrawn":f.nmoDismissed||f.occDismissed?"Application dismissed":f.occ?"Occupation order"+(f.occUntil?" until "+f.occUntil:""):"Application dismissed";
+          if(d.finalOrders.indexOf(t1)<0)d.finalOrders.push(t1);if(date&&date>(d.concludedDate||""))d.concludedDate=date;
+        }
+        if(f.occ&&f.occ!=="interim"&&!f.tenancy){var t2="Occupation order"+(f.occUntil?" until "+f.occUntil:"");if(d.finalOrders.indexOf(t2)<0&&d.finalOrders.indexOf("Occupation order")<0&&f.occ==="made")d.finalOrders.push(t2)}
+      });
+      var injTxt=ords.length||/family law act|non-?molestation|occupation order|tenancy|injunction/i.test(all);
+      items.forEach(function(it){if(kindOf(it.name,it.text)!=="Attendance note")return;
+        if(/tenanc|non-?molestation|occupation order|injunction|family law act|undertaking/i.test(it.text)){
+          var ds=allDates(String(it.text).slice(0,600)),nd=ds.length?ds[0].iso:"";
+          (d.attendanceNotes||[]).forEach(function(n){if(n.hearingType==="Final hearing (children)"||n.hearingType==="Directions hearing"&&/tenanc/i.test(it.text))n.hearingType=/tenanc|final/i.test(it.text)?"Final hearing (injunction)":"Injunction hearing"});
+          (d.hearings||[]).forEach(function(h){if(h.fromNote&&h.type==="Final hearing (children)"&&(!nd||h.date===nd))h.type="Final hearing (injunction)";if(h.fromNote&&!h.court&&d.court)h.court=d.court});
+          if(!d.matterType||d.matterType==="Children arrangements")d.matterType=/tenanc/i.test(it.text)?"Transfer of tenancy":"Domestic abuse injunction";
+        }});
+      var mt=ords.length?matterFor(facts[facts.length-1],ords[ords.length-1].text):"";
+      if(ords.length&&facts.some(function(f){return f.tenancy}))mt="Transfer of tenancy";
+      else if(ords.length>1){var tf=facts.some(function(f){return f.nmo==="final"||f.und||f.nmoWithdrawn||f.nmoDismissed}),of=facts.some(function(f){return f.occ});if(tf&&of)mt="Non-molestation and occupation orders"}
+      if(mt)d.matterType=mt;
+      else if(/^Children arrangements$/.test(d.matterType)&&/family law act 1996/i.test(all)&&!/children act 1989|cafcass/i.test(all))d.matterType="Domestic abuse injunction";
+      var lh=(d.hearings||[]).filter(function(h){return h.outcome}).pop();
+      if(lh&&lh.outcome){d.outcomeSummary=lh.outcome}
+    }catch(e){d.notes.push("Order tuning step failed: "+e.message)}
+    return d;
+  };
+
+  var sr0=summariseRules;
+  summariseRules=function(items){
+    var r=sr0(items);
+    try{(r.documents||[]).forEach(function(d){var s=String(d.summary||"");
+      if(/\bCosts: [^.]*\.?$/.test(s)&&/order for costs|costs were reserved|costs will be decided/i.test(s.replace(/\s*Costs: [^.]*\.?$/,"")))s=s.replace(/\s*Costs: [^.]*\.?$/,"");
+      if(/was listed again on/i.test(s)){var m=s.match(/The case was listed again on [^.]*\./g);if(m&&m.length>1)s=s.replace(m[m.length-1],"").replace(/\s+$/,"")}
+      if(/first available date after/i.test(items.map(function(i){return i.text}).join(" "))){s=s.replace(/The case was listed again on (\d{1,2} [A-Za-z]+ \d{4})[^.]*\./,"A return hearing will be listed on the first available date after $1.")}
+      d.summary=s})}catch(e){}
+    return r;
+  };
+  /* statements */
+  function extraCare3(o,items){
+    var raw=items.map(function(i){return String(i.text||"").replace(/\r/g,"")}).join("\n"),flat=raw.replace(/\s+/g," ");
+    var pa=partiesIn(raw);
+    if((!o.clientName||/^(the )?applicant$/i.test(o.clientName))){
+      var nm=/\bI\s*,\s*([A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+){1,3})\s*,\s*of\b/.exec(raw)||/\b[Mm]y name is\s+([A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+){1,3})/.exec(raw);
+      if(nm)o.clientName=nm[1];else if(pa.Applicant)o.clientName=pa.Applicant;
+    }
+    if(!o.otherParty){var rn=pa.Respondent;if(rn&&rn.toLowerCase()!==String(o.clientName||"").toLowerCase())o.otherParty=rn}
+    var ap=/associated persons?[^.]{0,140}?because\s+([^.]{3,200})\./i.exec(flat);
+    if(ap){
+      var c=ap[1],ended=/\b(?:ended|former|ex-|were|separated|no longer)\b/i.test(c);
+      var rel="";
+      if(/\bmarried\b|civil partner/i.test(c))rel=/\bwere\b|former|ended/i.test(c)?REL[1]:REL[0];
+      else if(/cohabit|lived together|live together|living together/i.test(c)&&/\bwere\b|\bformer|\bpreviously\b|\bhad\b/i.test(c)&&!/\bare cohabit/i.test(c))rel=REL[3];
+      else if(/former cohabit|cohabited|lived together|were living together|used to live/i.test(c))rel=REL[3];
+      else if(/cohabit|live together|living together|share the same household|live in the same household/i.test(c))rel=REL[2];
+      else if(/parent of|parents of|child together|same child/i.test(c))rel=REL[7];
+      else if(/relatives?|related|brother|sister|mother|father|uncle|aunt|cousin|grand/i.test(c))rel=REL[6];
+      else if(/intimate personal relationship|engaged|agreed to marry/i.test(c))rel=ended?REL[5]:REL[4];
+      if(rel)o.relationship=rel;
+    }
+    var rows=[],ln=raw.split("\n"),hi=-1;
+    for(var i=0;i<ln.length;i++){if(/^\s*Child\b[^\n]*\b(?:Date of Birth|DOB)\b/i.test(ln[i])){hi=i;break}}
+    if(hi>-1){
+      var glued=ln[hi].replace(/^\s*Child\s+(?:Date of Birth|DOB)(?:\s+Age)?\s*/i,"");if(glued&&/\d{4}/.test(glued)){var gm=/^\s*(.+?)[\t ]+(\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4}|\d{1,2}[\/.\-]\d{1,2}[\/.\-]\d{4})/.exec(glued);if(gm){var gd=allDates(gm[2]);rows.push(gm[1].trim()+(gd.length?", aged "+ageFrom(gd[0].iso):""))}}
+      for(var j=hi+1;j<ln.length&&ln[j].trim();j++){
+        var m=/^\s*(.+?)[\t ]+(\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4}|\d{1,2}[\/.\-]\d{1,2}[\/.\-]\d{4})/.exec(ln[j]);
+        if(m){var dd=allDates(m[2]);rows.push(m[1].trim()+(dd.length?", aged "+ageFrom(dd[0].iso):""))}
+      }
+    }
+    if(rows.length)o.children=rows;
+    else if(/\bwe have no children\b|\bno children\b/i.test(flat)&&!o.children.some(function(x){return/aged/.test(x)}))o.children=[];
+    else o.children=o.children.filter(function(x){return!/^(Child|There)\b/.test(x)});
+    var rd=null,ds="(\\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \\d{4}|[A-Z][a-z]+ \\d{4})";
+    var m1=new RegExp("relationship[^.]{0,80}?(?:began|started|commenced)\\s+(?:on\\s+)?"+ds+"\\s+and\\s+(?:ended|finished|came to an end|broke down)\\s+(?:on\\s+)?"+ds,"i").exec(flat)||new RegExp("relationship\\s+between\\s+"+ds+"\\s+and\\s+"+ds,"i").exec(flat)||new RegExp("(?:in a|were in a|had a) relationship[^.]{0,20}?between\\s+"+ds+"\\s+and\\s+"+ds,"i").exec(flat);
+    if(m1)o.relDates="between "+(allDates(m1[1]).length?fmtDate(allDates(m1[1])[0].iso,false):m1[1])+" and "+(allDates(m1[2]).length?fmtDate(allDates(m1[2])[0].iso,false):m1[2]);
+    var li=null;
+    var lm=/\bMost recently,?\s+on\s+(\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4}),?\s+([^.\n]{10,260}\.)/i.exec(flat);
+    if(lm)li={d:lm[1],s:lm[2]};
+    if(!li){
+      var mi=ln.findIndex(function(x){return/^\s*Most Recent Incident:?\s*$/i.test(x)});
+      if(mi>-1){var rest=ln.slice(mi+1).join(" ").replace(/\s+/g," ").trim();var m3=/^On\s+(\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4}):?\s+(.{10,300}?\.)/.exec(rest);if(m3)li={d:m3[1],s:m3[2]}}
+    }
+    if(li){
+      var sentence=li.s.replace(/^[A-Z]/,function(c){return/^The /.test(li.s)?c:c});
+      var fp="On "+li.d+", "+sentence.replace(/^(?:the )?/,function(x){return x}).replace(/^./,function(c){return c});
+      fp=fp.replace(/^On (.+?), the /,"On $1, the ");
+      o.lastIncidentFp=fp;o.lastIncident=toYou(fp)
+    }
+    // property
+    if(!o.propertyAddress||!/\d/.test(o.propertyAddress)){
+      for(var k=0;k<ln.length-1;k++){
+        if(/:\s*$/.test(ln[k])&&/\b(?:property|family home|home|flat|house|tenancy|application)\b/i.test(ln[k])&&/\b(?:is|as|at|of)\s*:\s*$/i.test(ln[k])){
+          var nx=ln.slice(k+1).filter(function(x){return x.trim()})[0]||"";
+          if(/\d/.test(nx)&&nx.length<130){o.propertyAddress=nx.trim();break}
+        }
+      }
+    }
+    if(!o.tenancyType||/^A /.test(o.tenancyType)){
+      if(/\bjointly owned|owned jointly|joint (?:legal )?owners?\b/i.test(flat))o.tenancyType="Owned jointly";
+      else if(/\b(?:solely owned|I (?:am the sole owner|own the (?:property|home))|owned in my (?:sole )?name)\b/i.test(flat))o.tenancyType="Owned by you";
+      else if(/\b(?:tenancy|tenants?)\b[^.]{0,60}\bjoint(?:ly)?\b|joint tenancy|held jointly/i.test(flat)&&o.tenancyType)o.tenancyType=o.tenancyType+", held jointly";
+    }
+    var rv=/\b[A-Z][a-z]+ (?:currently )?resides at an address in ([^.\n]{3,60})/.exec(flat);if(rv&&!o.respondentAddress)o.respondentAddress=rv[1].trim()+" (full address not known)";
+    var rdb=/\b(?!I )([A-Z][a-z]+) was born on\s+(\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4})/.exec(flat);if(rdb&&!o.respondentDob&&String(o.clientName||"").indexOf(rdb[1])<0){o.respondentDob=fmtDate(allDates(rdb[2])[0].iso,false)}
+    if(o.propertyAddress)o.propertyAddress=o.propertyAddress.replace(/[.,;]+$/,"");
+    var lt=/lived together between\s+([A-Za-z]+ \d{4}|\d{1,2} [A-Za-z]+ \d{4}) and ([A-Za-z]+ \d{4}|\d{1,2} [A-Za-z]+ \d{4})/i.exec(flat);if(lt&&/^from /.test(o.relDates||"")&&!/lived together/.test(o.relDates))o.relDates=o.relDates.replace(/^from /,"between ")+" and "+lt[2]+" (you lived together between "+lt[1]+" and "+lt[2]+")";
+    var ra=/\b(?:the respondent|he|she)\s+(?:currently |now )?(?:resides|lives|is living|is staying)\s+at\s+(?:(?:his|her|their) [a-z]+'s (?:address|home|house|flat),?\s*)?([^.\n]{6,100})/i.exec(flat);
+    if(ra&&/\d/.test(ra[1]))o.respondentAddress=ra[1].trim().replace(/[.,;]+$/,"");
+    // tenancy / application phrase
+    var sp=/in support of my application for\s+([^.\n]{5,200})/i.exec(flat);
+    if(sp){
+      o.appStatus="You are applying to the court";
+      if(/transfer(?:ring)?\s+(?:of\s+)?(?:the\s+)?tenancy|tenancy/i.test(sp[1])&&!/non-?molestation|occupation order/i.test(sp[1])){o.orders=[];o.otherType="Transfer of tenancy"}
+    }
+    // incidents: strip headings and intro sentences
+    var heads=ln.map(function(x){return x.trim()}).filter(function(x){return x.length>2&&x.length<70&&!/[.,;:?!]$/.test(x)&&!/^\d/.test(x)});
+    heads.sort(function(a,b){return b.length-a.length});
+    var inc=(o.incidents||[]).map(function(s){
+      s=String(s).replace(/\s+/g," ");
+      for(var pass=0;pass<4;pass++){var hit=false;for(var q=0;q<heads.length;q++){var hh=heads[q];var yy=toYou(hh);if(s.indexOf(hh+" ")===0){s=s.slice(hh.length+1);hit=true;break}if(yy!==hh&&s.indexOf(yy+" ")===0){s=s.slice(yy.length+1);hit=true;break}}if(!hit)break}
+      return s.trim()}).filter(function(s){
+      return s&&!/^you (?:seek|make this|ask the court|are applying|fear that)\b/i.test(s)&&!/\b(?:Date of Birth|DOB)\b/.test(s)&&!/^(?:we have the following|the following children|the children currently)/i.test(s)&&!/^(?:i|you) (?:currently )?(?:reside|live)\b/i.test(s)&&!/crime reference number|police on/i.test(s)&&!/^(?:you )?(?:request|ask) that the order be made without notice/i.test(s)&&!/^you have suffered\s*:/i.test(s)&&!/^this statement is prepared|may not contain every incident/i.test(s)&&!/^you have suffered (?:verbal|physical|emotional|coercive|financial|harassment)/i.test(s)}).map(function(s){return s.charAt(0).toUpperCase()+s.slice(1)});
+    o.incidents=inc;
+    return o;
+  }
+  window.__extraCare3=extraCare3;
+})();
+
+/* ---------- transfer of tenancy: instructions, background and advice wording for the firm-template care letter ---------- */
+(function(){
+  DEFC.ten_adv="## Transfer of tenancy\n\nBased on your instructions, we have advised that you may apply to the Family Court under section 53 and Schedule 7 of the Family Law Act 1996 for an order transferring the tenancy of {{property address}} into your sole name. You and {{other party}} qualify to bring this application because you are associated persons.\n\nIn deciding whether to make the order, the court will consider the circumstances in which the tenancy was granted, the housing needs and housing resources of each of you and of any relevant child, your financial resources, the likely effect of any order, or of any decision not to make an order, on your health, safety and wellbeing, and the suitability of each of you as a tenant.\n\nWe have also explained that the landlord will usually need to be told about the application and given the chance to say whether it objects, and that the court cannot make the order if the other party does not agree to the transfer unless it is satisfied that the legal test is met.\n\nNo outcome can be guaranteed. We will keep our advice under review as your evidence develops.";
+  LABC.ten_adv="Transfer of tenancy: initial advice";
+  var adviceOth0=adviceOth;
+  adviceOth=function(){
+    if(/tenanc/i.test(S.matterType||"")&&!lines("careAdviceText").length)return bodyC("ten_adv");
+    return adviceOth0();
+  };
+  var ec3=window.__extraCare3;
+  window.__extraCare3=function(o,items){
+    ec3(o,items);
+    if(o.otherType==="Transfer of tenancy"){
+      var raw=items.map(function(i){return String(i.text||"")}).join("\n").replace(/\r/g,"");
+      var flat=raw.replace(/\s+/g," ");
+      var sp=/in support of my application for\s+([^.\n]{5,240})/i.exec(flat);
+      if(sp){var ph=toYou(sp[1].replace(/\bmyself\b/g,"me")).replace(/^an order /,"an order ");o.careInstructions=["You wish to apply for "+ph.replace(/^An /,"an ").replace(/\bfrom the joint names of you and the Respondent\b/,"from the joint names of you and "+(o.otherParty||"the other party")).replace(/\bthe Respondent\b/g,o.otherParty||"the other party")+"."]}
+      var bg=[],Ls=raw.split("\n").map(function(x){return x.trim()}),LL=[];
+      for(var li=0;li<Ls.length;li++){var x=Ls[li];if(!x)continue;
+        if(/:$/.test(x)){var nx=Ls.slice(li+1).filter(Boolean)[0]||"";if(nx&&nx.length<130&&/\d/.test(nx)){x=x+" "+nx+".";li=Ls.indexOf(nx,li)}}
+        if(x.length<70&&!/[.!?;:]$/.test(x))continue;if(/\b(?:Date of Birth|DOB)\b|^Child\b|following children/i.test(x))continue;LL.push(x)}
+      LL.join(" ").replace(/\s+/g," ").match(/[^.!?]+(?:[.!?]+|$)/g).forEach(function(s){s=s.trim();
+        if(/tenanc|no longer (?:lives|resides)|previously resided|relationship[^.]{0,40}ended|occupation order|failed to respond|wrote to|alternative accommodation|permanent home|day-to-day care|occupies and maintains|reside at the property/i.test(s)&&!/associated persons|in support of my application|^I make this statement|^The tenancy is currently held in the names/i.test(s)&&bg.length<8){
+          s=toYou(s).replace(/\bthe Respondent\b/g,o.otherParty||"the other party").replace(/\b(by|with) yourself\b/g,"$1 you").replace(/\byourself and\b/g,"you and").replace(/^you /,"You ").replace(/:\s+(?=\d|Flat)/g," ");
+          if(!/[.!?]$/.test(s))s+=".";bg.push(s)}});
+      if(bg.length)o.careBackground=bg;
+    }
+    return o;
+  };
+})();
+
+/* ---------- witness statement templates: merge fields and details panel ---------- */
+(function(){
+  var add={"client date of birth":["clientDob","client date of birth"],"respondent date of birth":["respondentDob","respondent date of birth"],"respondent address":["respondentAddress","respondent address"],"property address":["propertyAddress","property address"],"tenancy type":["tenancyType","type of tenancy"],
+    "relationship":["relationship","relationship"],"relationship dates":["relDates","relationship dates"],"most recent incident":["lastIncident","most recent incident"],"abuse types":["abuseTypes","types of abuse"],"effect on the client":["impactOnClient","effect on the client"],
+    "children":["childrenInfo","children"],"children live with":["childLiveWith","where the children live"],"police reference":["policeRef","police reference"],"supervisor":["supervisor","supervisor"]};
+  Object.keys(add).forEach(function(k){if(!TPLMAP[k])TPLMAP[k]=add[k]});
+  ["respondent first name","client date of birth","client age","respondent date of birth","respondent age","respondent address","property address","tenancy type","relationship","relationship dates","most recent incident","abuse types","effect on the client","children","children live with"].forEach(function(k){if(TPL_FIELDS.indexOf(k)<0)TPL_FIELDS.push(k)});
+  ["clientDob","respondentDob","respondentAddress","propertyAddress","tenancyType"].forEach(function(k){if(!(k in BLANK))BLANK[k]=""});
+  var ci=SECTIONS.map(function(x){return x.id}).indexOf("careterms");
+  SECTIONS.splice(ci>-1?ci:SECTIONS.length,0,{id:"stmtfacts",title:"Witness statement details",types:["care"],open:false,fields:[
+    {k:"clientDob",l:"Client's date of birth"},{k:"respondentDob",l:"Respondent's date of birth"},{k:"respondentAddress",l:"Respondent's address",t:"textarea",rows:2},
+    {k:"propertyAddress",l:"Property (family home or tenancy)",t:"textarea",rows:2},{k:"tenancyType",l:"Type of tenancy or ownership",hint:"For example: A council tenancy."}]});
+})();
+function extraCare2(o,items){
+  var all=items.map(function(i){return cleanOcr(i.text)}).join("\n"),flat=all.replace(/\r/g,"").replace(/\s+/g," ");
+  function dob(re){var m=re.exec(flat);if(!m)return"";var d=allDates(m[1]);return d.length?fmtDate(d[0].iso,false):""}
+  var a=dob(/\bI was born on\s+([^.;\n]{6,30})/i);if(a)o.clientDob=a;
+  var b=dob(/\b(?:the respondent|he|she)\s+(?:was|is) born on\s+([^.;\n]{6,30})/i);if(b)o.respondentDob=b;
+  var pa=/\b(?:the (?:property|flat|home|house|maisonette) (?:at|known as)|tenancy of (?:the (?:flat|property|house|home) (?:at|known as) )?)\s*([^.\n]{8,100}?)(?=\s+(?:into|from|is|was|and|which|to)\b|[.;\n]|$)/i.exec(flat);
+  if(pa&&/\d/.test(pa[1]))o.propertyAddress=pa[1].trim();
+  if(/council (?:tenancy|property|flat|house|home)|local authority tenan/i.test(flat))o.tenancyType="A council tenancy";
+  else if(/housing association|registered provider/i.test(flat))o.tenancyType="A housing association tenancy";
+  else if(/private (?:landlord|tenancy|rent\w*)|privately rent\w*/i.test(flat))o.tenancyType="A private tenancy";
+  var ra=/\b(?:the respondent|he|she)\s+(?:now\s+)?(?:lives|resides|is living|is staying)\s+(?:at|in|with [^,.]{2,30} at)\s+([^.\n]{6,100})/i.exec(flat);if(ra)o.respondentAddress=ra[1].trim();
+}
+var extractCare1=extractCare;
+extractCare=function(items){var o=extractCare1(items);try{var keep=items.filter(function(i){var k=kindOf(i.name,i.text);return k!=="Court order"&&k!=="Attendance note"});extraCare2(o,keep.length?keep:items)}catch(e){}return o};
+(function(){var extraCare3=window.__extraCare3;  var extractCare2=extractCare;
+  extractCare=function(items){
+    var o=extractCare2(items);
+    try{var keep=items.filter(function(i){var k=kindOf(i.name,i.text);return k!=="Court order"&&k!=="Attendance note"});extraCare3(o,keep.length?keep:items)}catch(e){o.tuneError=e.message}
+    return o;
+  };
+})();
+var applyCare1=applyCare;
+applyCare=function(c,filled){
+  applyCare1(c,filled);if(!c)return;
+  function set(k,v,l){if(!v)return;if(S[k]&&String(S[k]).trim())return;S[k]=v;if(filled.indexOf(l)<0)filled.push(l)}
+  set("clientDob",c.clientDob,"client's date of birth");set("respondentDob",c.respondentDob,"respondent's date of birth");set("respondentAddress",c.respondentAddress,"respondent's address");set("propertyAddress",c.propertyAddress,"property address");set("tenancyType",c.tenancyType,"type of tenancy");
+};
 
 /* ---------- matter documents, retrieval, contacts, packs, details needed ---------- */
 /* matter documents store */
@@ -2736,8 +3548,13 @@ function saveLib(){try{localStorage.setItem(LKEY,JSON.stringify(LIB))}catch(e){}
 function newId(){return"b"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function phHtml(key){
   var k=String(key).toLowerCase().replace(/\s+/g," ").trim();
-  var m={"client name":["clientName","client name"],"salutation":["salutation","name"],"our ref":["ourRef","reference"],"case number":["caseNumber","case number"],"court":["court","court"],"other party":["otherParty","other party"],"firm name":["firmName","firm name"],"firm address":["firmAddress","firm address"],"firm contact":["firmContact","firm contact"],"case worker":["caseWorker","case worker"],"case worker title":["caseWorkerTitle","job title"],"retention":["retention","storage period"],"client address":["clientAddress","client address"],"client email":["clientEmail","client email"],"matter type":["matterType","matter type"],"hearing type":["hearingType","hearing type"],"hearing time":["hearingTime","hearing time"],"venue":["venue","venue"],"legal aid status":["laStatus","legal aid status"],"certificate number":["laCertNo","certificate number"],"legal aid scope":["laScope","legal aid scope"],"client contribution":["laContribution","client contribution"],"costs limit":["laCostsLimit","costs limit"],"supervisor":["supervisor","supervisor"],"police reference":["policeRef","police reference"],"safe contact":["safeContact","safe contact"]}[k];
+  var m=TPLMAP[k];
   if(k==="date"){var f=fmtDate(S.letterDate,false);return f?esc(f):gap("date")}
+  if(k==="most recent incident"&&has("lastIncident")){
+    var fpv=(S.lastIncidentFp&&S.lastIncidentFpFor===S.lastIncident)?S.lastIncidentFp:String(S.lastIncident).replace(/\byour\b/gi,"my").replace(/\byou were\b/gi,"I was").replace(/\byou are\b/gi,"I am").replace(/\byou have\b/gi,"I have").replace(/\byou\b/gi,"me");
+    return esc(fpv)}
+  if(k==="respondent first name"){var rf=String(S.otherParty||"").replace(/^(?:mr|mrs|ms|miss|mx|dr)\.?\s+/i,"").trim().split(/\s+/)[0];return rf?esc(rf):gap("respondent first name")}
+  if(k==="client age"||k==="respondent age"){var dd=allDates(String(S[k==="client age"?"clientDob":"respondentDob"]||""));return dd.length?esc(String(ageFrom(dd[0].iso))):gap(k)}
   if(k==="hearing date"){var f2=fmtDate(S.hearingDate,false);return f2?esc(f2):gap("hearing date")}
   if(k==="next hearing date"){var f3=fmtDate(S.nextHearing,false);return f3?esc(f3):gap("next hearing date")}
   if(!m)return gap(key);
@@ -2923,7 +3740,7 @@ function summariseRules(items){
     var ex=extractRules([it]),t=it.text,head=t.slice(0,800);
     var d={name:it.name,type:"Document",date:"",summary:"",points:[],deadlines:[],next:null};
     var isNote=/attendance note|file note|telephone attendance|note of (?:call|meeting|attendance|hearing)|hearing note|court note|attendance (?:on|at) (?:court|hearing)/i.test(it.name+" "+head)||/^\s*attendance (?:on|at)\b/im.test(head)||vocHas("noteHeads",head);
-    var isStmt=!isNote&&/witness statement|statement of truth|make this statement|instruction form|client information form|^\s*(?:my )?statement(?: of [A-Z])?|state as follows|say as follows|believe (?:that )?the facts (?:stated )?in this/im.test(head+t.slice(-400));
+    var isStmt=!isNote&&!isFlOrder(t)&&/witness statement|statement of truth|make this statement|instruction form|client information form|^\s*(?:my )?statement(?: of [A-Z])?|state as follows|say as follows|believe (?:that )?the facts (?:stated )?in this/im.test(head+t.slice(-400));
     var isNotice=!isNote&&!isStmt&&/NOTICE OF (?:HEARING|DIRECTIONS|PROCEEDINGS)|LISTING NOTICE/i.test(head);
     if(!isNote&&vocHas("stmtHeads",head))isStmt=true;
     var skipH=false,fks=forcedKind(it);if(fks){isNote=fks==="Attendance note";isStmt=fks==="Witness statement"||fks==="Instruction form";isNotice=fks==="Notice of hearing";skipH=fks==="Letter"||fks==="Other"}
@@ -2965,7 +3782,7 @@ function summariseRules(items){
     }else if(ex.hearings.length&&!skipH){
       var h=ex.hearings[0];
       d.type=tidyTitle(ex.courtOrders[0]&&ex.courtOrders[0].title);d.date=h.date||"";
-      d.summary=(h.summary||"")+(h.costs?" Costs: "+h.costs.toLowerCase()+".":"");
+      d.summary=(h.summary||"")+(h.costs&&!h.outcomeCosts?" Costs: "+h.costs.toLowerCase()+".":"");
       d.summary=d.summary.replace(/held a ([aeiou])/i,"held an $1");
       d.points=(h.orders||[]).map(P);d.deadlines=(h.directions||[]).map(P);
       dowDeadlines(d.points).forEach(function(x){if(d.deadlines.indexOf(x)<0)d.deadlines.push(x)});
@@ -3301,6 +4118,7 @@ function plain(text,role,parties){
   t=t.replace(/^[a-z]/,function(c){return c.toUpperCase()});
   return t;
 }
+function isFlOrder(t){t=String(t||"");if(/make this statement|statement of truth|state as follows|say as follows|believing the contents to be true/i.test(t))return false;return/^\s*(?:FL40\d[A-Za-z]?\b[^\n]*\n\s*)?IN THE FAMILY COURT[\s\S]{0,300}\b(?:DIRECTIONS )?ORDER\b/i.test(t)||(/\bFL40\d[A-Za-z]?\b/.test(t.slice(0,300))&&/\b(?:IT IS ORDERED|THE COURT ORDERS)\b/.test(t))}
 function extractRules(items){
   var out={client:{name:"",salutation:"",address:""},otherParty:"",matterType:"",court:"",caseNumber:"",ourRef:"",hearings:[],nextHearing:null,courtOrders:[],finalOrders:[],concludedDate:"",outcomeSummary:"",clientTasks:[],instructionsSummary:"",attendanceNotes:[],notes:[]};
   var all=items.map(function(i){return i.text}).join("\n");
@@ -3333,10 +4151,11 @@ function extractRules(items){
   items.forEach(function(it){
     var t=it.text,head=t.slice(0,600),lines=normLines(t);
     var isNote=/attendance note|file note|telephone attendance|note of (?:call|meeting|attendance|hearing)|hearing note|court note|attendance (?:on|at) (?:court|hearing)/i.test(it.name+" "+head)||/^\s*attendance (?:on|at)\b/im.test(head)||vocHas("noteHeads",head);
-    var isStmt=!isNote&&/witness statement|statement of truth|make this statement|instruction form|client information form|^\s*(?:my )?statement(?: of [A-Z])?|state as follows|say as follows|believe (?:that )?the facts (?:stated )?in this/im.test(t.slice(0,800)+t.slice(-400));
+    var isStmt=!isNote&&!isFlOrder(t)&&/witness statement|statement of truth|make this statement|instruction form|client information form|^\s*(?:my )?statement(?: of [A-Z])?|state as follows|say as follows|believe (?:that )?the facts (?:stated )?in this/im.test(t.slice(0,800)+t.slice(-400));
     var orderish=/IT IS ORDERED|THE COURT ORDERS|UPON |AND UPON|BY CONSENT/.test(t)||/\bFL40\d[a-z]?\b|\bC43\b|PENAL NOTICE|non-?molestation order|occupation order|child arrangements order|prohibited steps order|specific issue order|the court orders/i.test(t.slice(0,2500));
     var isOrder=!isNote&&!isStmt&&((/\bORDER\b/i.test(head+"\n"+t.slice(0,2000))&&orderish)||/NOTICE OF (?:HEARING|DIRECTIONS)|NOTICE OF PROCEEDINGS|LISTING NOTICE/i.test(head));
     if(!isNote&&vocHas("stmtHeads",head))isStmt=true;
+    if(!isOrder&&!isNote&&isFlOrder(t)){isOrder=true;isStmt=false}
     var fkx=forcedKind(it);if(fkx){isNote=fkx==="Attendance note";isStmt=fkx==="Witness statement"||fkx==="Instruction form";isOrder=fkx==="Court order"||fkx==="Notice of hearing"}else if(!isNote&&!isStmt&&vocHas("orderHeads",head))isOrder=true;
     var jn=(judgeIn(t)||judgeName);
     if(isNote){
@@ -3878,8 +4697,9 @@ function applyExtract0(d,clean){
     var pastH=hs.filter(function(h){return isDate(h.date)&&h.date<todayISO});
     var rep=representationFrom(pastH,ns,P);if(rep.length)set("c_represent",rep.join("\n"),"how we represented you");
     var ordTexts=[];pastH.forEach(function(h){(h.orders||[]).forEach(function(o){ordTexts.push(String(o))})});(d.finalOrders||[]).forEach(function(o){ordTexts.push(String(o))});pastH.forEach(function(h){(h.extra||[]).forEach(function(x){ordTexts.push(String(x))})});ns.forEach(function(n){ordTexts.push(String(n.summary||""))});(d.courtOrders||[]).forEach(function(o){ordTexts.push(String(o&&o.title||""))});
-    if((!d.outcomeSummary||settings.engine==="rules")&&pastH.length){var oc=[];pastH.forEach(function(h){var os=(h.orders||[]).map(P).filter(Boolean).map(function(x,i){return"("+(i+1)+") "+String(x).trim().replace(/[.;\s]+$/,"")});if(os.length)oc.push("On "+fmtDate(h.date,false)+", the court ordered: "+os.join("; ")+".")});if(oc.length)set("c_outcome",oc.join("\n"),"outcome")}
+    if((!d.outcomeSummary||settings.engine==="rules")&&pastH.length){var oc=[];pastH.forEach(function(h){if(h.outcome){oc.push("On "+fmtDate(h.date,false)+": "+h.outcome);return}var os=(h.orders||[]).map(P).filter(Boolean).map(function(x,i){return"("+(i+1)+") "+String(x).trim().replace(/[.;\s]+$/,"")});if(os.length)oc.push("On "+fmtDate(h.date,false)+", the court ordered: "+os.join("; ")+".")});if(oc.length)set("c_outcome",oc.join("\n"),"outcome")}
     var ex=explainOrders(ordTexts);if(ex.length)set("c_meaning",ex.join("\n"),"what the orders mean");
+    try{closingExtras(ns,pastH,set)}catch(e){}
     if(d.draft){if(d.draft.represent.length)set("c_represent",d.draft.represent.join("\n"),"how we represented you");if(d.draft.outcome.length)set("c_outcome",d.draft.outcome.join("\n"),"outcome");if(d.draft.meaning.length)set("c_meaning",d.draft.meaning.join("\n"),"what the orders mean")}
   }
   save();renderForm();rebuild();
@@ -4415,7 +5235,7 @@ function showResult(filled,d){
 }
 
 
-if(window.__FLD_DEBUG)window.__FLD_API={idbSet:idbSet,idbGet:idbGet,buildBackup:buildBackup,laAlerts:laAlerts,remindersFor:remindersFor,allReminders:allReminders,auditDiff:auditDiff,getCURM:function(){return CURM},getSTORE:function(){return STORE},OPTS:OPTS,USERS:USERS,icsText:icsText,mergeFromFile:mergeFromFile,backupToFolder:backupToFolder,rtfText:rtfText,ocrPrepare:ocrPrepare,ocrRun:ocrRun,VOC:VOC,LEARN:LEARN,applyLearned:applyLearned,learnLabel:learnLabel,setItems:function(i){lastDocItems=i},getS:function(){return S},setS:function(o){Object.assign(S,o)},extractRules:extractRules,extractCare:extractCare,representationFrom:representationFrom,explainOrders:explainOrders,plain:plain,kindOf:kindOf,summariseRules:summariseRules};
+if(window.__FLD_DEBUG)window.__FLD_API={idbSet:idbSet,idbGet:idbGet,buildBackup:buildBackup,laAlerts:laAlerts,remindersFor:remindersFor,allReminders:allReminders,auditDiff:auditDiff,getCURM:function(){return CURM},getSTORE:function(){return STORE},OPTS:OPTS,USERS:USERS,icsText:icsText,mergeFromFile:mergeFromFile,backupToFolder:backupToFolder,rtfText:rtfText,ocrPrepare:ocrPrepare,ocrRun:ocrRun,VOC:VOC,LEARN:LEARN,applyLearned:applyLearned,learnLabel:learnLabel,setItems:function(i){lastDocItems=i},getS:function(){return S},setS:function(o){Object.assign(S,o)},extractRules:extractRules,extractCare:extractCare,representationFrom:representationFrom,explainOrders:explainOrders,plain:plain,kindOf:kindOf,summariseRules:summariseRules,applyExtract:applyExtract};
 boot();
 })();
 </script>
